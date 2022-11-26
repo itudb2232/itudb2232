@@ -1,0 +1,7 @@
+# Week 9
+- Created SQLite3 database and imported our data
+    Seperated tables to conform to project requirements regarding "main tables"
+    Set data types for all columns
+    Set primary keys for all tables
+    Set a foriegn key and checked correctness using "PRAGMA FOREIGN_KEY_CHECK"
+- Created basic Flask app as a starting point
