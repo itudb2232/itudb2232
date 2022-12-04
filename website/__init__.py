@@ -10,4 +10,6 @@ def create_app():
     # now we register the blueprints
     app.register_blueprint(views, url_prefix = '/')
 
+    app.config["db"] = "../spacexhibit-data.db"
+
     return app

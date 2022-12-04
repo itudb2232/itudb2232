@@ -5,7 +5,34 @@
 
 <h1> This is the rockets page, You can make queries and searches for specific rockets</h1>
 
-
+<table>
+    <tr>
+        <td>Name</td>
+        <td>Type</td>
+        <td>Status</td>
+        <td>Country of Origin</td>
+        <td>Company</td>
+    </tr>
+    {% for rocket in rockets %}
+    <tr>
+        <td>
+            {{rocket["name"]}}
+        </td>
+        <td>
+            {{rocket["type"]}}
+        </td>
+        <td>
+            {{"Active" if rocket["active"] else "Decommissioned"}}
+        </td>
+        <td>
+            {{rocket["country"]}}
+        </td>
+        <td>
+            {{rocket["company"]}}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
 
 <!-- This endblock denotes the end of the content block, nothing should come after it-->
 {% endblock %}
