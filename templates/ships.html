@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% block title %}Ship list{% endblock %}  
+{% block content %}
+    <h1 class="title">ships</h1>
+
+    {% if ships %}    
+    <table class="table is-striped is-fullwidth">
+      {% for ship_key, ship in ships %}  
+      <tr>
+
+        <td>
+          {{ ship.name }}
+          {% if ship.type %} ({{ ship.type }}) {% endif %}
+        </td>
+        <td><a href="{{ url_for('alter_ship', ship_id=ship_key) }}">Update ship</a></td>
+        <td><a href="{{ url_for('un_alter_ship', ship_id=ship_key) }}">Un-Update ship</a></td>
+            
+        <!-- TODO-3: Create an anchor <a> .. </a> element for 'delete_ship' function --> 
+        <!--Hint: Complete href="" -->
+        <td><a href="{{ url_for('delete_ship', ship_id=ship_key)}}">Delete ship</a></td>
+
+
+      </tr>
+      {% endfor %}
+    </table>
+    {% endif %}
+{% endblock %}
