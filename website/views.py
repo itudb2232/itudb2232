@@ -30,3 +30,12 @@ def rockets():
 @views.route('/ships')
 def ships():
     return render_template("ships.html")
+
+@views.route('/payloads')
+def payloads():
+    con = sqlite3.connect(current_app.config["db"])
+    con.row_factory = sqlite3.Row  # Query returns objects
+    cur = con.cursor() 
+    payloads = cur.execute("SELECT * FROM payloads").fetchall()
+    print(payloads)
+    return render_template("payloads.html", payloads=payloads)

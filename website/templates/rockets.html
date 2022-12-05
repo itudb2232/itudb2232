@@ -3,18 +3,27 @@
 
 {% block content %} <!-- This is the content block, whatever you include here will be visible on the screen -->
 
-<h1> This is the rockets page, You can make queries and searches for specific rockets</h1>
+</br>
+<div class = "card"> 
+    <div class = "card body"> 
+        <h2 class = "card-title"> Rockets </h2>
+        <div class = "card-text" >
+            This is the rockets page, you can make searches or browse the rockets in our database!
+        </div>
+    </div>
+</div>
+</br>
 
-<table>
-    <tr>
-        <td>Name</td>
-        <td>Type</td>
-        <td>Status</td>
-        <td>Country of Origin</td>
-        <td>Company</td>
+<table class = "table table-hover table-sm">
+    <tr class = "table-active">
+        <th>Name</th>
+        <th>Type</th>
+        <th>Status</th>
+        <th>Country of Origin</th>
+        <th>Company</th>
     </tr>
     {% for rocket in rockets %}
-    <tr>
+    <tr class>
         <td>
             {{rocket["name"]}}
         </td>
