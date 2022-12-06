@@ -37,5 +37,4 @@ def payloads():
     con.row_factory = sqlite3.Row  # Query returns objects
     cur = con.cursor() 
     payloads = cur.execute("SELECT * FROM payloads").fetchall()
-    print(payloads)
     return render_template("payloads.html", payloads=payloads)
