@@ -3,8 +3,57 @@
 
 {% block content %} <!-- This is the content block, whatever you include here will be visible on the screen -->
 
-<h1>This is the cores page, You can make queries and searches for specific cores</h1>
+</br>
+<div class = "card"> 
+    <div class = "card body"> 
+        <h2 class = "card-title"> Cores </h2>
+        <div class = "card-text" >
+            This is the cores page, you can make searches or browse the cores in our database!
+        </div>
+    </div>
+</div>
+</br>
 
+<table class = "table table-hover table-sm">
+    <tr class = "table-active">
+        <th>Serial</th>
+        <th>Status</th>
+        <th>Reuse Count</th>
+        <th>Block</th>
+        <th>Real Time Locating System Attempts</th>
+        <th>Real Time Locating System Landings</th>
+        <th>Autonomous Spaceport Drone Ship Attempts</th>
+        <th>Autonomous Spaceport Drone Ship Landings</th>
+    </tr>
+    {% for core in cores %}
+    <tr class>
+        <td>
+            {{core["serial"]}}
+        </td>
+        <td>
+            {{core["status"]}}
+        </td>
+        <td>
+            {{core["reuse_count"]}}
+        </td>
+        <td>
+            {{core["block"]}}
+        </td>
+        <td>
+            {{core["rlts_attempts"]}}
+        </td>
+        <td>
+            {{core["rlts_landings"]}}
+        </td>
+        <td>
+            {{core["asds_attempts"]}}
+        </td>
+        <td>
+            {{core["asds_landings"]}}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
 
 <!-- This endblock denotes the end of the content block, nothing should come after it-->
 {% endblock %}
