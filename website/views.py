@@ -30,7 +30,7 @@ def rockets():
     rockets = cur.execute("SELECT * FROM rockets").fetchall()
     return render_template("rockets.html", rockets=rockets)
 
-@views.route('/rocket_details_1', methods=['GET', 'POST'])
+@views.route('/rockets/rocket_details_1', methods=['GET', 'POST'])
 def rocket_details_1():
     con = sqlite3.connect(current_app.config["db"])
     con.row_factory = sqlite3.Row
