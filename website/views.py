@@ -30,6 +30,14 @@ def rockets():
     rockets = cur.execute("SELECT * FROM rockets").fetchall()
     return render_template("rockets.html", rockets=rockets)
 
+@views.route('/rocket_details_1', methods=['GET', 'POST'])
+def rocket_details_1():
+    con = sqlite3.connect(current_app.config["db"])
+    con.row_factory = sqlite3.Row
+    cur = con.cursor() 
+    cores = cur.execute("SELECT * FROM rocket_details_1").fetchall()
+    return render_template("rocket_details_1.html", rocket_details_1=rocket_details_1)
+
 @views.route('/ships', methods=['GET', 'POST'])
 def ships():
     con = sqlite3.connect(current_app.config["db"])
@@ -95,5 +103,13 @@ def payloads():
 
         payloads = cur.execute("SELECT * FROM payloads").fetchall()
         return render_template("payloads.html", payloads=payloads)
+
+@views.route('/cores', methods=['GET', 'POST'])
+def cores():
+    con = sqlite3.connect(current_app.config["db"])
+    con.row_factory = sqlite3.Row
+    cur = con.cursor() 
+    cores = cur.execute("SELECT * FROM cores").fetchall()
+    return render_template("cores.html", cores=cores)
 
 
