@@ -21,18 +21,25 @@
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="insertModalLabel">Insert New Entry</h5>
+                            <h5 class="modal-title" id="insertModalLabel">Filter</h5>
                             <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <!-- Form to recieve new entry -->
                             <form action="/ships" method="POST"> 
-                                <label>Name:</label>
+                                <label for="name" class="form-label">Name:</label>
                                 <input type="text" name="name">                 
-                                <label>Type:</label>
+                                <br> 
+                                <label for="type" class="form-label">Type:</label>
                                 <input type="text" name="type">
-                                <label>Status:</label>
-                                <input type="text" name="status">
+                                <br>
+                                <label for="status" class="form-label">Status</label> 
+                                <select class="form-select" name="active"> 
+                                    <option value="">Choose</option>  
+                                    <option value="True">True</option>
+                                    <option value="False">False</option>
+                                </select>
+                                <br>
                                 <input type="submit" value="Filter">
                             <!-- End of Form-->  
                                 <div class="modal-footer">
@@ -52,7 +59,7 @@
     <tr class = "table-active">
         <th>Name</th>
         <th>Type</th>
-        <th>Status</th>
+        <th>Active</th>
     </tr>
     {% for ship in ships %}
     <tr class>
@@ -63,7 +70,7 @@
             {{ship["type"]}}
         </td>
         <td>
-            {{"Active" if ship["active"]== "True" else "NonActive"}}
+            {{ship["active"]}}
         </td>
     </tr>
     {% endfor %}

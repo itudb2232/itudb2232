@@ -36,10 +36,27 @@ def ships():
     con.row_factory = sqlite3.Row  
     cur = con.cursor() 
     if request.method == 'POST':
-        type = request.form['type']
-        name = request.form['name']
-        status = request.form['status']
-        cur.execute('SELECT * FROM ships WHERE type = ? OR name = ? OR active = ?', (type, name,status))
+        sorgu = "SELECT * FROM ships"
+        params = []
+        if request.form.get('name'):
+            sorgu += " WHERE name = ?"
+            params.append(request.form['name'])
+        if request.form.get('type'):
+            if not params:
+                sorgu += " WHERE"
+            else:
+                sorgu += " AND"
+                sorgu += " type = ?"
+                params.append(request.form['type'])
+        if request.form.get('active'):
+            if not params:
+                sorgu += " WHERE"
+            else:
+                sorgu += " AND"
+                sorgu += " active = ?"
+                params.append(request.form['active'])
+        cur.execute(sorgu,params)
+        print(sorgu,params)
         ships = cur.fetchall()
     else:
         ships = cur.execute("SELECT * FROM ships").fetchall()
@@ -78,4 +95,5 @@ def payloads():
 
         payloads = cur.execute("SELECT * FROM payloads").fetchall()
         return render_template("payloads.html", payloads=payloads)
+
 
