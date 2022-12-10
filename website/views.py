@@ -29,7 +29,13 @@ def rockets():
 
 @views.route('/ships', methods=['GET', 'POST'])
 def ships():
-    return render_template("ships.html")
+    con = sqlite3.connect(current_app.config["db"])
+    con.row_factory = sqlite3.Row  
+    cur = con.cursor() 
+    ships = cur.execute("SELECT * FROM ships").fetchall()
+    insert_data = request.form
+    return render_template("ships.html",ships=ships)
+
 
 @views.route('/payloads', methods=['GET', 'POST'])
 def payloads():
@@ -40,3 +46,4 @@ def payloads():
     insert_data = request.form
     print(insert_data)
     return render_template("payloads.html", payloads=payloads)
+

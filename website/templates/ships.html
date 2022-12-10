@@ -3,9 +3,38 @@
 
 {% block content %} <!-- This is the content block, whatever you include here will be visible on the screen -->
 
-<h1>This is the ships page, You can make queries and searches for specific ships</h1>
+</br>
+<div class = "card"> 
+    <div class = "card body"> 
+        <h2 class = "card-title"> Ships </h2>
+        <div class = "card-text" >
+            This is the ships page, you can make searches or browse the ships in our database!
+        </div>
+    </div>
+</div>
+</br>
 
-
+<table class = "table table-hover table-sm">
+    <tr class = "table-active">
+        <th>Name</th>
+        <th>Type</th>
+        <th>Status</th>
+    </tr>
+    {% for ship in ships %}
+    <tr class>
+        <td>
+            {{ship["name"]}}
+        </td>
+        <td>
+            {{ship["type"]}}
+        </td>
+        <td>
+            {{"Active" if ship["active"] else "Decommissioned"}}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
 
 <!-- This endblock denotes the end of the content block, nothing should come after it-->
 {% endblock %}
+
