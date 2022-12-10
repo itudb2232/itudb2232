@@ -33,9 +33,15 @@ def ships():
     con.row_factory = sqlite3.Row  
     cur = con.cursor() 
     ships = cur.execute("SELECT * FROM ships").fetchall()
-    insert_data = request.form
     return render_template("ships.html",ships=ships)
 
+@views.route('/ships/ship_details_2', methods=['GET', 'POST'])
+def ship_details_2():
+    con = sqlite3.connect(current_app.config["db"])
+    con.row_factory = sqlite3.Row  
+    cur = con.cursor() 
+    ship_details_2 = cur.execute("SELECT * FROM ship_details_2").fetchall()
+    return render_template("ship_details_2.html",ship_details_2=ship_details_2)
 
 @views.route('/payloads', methods=['GET', 'POST'])
 def payloads():

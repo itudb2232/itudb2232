@@ -9,6 +9,8 @@
         <h2 class = "card-title"> Ships </h2>
         <div class = "card-text" >
             This is the ships page, you can make searches or browse the ships in our database!
+            <a class="btn btn-primary" href="/ships/ship_details_1" role="button">ship_details_1</a>
+            <a class="btn btn-primary" href="/ships/ship_details_2" role="button">ship_details_2</a>
         </div>
     </div>
 </div>
@@ -29,7 +31,7 @@
             {{ship["type"]}}
         </td>
         <td>
-            {{"Active" if ship["active"] else "Decommissioned"}}
+            {{"Active" if ship["active"]== "True" else "NonActive"}}
         </td>
     </tr>
     {% endfor %}
