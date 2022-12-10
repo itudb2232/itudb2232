@@ -37,7 +37,9 @@ def ships():
     cur = con.cursor() 
     if request.method == 'POST':
         type = request.form['type']
-        cur.execute('SELECT * FROM ships WHERE type = ?', (type,))
+        name = request.form['name']
+        status = request.form['status']
+        cur.execute('SELECT * FROM ships WHERE type = ? OR name = ? OR active = ?', (type, name,status))
         ships = cur.fetchall()
     else:
         ships = cur.execute("SELECT * FROM ships").fetchall()
