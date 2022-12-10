@@ -11,6 +11,34 @@
             This is the ships page, you can make searches or browse the ships in our database!
             <a class="btn btn-primary" href="/ships/ship_details_1" role="button">ship_details_1</a>
             <a class="btn btn-primary" href="/ships/ship_details_2" role="button">ship_details_2</a>
+            <!-- Button triggered modal for inserting entries -->
+            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#insertModal">
+                Filter
+              </button>
+              
+            <!-- Modal -->
+            <div class="modal fade" id="insertModal" tabindex="-1" aria-labelledby="insertModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="insertModalLabel">Insert New Entry</h5>
+                            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Form to recieve new entry -->
+                            <form action="/ships" method="POST">                  
+                                <label>Type:</label>
+                                <input type="text" name="type">
+                                <input type="submit" value="Filter">
+                            <!-- End of Form-->  
+                                <div class="modal-footer">
+                                    
+                            </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

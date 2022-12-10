@@ -32,7 +32,12 @@ def ships():
     con = sqlite3.connect(current_app.config["db"])
     con.row_factory = sqlite3.Row  
     cur = con.cursor() 
-    ships = cur.execute("SELECT * FROM ships").fetchall()
+    if request.method == 'POST':
+        type = request.form['type']
+        cur.execute('SELECT * FROM ships WHERE type = ?', (type,))
+        ships = cur.fetchall()
+    else:
+        ships = cur.execute("SELECT * FROM ships").fetchall()
     return render_template("ships.html",ships=ships)
 
 @views.route('/ships/ship_details_2', methods=['GET', 'POST'])
