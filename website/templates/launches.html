@@ -5,7 +5,73 @@
 
 <h1> This is the launches page, You can make queries and searches for specific launches</h1>
 
+<div class = "card"> 
+    <div class = "card body"> 
+        <h2 class = "card-title"> Launches </h2>
+        <div class = "card-text" >
+            This is the launches page, you can make searches or add new rows to the launches in our database!
+        </div>
+    </div>
+</div>
 
+<table>
+    <tr>
+        <th>name</th>
+        <th>date</th>
+        <th>rocket_id</th>
+        <th>launchpad_id</th>
+        <th>success</th>
+        <th>failures</th>
+        <th>ships</th>
+        <th>capsules</th>
+        <th>payloads</th>
+        <th>cores</th>
+        <th>fairings_reused</th>
+        <th>fairings_recovery_attempts</th>
+        <th>fairings_recovered</th>
+    </tr>
+{% for launch in launches %}
+<tr class>
+    <td>
+        {{launch["name"]}}
+    </td>
+    <td>
+        {{launch["date"]}}
+    </td>
+    <td>
+        {{launch["rocket_id"]}}
+    </td>
+    <td>
+        {{launch["launchpad_id"]}}
+    </td>
+    <td>
+        {{launch["success"]}}
+    </td>
+    <td>
+        {{launch["failures"]}}
+    </td>
+    <td>
+        {{launch["ships"]}}
+    </td>
+    <td>
+        {{launch["capsules"]}}
+    </td>
+    <td>
+        {{launch["payloads"]}}
+    </td>
+    <td>
+        {{launch["cores"]}}
+    </td>
+    <td>
+        {{launch["fairings_reused"]}}
+    </td>
+    <td>
+        {{launch["fairings_recovery_attempts"]}}
+    </td>
+    <td>
+        {{launch["fairings_recovered"]}}
+    </td>
+</tr>
 
 <!-- This endblock denotes the end of the content block, nothing should come after it-->
 {% endblock %}
