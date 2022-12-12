@@ -1,0 +1,47 @@
+{% extends "base.html" %} <!-- This file inherits base.html --> 
+{% block title %}SpaceXhibit - Capsules{% endblock %} <!-- This is the Jinja syntax -->
+
+{% block content %} <!-- This is the content block, whatever you include here will be visible on the screen -->
+
+<h1> This is the capsules page, You can make queries and searches for specific capsules</h1>
+
+<div class = "card"> 
+    <div class = "card body"> 
+        <h2 class = "card-title"> Capsules </h2>
+        <div class = "card-text" >
+            This is the capsules page, you can make searches or add new rows to the capsules in our database!
+        </div>
+    </div>
+</div>
+
+<table>
+    <tr>
+        <th>serial</th>
+        <th>status</th>
+        <th>reuse_count</th>
+        <th>water_landings</th>
+        <th>land_landings</th>
+    </tr>
+{% for capsule in capsules %}
+<tr class>
+    <td>
+        {{capsule["serial"]}}
+    </td>
+    <td>
+        {{capsule["status"]}}
+    </td>
+    <td>
+        {{capsule["reuse_count"]}}
+    </td>
+    <td>
+        {{capsule["water_landings"]}}
+    </td>
+    <td>
+        {{capsule["land_landings"]}}
+    </td>
+
+</tr>
+
+<!-- This endblock denotes the end of the content block, nothing should come after it-->
+{% endblock %}
+
