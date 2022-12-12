@@ -16,7 +16,11 @@ def home():
 
 @views.route('/launches', methods=['GET', 'POST'])
 def launches():
-    return render_template("launches.html")
+    con = sqlite3.connect(current_app.config["db"])
+    con.row_factory = sqlite3.Row
+    cur = con.cursor() 
+    cores = cur.execute("SELECT * FROM launches").fetchall()
+    return render_template("launches.html", launches=launches)
 
 @views.route('/launchpads', methods=['GET', 'POST'])
 def launchpads():
@@ -111,5 +115,13 @@ def cores():
     cur = con.cursor() 
     cores = cur.execute("SELECT * FROM cores").fetchall()
     return render_template("cores.html", cores=cores)
+
+@views.route('/capsules', methods=['GET', 'POST'])
+def capsules():
+    con = sqlite3.connect(current_app.config["db"])
+    con.row_factory = sqlite3.Row
+    cur = con.cursor() 
+    cores = cur.execute("SELECT * FROM capsules").fetchall()
+    return render_template("capsules.html", capsules=capsules)
 
 
