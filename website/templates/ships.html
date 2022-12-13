@@ -81,14 +81,22 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="ship-details-modal-label-{{ ship.ship_id }}">{{ ship.name }} Details</h5>
+        <h5 class="modal-title" id="ship-details-modal-label-{{ ship.ship_id }}">{{ ship.name }} {{ship.ship_id}} Details</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <!-- Add ship details here -->
-      </div>
+        <p>Ship.ship_id: {{ ship.ship_id }}</p>
+        {% for ship_details in ship_details_1 if ship_details.ship_id == ship.ship_id %}
+        <p>Ship_details.ship_id: {{ ship_details.ship_id }}</p>
+        <p>Primary Role: {{ ship_details.primary_role }}</p>
+        <p>Secondary Role: {{ ship_details.secondary_role }}</p>
+        <p>IMO: {{ ship_details.imo }}</p>
+        <p>MMSI: {{ ship_details.mmsi }}</p>
+        <p>ABS: {{ ship_details.abs }}</p>
+        {% endfor %}
+      </div>      
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
@@ -96,6 +104,9 @@
   </div>
 </div>
 {% endfor %}
+
+
+     
 
   
 

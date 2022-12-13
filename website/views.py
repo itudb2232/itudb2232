@@ -81,11 +81,11 @@ def ships():
 
         cur.execute(query, tuple(params))
         ships = cur.fetchall()
-        ship_details_1 = cur.execute("SELECT * FROM ship_details_1 ORDER BY model ASC")
+        ship_details_1 = cur.execute("SELECT * FROM ship_details_1 ORDER BY ship_id ASC")
     
     else:
-        ships = cur.execute("SELECT * FROM ships ORDER BY name ASC").fetchall()
-        ship_details_1 = cur.execute("SELECT * FROM ship_details_1 ORDER BY model ASC")
+        ships = cur.execute("SELECT * FROM ships ORDER BY ship_id ASC").fetchall()
+        ship_details_1 = cur.execute("SELECT * FROM ship_details_1 ORDER BY ship_id ASC")
 
     return render_template("ships.html",ships=ships, ship_details_1=ship_details_1)
 
