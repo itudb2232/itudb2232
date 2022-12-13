@@ -55,26 +55,49 @@
 </div>
 </br>
 
-<table class = "table table-hover table-sm">
-    <tr class = "table-active">
-        <th>Name</th>
-        <th>Type</th>
-        <th>Active</th>
+<table class="table table-hover table-sm">
+    <tr class="table-active">
+      <th>Name</th>
+      <th>Type</th>
+      <th>Active</th>
+      <th>Actions</th>
     </tr>
     {% for ship in ships %}
     <tr class>
-        <td>
-            {{ship["name"]}}
-        </td>
-        <td>
-            {{ship["type"]}}
-        </td>
-        <td>
-            {{ship["active"]}}
-        </td>
+      <td>{{ship["name"]}}</td>
+      <td>{{ship["type"]}}</td>
+      <td>{{ship["active"]}}</td>
+      <td>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ship-details-modal-{{ ship.ship_id }}">
+          View Details
+        </button>
+      </td>
     </tr>
     {% endfor %}
 </table>
+
+{% for ship in ships %}
+<div class="modal fade" id="ship-details-modal-{{ ship.ship_id }}" tabindex="-1" role="dialog" aria-labelledby="ship-details-modal-label-{{ ship.ship_id }}" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ship-details-modal-label-{{ ship.ship_id }}">{{ ship.name }} Details</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Add ship details here -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+  
 
 <!-- This endblock denotes the end of the content block, nothing should come after it-->
 {% endblock %}
