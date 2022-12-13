@@ -9,8 +9,8 @@
         <h2 class = "card-title"> Ships </h2>
         <div class = "card-text" >
             This is the ships page, you can make searches or browse the ships in our database!
-            <a class="btn btn-primary" href="/ships/ship_details_1" role="button">ship_details_1</a>
-            <a class="btn btn-primary" href="/ships/ship_details_2" role="button">ship_details_2</a>
+            <a class="btn btn-warning" href="/ships/ship_details_1" role="button">ship_details_1</a>
+            <a class="btn btn-warning" href="/ships/ship_details_2" role="button">ship_details_2</a>
             <!-- Button triggered modal for inserting entries -->
             <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#insertModal">
                 Filter
@@ -25,25 +25,24 @@
                             <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <!-- Form to recieve new entry -->
+                            <!-- Form to filter -->
                             <form action="/ships" method="POST"> 
                                 <label for="name" class="form-label">Name:</label>
-                                <input type="text" name="name">                 
+                                <input type="text" class="form-control" name="name">                 
                                 <br> 
                                 <label for="type" class="form-label">Type:</label>
-                                <input type="text" name="type">
+                                <input type="text" class="form-control" name="type">
                                 <br>
-                                <label for="status" class="form-label">Status</label> 
+                                <label for="active" class="form-label">Active?</label> 
                                 <select class="form-select" name="active"> 
                                     <option value="">Choose</option>  
                                     <option value="True">True</option>
                                     <option value="False">False</option>
                                 </select>
                                 <br>
-                                <input type="submit" value="Filter">
+                                <button type="submit" class = "btn btn-warning">Filter</button>
                             <!-- End of Form-->  
-                                <div class="modal-footer">
-                                    
+                                <div class="modal-footer"> 
                             </form>
                             </div>
                         </div>

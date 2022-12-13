@@ -48,30 +48,42 @@ def ships():
     con.row_factory = sqlite3.Row  
     cur = con.cursor() 
     if request.method == 'POST':
-        sorgu = "SELECT * FROM ships"
+        query = "SELECT * FROM ships"
         params = []
         if request.form.get('name'):
-            sorgu += " WHERE name = ?"
-            params.append(request.form['name'])
+            if not params:
+                query += " WHERE"
+            user_name = request.form['name']
+            query += " name LIKE ?"
+            param_name = "%" + user_name + "%"
+            params.append(param_name)
+
         if request.form.get('type'):
             if not params:
-                sorgu += " WHERE"
+                query += " WHERE"
             else:
-                sorgu += " AND"
-                sorgu += " type = ?"
-                params.append(request.form['type'])
+                query += " AND"
+            user_type = request.form['type']
+            query += " type LIKE ?"
+            param_type = "%" + user_type + "%"
+            params.append(param_type)
+
         if request.form.get('active'):
+            user_active = request.form['active']
             if not params:
-                sorgu += " WHERE"
+                query += " WHERE"
             else:
-                sorgu += " AND"
-                sorgu += " active = ?"
-                params.append(request.form['active'])
-        cur.execute(sorgu,params)
-        print(sorgu,params)
+                query += " AND"
+            query += " active LIKE ?"
+            param_active = "%" + user_active + "%"
+            print("paramactive: " + param_active)
+            params.append(param_active)
+
+        cur.execute(query, tuple(params))
         ships = cur.fetchall()
+    
     else:
-        ships = cur.execute("SELECT * FROM ships").fetchall()
+        ships = cur.execute("SELECT * FROM ships ORDER BY name DESC").fetchall()
     return render_template("ships.html",ships=ships)
 
 @views.route('/ships/ship_details_2', methods=['GET', 'POST'])
