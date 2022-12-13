@@ -81,10 +81,13 @@ def ships():
 
         cur.execute(query, tuple(params))
         ships = cur.fetchall()
+        ship_details_1 = cur.execute("SELECT * FROM ship_details_1 ORDER BY model ASC")
     
     else:
-        ships = cur.execute("SELECT * FROM ships ORDER BY name DESC").fetchall()
-    return render_template("ships.html",ships=ships)
+        ships = cur.execute("SELECT * FROM ships ORDER BY name ASC").fetchall()
+        ship_details_1 = cur.execute("SELECT * FROM ship_details_1 ORDER BY model ASC")
+
+    return render_template("ships.html",ships=ships, ship_details_1=ship_details_1)
 
 @views.route('/ships/ship_details_2', methods=['GET', 'POST'])
 def ship_details_2():
