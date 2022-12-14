@@ -1,7 +1,7 @@
 # This file is for arranging which pages the user can navigate to (i.e. launchpads, launches, rockets, ships...) #
 # This file is a blueprint, it has a bunch of roots and urls inside of it #
 
-from flask import Blueprint, render_template, current_app, request
+from flask import Blueprint, render_template, current_app, request,redirect, url_for
 import sqlite3
 
 from time import time_ns
@@ -9,10 +9,46 @@ from random import random
 
 views = Blueprint('views', __name__)
 
-
+# Userlogin page
 @views.route('/')
+def login():
+    return '''
+        <form action="/login" method="post">
+            <p>Username: <input type=text name=username></p>
+            <p>Password: <input type=password name=password></p>
+            <p><input type=submit value=Login></p>
+        </form>
+    '''
+
+@views.route('/login', methods=['POST'])
+def do_login():
+    username = request.form['username']
+    password = request.form['password']
+    # Check if username and password
+    if valid_login(username, password):
+        return redirect(url_for('views.home'))
+    else:
+        return redirect(url_for('views.login'))
+
+@views.route('/home')
 def home():
     return render_template("home.html")
+
+def valid_login(username, password):
+    if not username or not password:
+        return False
+
+    with open('users.txt') as f:
+        lines = f.readlines()
+
+    for line in lines:
+        uname, pword = line.strip().split(':')
+        if uname == username and pword == password:
+            return True
+
+    return False
+
+
 
 @views.route('/launches', methods=['GET', 'POST'])
 def launches():
@@ -85,17 +121,13 @@ def ships():
         ships = cur.fetchall()
         cur.execute("SELECT * FROM ship_details_1 ORDER BY ship_id ASC")
         ship_details_1 = cur.fetchall()
-        cur.execute("SELECT * FROM ship_details_2 ORDER BY ship_id ASC")
-        ship_details_2 = cur.fetchall()
     
     else:
         ships = cur.execute("SELECT * FROM ships ORDER BY ship_id ASC").fetchall()
         cur.execute("SELECT * FROM ship_details_1 ORDER BY ship_id ASC")
         ship_details_1 = cur.fetchall()
-        cur.execute("SELECT * FROM ship_details_2 ORDER BY ship_id ASC")
-        ship_details_2 = cur.fetchall()
 
-    return render_template("ships.html",ships=ships, ship_details_1=ship_details_1, ship_details_2=ship_details_2)
+    return render_template("ships.html",ships=ships, ship_details_1=ship_details_1)
 
 
 
@@ -150,3 +182,7 @@ def capsules():
     return render_template("capsules.html", capsules=capsules)
 
 
+from flask import Flask, request
+import sqlite3
+
+app = Flask(__name__)
