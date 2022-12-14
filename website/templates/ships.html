@@ -9,7 +9,6 @@
         <h2 class = "card-title"> Ships </h2>
         <div class = "card-text" >
             This is the ships page, you can make searches or browse the ships in our database!
-            <a class="btn btn-warning" href="/ships/ship_details_1" role="button">ship_details_1</a>
             <a class="btn btn-warning" href="/ships/ship_details_2" role="button">ship_details_2</a>
             <!-- Button triggered modal for filtering entries -->
             <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#insertModal">
@@ -68,7 +67,7 @@
       <td>{{ship["type"]}}</td>
       <td>{{ship["active"]}}</td>
       <td>
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ship-details-modal-{{ ship.ship_id }}">
+        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#ship-details-modal-{{ ship.ship_id }}">
           View Details
         </button>
       </td>
@@ -81,15 +80,13 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="ship-details-modal-label-{{ ship.ship_id }}">{{ ship.name }} {{ship.ship_id}} Details</h5>
+        <h5 class="modal-title" id="ship-details-modal-label-{{ ship.ship_id }}">{{ ship.name }} Details</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <p>Ship.ship_id: {{ ship.ship_id }}</p>
         {% for ship_details in ship_details_1 if ship_details.ship_id == ship.ship_id %}
-        <p>Ship_details.ship_id: {{ ship_details.ship_id }}</p>
         <p>Primary Role: {{ ship_details.primary_role }}</p>
         <p>Secondary Role: {{ ship_details.secondary_role }}</p>
         <p>IMO: {{ ship_details.imo }}</p>

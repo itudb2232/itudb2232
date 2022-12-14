@@ -42,6 +42,8 @@ def rocket_details_1():
     cores = cur.execute("SELECT * FROM rocket_details_1").fetchall()
     return render_template("rocket_details_1.html", rocket_details_1=rocket_details_1)
 
+
+
 @views.route('/ships', methods=['GET', 'POST'])
 def ships():
     con = sqlite3.connect(current_app.config["db"])
@@ -81,13 +83,17 @@ def ships():
 
         cur.execute(query, tuple(params))
         ships = cur.fetchall()
-        ship_details_1 = cur.execute("SELECT * FROM ship_details_1 ORDER BY ship_id ASC")
+        cur.execute("SELECT * FROM ship_details_1 ORDER BY ship_id ASC")
+        ship_details_1 = cur.fetchall()
     
     else:
         ships = cur.execute("SELECT * FROM ships ORDER BY ship_id ASC").fetchall()
-        ship_details_1 = cur.execute("SELECT * FROM ship_details_1 ORDER BY ship_id ASC")
+        cur.execute("SELECT * FROM ship_details_1 ORDER BY ship_id ASC")
+        ship_details_1 = cur.fetchall()
 
     return render_template("ships.html",ships=ships, ship_details_1=ship_details_1)
+
+
 
 @views.route('/ships/ship_details_2', methods=['GET', 'POST'])
 def ship_details_2():
