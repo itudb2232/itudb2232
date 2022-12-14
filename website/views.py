@@ -85,13 +85,17 @@ def ships():
         ships = cur.fetchall()
         cur.execute("SELECT * FROM ship_details_1 ORDER BY ship_id ASC")
         ship_details_1 = cur.fetchall()
+        cur.execute("SELECT * FROM ship_details_2 ORDER BY ship_id ASC")
+        ship_details_2 = cur.fetchall()
     
     else:
         ships = cur.execute("SELECT * FROM ships ORDER BY ship_id ASC").fetchall()
         cur.execute("SELECT * FROM ship_details_1 ORDER BY ship_id ASC")
         ship_details_1 = cur.fetchall()
+        cur.execute("SELECT * FROM ship_details_2 ORDER BY ship_id ASC")
+        ship_details_2 = cur.fetchall()
 
-    return render_template("ships.html",ships=ships, ship_details_1=ship_details_1)
+    return render_template("ships.html",ships=ships, ship_details_1=ship_details_1, ship_details_2=ship_details_2)
 
 
 
