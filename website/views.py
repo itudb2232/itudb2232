@@ -12,13 +12,7 @@ views = Blueprint('views', __name__)
 # Userlogin page
 @views.route('/')
 def login():
-    return '''
-        <form action="/login" method="post">
-            <p>Username: <input type=text name=username></p>
-            <p>Password: <input type=password name=password></p>
-            <p><input type=submit value=Login></p>
-        </form>
-    '''
+    return render_template("login.html")
 
 @views.route('/login', methods=['POST'])
 def do_login():
