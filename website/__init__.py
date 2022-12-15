@@ -11,5 +11,6 @@ def create_app():
     app.register_blueprint(views, url_prefix = '/')
 
     app.config["db"] = "spacexhibit-data.db"
+    app.config["user-db"] = "user-data.db"
 
     return app
