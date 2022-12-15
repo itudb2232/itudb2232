@@ -51,7 +51,7 @@ def launches():
     con = sqlite3.connect(current_app.config["db"])
     con.row_factory = sqlite3.Row
     cur = con.cursor() 
-    launches = cur.execute("SELECT * FROM launches").fetchall()
+    launches = cur.execute("SELECT * FROM launches JOIN launch_details on launches.launch_id = launch_details.launch_id").fetchall()
     return render_template("launches.html", launches=launches)
 
 @views.route('/launchpads', methods=['GET', 'POST'])
