@@ -1,18 +1,21 @@
 # This file is for arranging which pages the user can navigate to (i.e. launchpads, launches, rockets, ships...) #
 # This file is a blueprint, it has a bunch of roots and urls inside of it #
 
-from flask import Blueprint, render_template, current_app, request,redirect, url_for
+from flask import Blueprint, render_template, current_app, request, redirect, url_for
 import sqlite3
+from flask_login import current_user
 
 from time import time_ns
 from random import random
 
+import forms
+
 views = Blueprint('views', __name__)
 
 # Userlogin page
-@views.route('/')
+@views.route('/login')
 def login():
-    return render_template("login.html")
+    return render_template("login.html", form=forms.LoginForm())
 
 @views.route('/login', methods=['POST'])
 def do_login():
@@ -25,6 +28,7 @@ def do_login():
         return redirect(url_for('views.login'))
 
 @views.route('/home')
+@views.route("/")
 def home():
     return render_template("home.html")
 
@@ -42,14 +46,12 @@ def valid_login(username, password):
 
     return False
 
-
-
 @views.route('/launches', methods=['GET', 'POST'])
 def launches():
     con = sqlite3.connect(current_app.config["db"])
     con.row_factory = sqlite3.Row
     cur = con.cursor() 
-    cores = cur.execute("SELECT * FROM launches").fetchall()
+    launches = cur.execute("SELECT * FROM launches").fetchall()
     return render_template("launches.html", launches=launches)
 
 @views.route('/launchpads', methods=['GET', 'POST'])
@@ -174,9 +176,3 @@ def capsules():
     cur = con.cursor() 
     cores = cur.execute("SELECT * FROM capsules").fetchall()
     return render_template("capsules.html", capsules=capsules)
-
-
-from flask import Flask, request
-import sqlite3
-
-app = Flask(__name__)
