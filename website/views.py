@@ -139,7 +139,7 @@ def payloads():
         con = sqlite3.connect(current_app.config["db"])
         con.row_factory = sqlite3.Row  # Query returns objects
         cur = con.cursor() 
-        payloads = cur.execute("SELECT * FROM payloads").fetchall()
+        payloads = cur.execute("SELECT * FROM payloads ORDER BY name ASC").fetchall()
         insert_data = request.form
         print(insert_data)
         return render_template("payloads.html", payloads=payloads)
@@ -156,7 +156,7 @@ def payloads():
         cur.execute('INSERT INTO payloads VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', new_tuple)
         con.commit()
 
-        payloads = cur.execute("SELECT * FROM payloads").fetchall()
+        payloads = cur.execute("SELECT * FROM payloads ORDER BY name ASC").fetchall()
         return render_template("payloads.html", payloads=payloads)
 
 @views.route('/cores', methods=['GET', 'POST'])

@@ -59,11 +59,67 @@
                             </div>
                         </div>
                     </div>
-                    <!-- End of Modal for inserting entries-->
+                    <!-- /div above denotes the end of Modal for inserting entries-->
+                    <!-- Button triggered modal for filtering entries -->
+                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#filterModal">
+                        Filter
+                    </button>
+                    
+                    <!-- Modal for filtering entries-->
+                    <div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="filterModalLabel">Filter</h5>
+                                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <!-- Form to filter -->
+                                    <form action="/payloads" method="POST"> 
+                                        <label for="fname" class="form-label">Name:</label>
+                                        <input type="text" class="form-control" name="fname">                 
+                                        <br> 
+                                        <label for="ftype" class="form-label">Type:</label>
+                                        <input type="text" class="form-control" name="ftype">
+                                        <br>
+                                        <label for="freused" class="form-label">Reused?</label> 
+                                        <select class="form-select" name="freused"> 
+                                            <option value="">Choose</option>  
+                                            <option value="True">True</option>
+                                            <option value="False">False</option>
+                                        </select>
+                                        <br>
+                                        <label for="fmanufacturer" class="form-label">Manufacturer:</label>
+                                        <input type="text" class="form-control" name="fmanufacturer">
+                                        <br>
+                                        <label for="fmass_kg" class="form-label">Mass (kg):</label>
+                                        <input type="text" class="form-control" name="fmass_kg">
+                                        <br>
+                                        <label for="fmass_lb" class="form-label">Mass (lb):</label>
+                                        <input type="text" class="form-control" name="fmass_lb">
+                                        <br>
+                                        <label for="forbit" class="form-label">Orbit:</label>
+                                        <input type="text" class="form-control" name="forbit">
+                                        <br>
+                                        <label for="freference_system" class="form-label">Reference System:</label>
+                                        <input type="text" class="form-control" name="freference_system">
+                                        <br>
+                                        <label for="fregime" class="form-label">Regime:</label>
+                                        <input type="text" class="form-control" name="fregime">
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <button type="submit" class = "btn btn-warning">Filter</button>
+                                        </div>
+                                        <!-- End of Form-->
+                                    </form>      
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-
         <!-- End of Card -->
     </div> 
 
@@ -124,4 +180,3 @@
 </div>
 <!-- This endblock denotes the end of the content block, nothing should come after it-->
 {% endblock %}
-
