@@ -82,7 +82,13 @@ def add_payload():
 @views.route('/rockets', methods=['GET', 'POST'])
 def rockets():
     rocket_data = database.get_rockets()
-    return render_template("rockets.html", rockets=rocket_data)
+    rocket_d1_data = database.get_rocket_d1()
+
+    for r in rocket_d1_data:
+        print(r["engine_version"] is None, r["engine_layout"] is None)
+
+    rocket_d2_data = database.get_rocket_d2()
+    return render_template("rockets.html", rockets=rocket_data, rocket_d1=rocket_d1_data, rocket_d2=rocket_d2_data)
 
 @views.route('/rockets/rocket_details_1', methods=['GET', 'POST'])
 def rocket_details_1():

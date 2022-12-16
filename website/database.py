@@ -78,24 +78,25 @@ def get_rockets():
         con.row_factory = sqlite3.Row
         cur = con.cursor()
         return cur.execute(
-            """SELECT * FROM rockets 
-            LEFT JOIN rocket_details_1 ON rockets.rocket_id = rocket_details_1.rocket_id
-            LEFT JOIN rocket_details_2 ON rockets.rocket_id = rocket_details_2.rocket_id"""
+            "SELECT * FROM rockets"
             ).fetchall()
-            
-def get_rocket_d1_columns():
+def get_rocket_d1():
     with sqlite3.connect(db_location) as con:
         con.row_factory = sqlite3.Row
         cur = con.cursor()
         return cur.execute(
-            "PRAGMA table_info(rocket_details_1)"
+            """SELECT * FROM rocket_details_1 
+            JOIN (SELECT rocket_id, name FROM rockets) AS rocket_names
+             ON rocket_details_1.rocket_id = rocket_names.rocket_id"""
             ).fetchall()
-def get_rocket_d2_columns():
+def get_rocket_d2():
     with sqlite3.connect(db_location) as con:
         con.row_factory = sqlite3.Row
         cur = con.cursor()
         return cur.execute(
-            "PRAGMA table_info(rocket_details_2)"
+            """SELECT * FROM rocket_details_2 
+            JOIN (SELECT rocket_id, name FROM rockets) AS rocket_names
+             ON rocket_details_2.rocket_id = rocket_names.rocket_id"""
             ).fetchall()
 
 # Ships
