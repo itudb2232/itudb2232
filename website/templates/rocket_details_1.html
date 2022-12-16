@@ -37,7 +37,7 @@
         <th>Engine Propellant 2</th>
         <th>Engine Thrust to Weight</th>
     </tr>
-    {% for rocket_details_1 in rocket_details_1 %}
+    {% for rocket_detail_1 in rocket_details_1 %}
     <tr class>
         <td>
             {{rocket_details_1["stages"]}}
@@ -79,13 +79,13 @@
             {{rocket_details_1["engine_type"]}}
         </td>
         <td>
-            {{"-" if rocket_details_1["engine_version"] == None else rocket_details_1["engine_version"]}}
+            {{ "-" if rocket_details_1["engine_version"] == None else rocket_details_1["engine_version"] }}
         </td>
         <td>
-            {{"-" if rocket_details_1["engine_layout"] == None else rocket_details_1["engine_layout"]]}}
+            {{ "-" if rocket_details_1["engine_layout"] == None else rocket_details_1["engine_layout"] }}
         </td>
         <td>
-            {{"-" if rocket_details_1["engine_loss_max"] == None else rocket_details_1["engine_loss_max"]]}}
+            {{ "-" if rocket_details_1["engine_loss_max"] == None else rocket_details_1["engine_loss_max"] }}
         </td>
         <td>
             {{rocket_details_1["engine_propellant_1"]}}

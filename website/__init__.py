@@ -3,7 +3,7 @@ from flask_login import LoginManager
 
 import views
 from users import get_user
-
+import database
 
 lm = LoginManager()
 
@@ -18,7 +18,6 @@ def create_app():
     # now we register the blueprints
     app.register_blueprint(views.views, url_prefix = '/')
 
-    app.config["db"] = "spacexhibit-data.db"
     app.config["user-db"] = "user-data.db"
 
     app.add_url_rule("/login", view_func=views.login, methods=["GET", "POST"])
@@ -26,5 +25,23 @@ def create_app():
 
     lm.init_app(app)
     lm.login_view = "views.login"
+
+    # Set latest IDs for insertable tables
+
+    payload_id = -1
+    for payload in database.get_payloads():
+        current_id = payload["payload_id"]
+        if current_id.isdigit():
+            if int(current_id) > int(payload_id):
+                payload_id = current_id
+    app.config["payload_id"] = int(payload_id) + 1
+    
+    rocket_id = -1
+    for rocket in database.get_rockets():
+        current_id = rocket["rocket_id"]
+        if current_id.isdigit():
+            if int(current_id) > int(rocket_id):
+                rocket_id = current_id
+    app.config["rocket_id"] = int(rocket_id) + 1
 
     return app
