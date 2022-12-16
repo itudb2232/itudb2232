@@ -28,7 +28,7 @@ def login():
                 login_user(user)
                 flash("Welcome to SpaceXhibit!")
 
-                return redirect("views.home")
+                return redirect(url_for("views.home"))
             else:
                 flash("Wrong password.")
         else:
