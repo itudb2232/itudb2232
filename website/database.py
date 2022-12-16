@@ -3,38 +3,7 @@ from flask import current_app
 
 db_location = "spacexhibit-data.db"
 
-def get_launches():
-    with sqlite3.connect(db_location) as con:
-        con.row_factory = sqlite3.Row
-        cur = con.cursor()
-        return cur.execute(
-            "SELECT * FROM launches JOIN launch_details on launches.launch_id = launch_details.launch_id"
-            ).fetchall()
-
-def get_rockets():
-    with sqlite3.connect(db_location) as con:
-        con.row_factory = sqlite3.Row
-        cur = con.cursor()
-        return cur.execute(
-            "SELECT * FROM rockets"
-            ).fetchall()
-
-def get_rocket_d1():
-    with sqlite3.connect(db_location) as con:
-        con.row_factory = sqlite3.Row
-        cur = con.cursor()
-        return cur.execute(
-            "SELECT * FROM rocket_details_1"
-            ).fetchall()
-
-def get_cores():
-    with sqlite3.connect(db_location) as con:
-        con.row_factory = sqlite3.Row
-        cur = con.cursor()
-        return cur.execute(
-            "SELECT * FROM cores"
-            ).fetchall()
-
+# Capsules
 def get_capsules():
     with sqlite3.connect(db_location) as con:
         con.row_factory = sqlite3.Row
@@ -43,6 +12,83 @@ def get_capsules():
             "SELECT * FROM capsules"
             ).fetchall()
 
+def delete_capsule(capsule_id):
+        with sqlite3.connect(db_location) as con:
+            cursor = con.cursor()
+            query = "DELETE FROM capsules WHERE (capsule_id = ?)"
+            cursor.execute(query, (capsule_id,))
+            con.commit()
+
+# Cores
+def get_cores():
+    with sqlite3.connect(db_location) as con:
+        con.row_factory = sqlite3.Row
+        cur = con.cursor()
+        return cur.execute(
+            "SELECT * FROM cores"
+            ).fetchall()
+
+# Launches
+def get_launches():
+    with sqlite3.connect(db_location) as con:
+        con.row_factory = sqlite3.Row
+        cur = con.cursor()
+        return cur.execute(
+            "SELECT * FROM launches JOIN launch_details on launches.launch_id = launch_details.launch_id"
+            ).fetchall()
+
+def delete_launch(launch_id):
+        with sqlite3.connect(db_location) as con:
+            cursor = con.cursor()
+            query = "DELETE FROM launches WHERE (launch_id = ?)"
+            cursor.execute(query, (launch_id,))
+            con.commit()
+
+# Launchpads
+
+# Payloads
+def get_payloads():
+    with sqlite3.connect(db_location) as con:
+        con.row_factory = sqlite3.Row
+        cur = con.cursor()
+        return cur.execute(
+            "SELECT * FROM payloads ORDER BY name ASC"
+            ).fetchall()
+
+def add_payload(request):
+    with sqlite3.connect(db_location) as con:
+        con.row_factory = sqlite3.Row
+        cur = con.cursor() 
+
+        # Add new payload
+        payload_columns = cur.execute("PRAGMA table_info(payloads)").fetchall()
+
+        new_payload = [str(current_app.config["payload_id"])]  # Get next ID
+        current_app.config["payload_id"] += 1
+        for column in payload_columns:
+            if column["name"] in request.form.keys():
+                new_payload += [request.form[column["name"]]]
+
+        cur.execute(f'INSERT INTO payloads VALUES ({",".join("?" * len(payload_columns))})', new_payload)
+        con.commit()
+
+# Rockets
+def get_rockets():
+    with sqlite3.connect(db_location) as con:
+        con.row_factory = sqlite3.Row
+        cur = con.cursor()
+        return cur.execute(
+            "SELECT * FROM rockets"
+            ).fetchall()
+def get_rocket_d1():
+    with sqlite3.connect(db_location) as con:
+        con.row_factory = sqlite3.Row
+        cur = con.cursor()
+        return cur.execute(
+            "SELECT * FROM rocket_details_1"
+            ).fetchall()
+
+# Ships
 def get_ships(request):
     with sqlite3.connect(db_location) as con:
         con.row_factory = sqlite3.Row
@@ -98,42 +144,3 @@ def get_ship_d2():
         return cur.execute(
             "SELECT * FROM ship_details_2"
             ).fetchall()
-
-def get_payloads():
-    with sqlite3.connect(db_location) as con:
-        con.row_factory = sqlite3.Row
-        cur = con.cursor()
-        return cur.execute(
-            "SELECT * FROM payloads ORDER BY name ASC"
-            ).fetchall()
-
-def add_payload(request):
-    with sqlite3.connect(db_location) as con:
-        con.row_factory = sqlite3.Row
-        cur = con.cursor() 
-
-        # Add new payload
-        payload_columns = cur.execute("PRAGMA table_info(payloads)").fetchall()
-
-        new_payload = [str(current_app.config["payload_id"])]  # Get next ID
-        current_app.config["payload_id"] += 1
-        for column in payload_columns:
-            if column["name"] in request.form.keys():
-                new_payload += [request.form[column["name"]]]
-
-        cur.execute(f'INSERT INTO payloads VALUES ({",".join("?" * len(payload_columns))})', new_payload)
-        con.commit()
-
-def delete_launches(launch_id):
-        with sqlite3.connect(db_location) as con:
-            cursor = con.cursor()
-            query = "DELETE FROM launches WHERE (launch_id = ?)"
-            cursor.execute(query, (launch_id,))
-            con.commit()
-
-def delete_capsules(capsule_id):
-        with sqlite3.connect(db_location) as con:
-            cursor = con.cursor()
-            query = "DELETE FROM capsules WHERE (capsule_id = ?)"
-            cursor.execute(query, (capsule_id,))
-            con.commit()

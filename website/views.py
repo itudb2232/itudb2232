@@ -44,8 +44,6 @@ def home():
 @views.route("/logout")
 def logout():
     logout_user()
-    flash("We hope you enjoyed your stay!")
-
     return redirect(url_for("views.home"))
 
 @views.route('/launches', methods=['GET', 'POST'])
