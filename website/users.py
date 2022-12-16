@@ -25,7 +25,6 @@ def get_user(user_id):
     user_data = user_db.cursor().execute("SELECT * FROM users WHERE username = ?", [user_id]).fetchall()
 
     if len(user_data) == 1:
-        print( User(user_data[0]["username"], user_data[0]["password"], user_data[0]["type"]) )
         return User(user_data[0]["username"], user_data[0]["password"], user_data[0]["type"])
     else:
         return None

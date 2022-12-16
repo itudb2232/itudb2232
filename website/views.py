@@ -15,13 +15,8 @@ import users
 
 views = Blueprint('views', __name__)
 
-# Userlogin page
-@views.route('/login')
+@views.route("/login", methods=["GET", "POST"])
 def login():
-    return render_template("login.html", form=forms.LoginForm())
-
-@views.route('/login', methods=['POST'])
-def do_login():
     form = forms.LoginForm()
     if form.validate_on_submit():
         username = form.data["username"]
@@ -29,30 +24,18 @@ def do_login():
 
         if user is not None:
             password = form.data["password"]
-            print(password, user.password)
             if passlib.hash.pbkdf2_sha256.verify(password, user.password):
                 login_user(user)
                 flash("Welcome to SpaceXhibit!")
-                
-                return redirect(url_for("views.home"))
+
+                return redirect("views.home")
             else:
                 flash("Wrong password.")
-                return render_template("login.html", form=form)
         else:
             flash("You're not on the guest list. Why don't you sign up?")
-            return render_template("login.html", form=form)
+    
+    return render_template("login.html", form=form)
 
-
-
-    username = request.form['username']
-    password = request.form['password']
-    # Check if username and password
-    if valid_login(username, password):
-        return redirect(url_for('home'))
-    else:
-        return redirect(url_for('login'))
-
-@views.route("/login", methods=["GET", "POST"])
 @views.route('/home')
 @views.route("/")
 def home():
@@ -64,20 +47,6 @@ def logout():
     flash("We hope you enjoyed your stay!")
 
     return redirect(url_for("views.home"))
-
-def valid_login(username, password):
-    if not username or not password:
-        return False
-
-    with open('users.txt') as f:
-        lines = f.readlines()
-
-    for line in lines:
-        uname, pword = line.strip().split(':')
-        if uname == username and pword == password:
-            return True
-
-    return False
 
 @views.route('/launches', methods=['GET', 'POST'])
 def launches():
@@ -113,16 +82,16 @@ def ship_details_2():
     ship_d2_data = database.get_ship_d2()
     return render_template("ship_details_2.html",ship_details_2=ship_d2_data)
 
-@views.route('/payloads', methods=['GET', 'POST'])
+@views.route('/payloads', methods=['GET'])
 def payloads():
-    if request.method == "GET":
-        payload_data = database.get_payloads()
-        return render_template("payloads.html", payloads=payload_data)
-    else:
-        database.add_payload(request)
+    payload_data = database.get_payloads()
+    return render_template("payloads.html", payloads=payload_data)
 
-        payload_data = database.get_payloads()
-        return render_template("payloads.html", payloads=payload_data)
+@views.route('/add_payload', methods=['POST'])
+@login_required
+def add_payload():
+    database.add_payload(request)
+    return redirect(url_for("views.payloads"))
 
 @views.route('/cores', methods=['GET', 'POST'])
 def cores():
