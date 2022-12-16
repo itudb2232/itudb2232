@@ -4,8 +4,8 @@
 {% block content %}
 
 <br/>
-<h2 class = "card-title"> Rockets </h2>
-<p class = "card-text" >
+<h2> Rockets </h2>
+<p>
     These are the rockets own and operated by SpaceX. If you see anything wrong or missing, feel free to amend.
 </p>
 
@@ -30,19 +30,35 @@
             <td> {{rocket["company"]}}  </td>
             
             <td>
-                <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#rocket-details-1-modal-{{ rocket.rocket_id }}">
-                Engine Info
+              {% if rocket["rocket_id"] in inexistent_d1 %}
+                <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#add-rocket-details-1-modal-{{ rocket.rocket_id }}">
+                  Add Engine Info
                 </button>
+              {% else %}
+                <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#rocket-details-1-modal-{{ rocket.rocket_id }}">
+                  Engine Info
+                </button>
+              {% endif %}
             </td>
             <td>
-                <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#rocket-details-2-modal-{{ rocket.rocket_id }}">
-                Measurements
+              {% if rocket["rocket_id"] in inexistent_d2 %}
+                <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#add-rocket-details-2-modal-{{ rocket.rocket_id }}">
+                  Add Measurements
                 </button>
+              {% else %}
+                <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#rocket-details-2-modal-{{ rocket.rocket_id }}">
+                  Measurements
+                </button>
+              {% endif %}
             </td>
+
+            
         </tr>
         {% endfor %}
     </tbody>
 </table>
+
+<!-- READ DETAILS -->
 
 {% for rocket_d1 in rocket_d1 %}
 <div class="modal fade" id="rocket-details-1-modal-{{ rocket_d1.rocket_id }}" tabindex="-1" role="dialog" aria-labelledby="rocket-details-1-modal-label-{{ rocket_d1.rocket_id }}" aria-hidden="true">
@@ -51,7 +67,7 @@
         <div class="modal-header">
           <h5 class="modal-title" id="rocket-details-1-modal-label-{{ rocket_d1.rocket_id }}"> {{rocket_d1.name}} Engine Info </h5>
         </div>
-        <div class="modal-body" style="padding-top: 0;">
+        <div class="modal-body">
         <table style="width: 100%;">
           <tr class="rocket-detail"> <td> Stages </td> <td class="rocket-detail"> {{rocket_d1.stages}} </td> </tr>
           <tr class="rocket-detail"> <td> Boosters </td> <td class="rocket-detail"> {{rocket_d1.boosters}} </td> </tr>
@@ -60,10 +76,10 @@
           <tr class="rocket-detail"> <td> Landing legs material </td> <td class="rocket-detail"> {{rocket_d1.landing_legs_material}} </td> </tr>
           <tr class="rocket-detail"> <td> Engine Isp sea level </td> <td class="rocket-detail"> {{rocket_d1.engine_isp_sea_level}} </td> </tr>
           <tr class="rocket-detail"> <td> Engine Isp vacuum </td> <td class="rocket-detail"> {{rocket_d1.engine_isp_vacuum}} </td> </tr>
-          <tr class="rocket-detail"> <td> Engine thrust sea level kN </td> <td class="rocket-detail"> {{rocket_d1.engine_thrust_sea_level_kN}} </td> </tr>
-          <tr class="rocket-detail"> <td> Engine thrust sea level lbf </td> <td class="rocket-detail"> {{rocket_d1.engine_thrust_sea_level_lbf}} </td> </tr>
-          <tr class="rocket-detail"> <td> Engine thrust vacuum kN </td> <td class="rocket-detail"> {{rocket_d1.engine_thrust_vacuum_kN}} </td> </tr>
-          <tr class="rocket-detail"> <td> Engine thrust lbf </td> <td class="rocket-detail"> {{rocket_d1.engine_thrust_lbf}} </td> </tr>
+          <tr class="rocket-detail"> <td> Engine thrust sea level (kN) </td> <td class="rocket-detail"> {{rocket_d1.engine_thrust_sea_level_kN}} </td> </tr>
+          <tr class="rocket-detail"> <td> Engine thrust sea level (lbf) </td> <td class="rocket-detail"> {{rocket_d1.engine_thrust_sea_level_lbf}} </td> </tr>
+          <tr class="rocket-detail"> <td> Engine thrust vacuum (kN) </td> <td class="rocket-detail"> {{rocket_d1.engine_thrust_vacuum_kN}} </td> </tr>
+          <tr class="rocket-detail"> <td> Engine thrust (lbf) </td> <td class="rocket-detail"> {{rocket_d1.engine_thrust_lbf}} </td> </tr>
           <tr class="rocket-detail"> <td> Engine number </td> <td class="rocket-detail"> {{rocket_d1.engine_number}} </td> </tr>
           <tr class="rocket-detail"> <td> Engine type </td> <td class="rocket-detail"> {{rocket_d1.engine_type}} </td> </tr>
           <tr class="rocket-detail"> <td> Engine version </td> <td class="rocket-detail"> {{rocket_d1.engine_version}} </td> </tr>
@@ -89,7 +105,7 @@
         <div class="modal-header">
           <h5 class="modal-title" id="rocket-details-2-modal-label-{{ rocket_d2.rocket_id }}"> {{rocket_d2.name}} Measurements </h5>
         </div>
-        <div class="modal-body" style="padding-top: 0;">
+        <div class="modal-body">
         <table style="width: 100%;">
           <tr class="rocket-detail"> <td> Height (m) </td> <td class="rocket-detail"> {{rocket_d2.height_mt}} </td> </tr>
           <tr class="rocket-detail"> <td> Height (ft) </td> <td class="rocket-detail"> {{rocket_d2.height_ft}} </td> </tr>
@@ -106,5 +122,97 @@
     </div>
   </div>
 {% endfor %}
+
+<!-- ADD DETAILS -->
+
+{% for rocket in inexistent_d1_dict %}
+<div class="modal fade" id="add-rocket-details-1-modal-{{ rocket.rocket_id }}" tabindex="-1" role="dialog" aria-labelledby="add-rocket-details-1-modal-label-{{ rocket.rocket_id }}" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="rocket-details-1-modal-label-{{ rocket.rocket_id }}"> Add {{rocket.name}} Engine Info </h5>
+        </div>
+        <div class="modal-body">
+          
+        <form action="/add_rocket_detail_1" method="POST" style="display: grid;">
+          {{ formD1.csrf_token }}
+          <div class="field" style="display: none">
+              <div class="control">
+                  {{ formD1.rocket_id(value=rocket.rocket_id, class="form-control-sm")}}
+              </div>
+          </div>
+          <div class="field">
+              <label for="stages" class="form-label detail-field">Stages:</label>
+              <div class="control detail-field">
+                  {{ formD1.stages(class="form-control-sm")}}
+              </div>
+          </div>
+          <div class="field">
+              <label for="boosters" class="form-label detail-field">Boosters:</label>
+              <div class="control detail-field">
+                  {{ formD1.boosters(class="form-control-sm")}}
+              </div>
+          </div>
+          
+          <button type=submit class="btn btn-warning">Add</button>
+        </form>
+        <table style="width: 100%;">
+          <tr class="rocket-detail"> <td> Stages </td> <td class="rocket-detail"> {{rocket_d1.stages}} </td> </tr>
+          <tr class="rocket-detail"> <td> Boosters </td> <td class="rocket-detail"> {{rocket_d1.boosters}} </td> </tr>
+          <tr class="rocket-detail"> <td> Cost per launch </td> <td class="rocket-detail"> {{rocket_d1.cost_per_launch}} </td> </tr>
+          <tr class="rocket-detail"> <td> Landing legs number </td> <td class="rocket-detail"> {{rocket_d1.landing_legs_number}} </td> </tr>
+          <tr class="rocket-detail"> <td> Landing legs material </td> <td class="rocket-detail"> {{rocket_d1.landing_legs_material}} </td> </tr>
+          <tr class="rocket-detail"> <td> Engine Isp sea level </td> <td class="rocket-detail"> {{rocket_d1.engine_isp_sea_level}} </td> </tr>
+          <tr class="rocket-detail"> <td> Engine Isp vacuum </td> <td class="rocket-detail"> {{rocket_d1.engine_isp_vacuum}} </td> </tr>
+          <tr class="rocket-detail"> <td> Engine thrust sea level (kN) </td> <td class="rocket-detail"> {{rocket_d1.engine_thrust_sea_level_kN}} </td> </tr>
+          <tr class="rocket-detail"> <td> Engine thrust sea level (lbf) </td> <td class="rocket-detail"> {{rocket_d1.engine_thrust_sea_level_lbf}} </td> </tr>
+          <tr class="rocket-detail"> <td> Engine thrust vacuum (kN) </td> <td class="rocket-detail"> {{rocket_d1.engine_thrust_vacuum_kN}} </td> </tr>
+          <tr class="rocket-detail"> <td> Engine thrust (lbf) </td> <td class="rocket-detail"> {{rocket_d1.engine_thrust_lbf}} </td> </tr>
+          <tr class="rocket-detail"> <td> Engine number </td> <td class="rocket-detail"> {{rocket_d1.engine_number}} </td> </tr>
+          <tr class="rocket-detail"> <td> Engine type </td> <td class="rocket-detail"> {{rocket_d1.engine_type}} </td> </tr>
+          <tr class="rocket-detail"> <td> Engine version </td> <td class="rocket-detail"> {{rocket_d1.engine_version}} </td> </tr>
+          <tr class="rocket-detail"> <td> Engine layout </td> <td class="rocket-detail"> {{rocket_d1.engine_layout}} </td> </tr>
+          <tr class="rocket-detail"> <td> Engine loss max </td> <td class="rocket-detail"> {{rocket_d1.engine_loss_max}} </td> </tr>
+          <tr class="rocket-detail"> <td> Engine propellant 1 </td> <td class="rocket-detail"> {{rocket_d1.engine_propellant_1}} </td> </tr>
+          <tr class="rocket-detail"> <td> Engine propellant 2 </td> <td class="rocket-detail"> {{rocket_d1.engine_propellant_2}} </td> </tr>
+          <tr class="rocket-detail"> <td> Engine thrust to weight </td> <td class="rocket-detail"> {{rocket_d1.engine_thrust_to_weight}} </td> </tr>
+        </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+
+{% for rocket_d2 in rocket_d2 %}
+<div class="modal fade" id="rocket-details-2-modal-{{ rocket_d2.rocket_id }}" tabindex="-1" role="dialog" aria-labelledby="rocket-details-2-modal-label-{{ rocket_d2.rocket_id }}" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="rocket-details-2-modal-label-{{ rocket_d2.rocket_id }}"> {{rocket_d2.name}} Measurements </h5>
+        </div>
+        <div class="modal-body">
+        <table style="width: 100%;">
+          <tr class="rocket-detail"> <td> Height (m) </td> <td class="rocket-detail"> {{rocket_d2.height_mt}} </td> </tr>
+          <tr class="rocket-detail"> <td> Height (ft) </td> <td class="rocket-detail"> {{rocket_d2.height_ft}} </td> </tr>
+          <tr class="rocket-detail"> <td> Diameter (m) </td> <td class="rocket-detail"> {{rocket_d2.diameter_mt}} </td> </tr>
+          <tr class="rocket-detail"> <td> Diameter (ft) </td> <td class="rocket-detail"> {{rocket_d2.diameter_ft}} </td> </tr>
+          <tr class="rocket-detail"> <td> Mass (kg) </td> <td class="rocket-detail"> {{rocket_d2.mass_kg}} </td> </tr>
+          <tr class="rocket-detail"> <td> Mass (lb) </td> <td class="rocket-detail"> {{rocket_d2.mass_lb}} </td> </tr>
+        </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+
+
+<!-- UPDATE DETAILS -->
+
 
 {% endblock %}

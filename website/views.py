@@ -83,12 +83,44 @@ def add_payload():
 def rockets():
     rocket_data = database.get_rockets()
     rocket_d1_data = database.get_rocket_d1()
-
-    for r in rocket_d1_data:
-        print(r["engine_version"] is None, r["engine_layout"] is None)
-
     rocket_d2_data = database.get_rocket_d2()
-    return render_template("rockets.html", rockets=rocket_data, rocket_d1=rocket_d1_data, rocket_d2=rocket_d2_data)
+
+    inexistent_rocket_d1 = []
+    inexistent_rocket_d2 = []
+    inexistent_rocket_d1_dict = []
+    inexistent_rocket_d2_dict = []
+
+    # I could not do this declaratively with filter()
+    # because I could not figure out how to use a "filter object"
+    # Also, lambda expressions seem to not be allowed in Jinja
+    present = False
+    for rocket in rocket_data:
+        for rocket_d1 in rocket_d1_data:
+            if rocket["rocket_id"] == rocket_d1["rocket_id"]:
+                present = True
+                break
+        if not present:
+            inexistent_rocket_d1 += [rocket["rocket_id"]]
+            inexistent_rocket_d1_dict += [{"rocket_id": rocket["rocket_id"], "name": rocket["name"]}]
+        present = False
+
+        for rocket_d2 in rocket_d2_data:
+            if rocket["rocket_id"] == rocket_d2["rocket_id"]:
+                present = True
+                break
+        if not present:
+            inexistent_rocket_d2 += [rocket["rocket_id"]]
+            inexistent_rocket_d2_dict += [{"rocket_id": rocket["rocket_id"], "name": rocket["name"]}]
+        present = False
+
+    print(inexistent_rocket_d1, inexistent_rocket_d2)
+
+    return render_template("rockets.html", rockets=rocket_data,
+        rocket_d1=rocket_d1_data, rocket_d2=rocket_d2_data,
+        inexistent_d1=inexistent_rocket_d1, inexistent_d2=inexistent_rocket_d2,
+        inexistent_d1_dict=inexistent_rocket_d1_dict, inexistent_d2_dict=inexistent_rocket_d2_dict,
+        formM=forms.RocketForm(), formD1=forms.RocketD1Form(),
+         formD2=forms.RocketD2Form())
 
 @views.route('/rockets/rocket_details_1', methods=['GET', 'POST'])
 def rocket_details_1():

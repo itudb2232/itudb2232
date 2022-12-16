@@ -87,7 +87,7 @@ def get_rocket_d1():
         return cur.execute(
             """SELECT * FROM rocket_details_1 
             JOIN (SELECT rocket_id, name FROM rockets) AS rocket_names
-             ON rocket_details_1.rocket_id = rocket_names.rocket_id"""
+            ON rocket_details_1.rocket_id = rocket_names.rocket_id"""
             ).fetchall()
 def get_rocket_d2():
     with sqlite3.connect(db_location) as con:
@@ -96,8 +96,15 @@ def get_rocket_d2():
         return cur.execute(
             """SELECT * FROM rocket_details_2 
             JOIN (SELECT rocket_id, name FROM rockets) AS rocket_names
-             ON rocket_details_2.rocket_id = rocket_names.rocket_id"""
+            ON rocket_details_2.rocket_id = rocket_names.rocket_id"""
             ).fetchall()
+
+def add_rocket():
+    pass
+def add_rocket_d1():
+    pass
+def add_rocket_d2():
+    pass
 
 # Ships
 def get_ships(request):

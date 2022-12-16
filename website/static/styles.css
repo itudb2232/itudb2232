@@ -15,3 +15,11 @@ tr.rocket-detail {
 td.rocket-detail {
     text-align: right;
 }
+
+.detail-field {
+    display: inline;
+}
+
+div.detail-field {
+    float: right;
+}
