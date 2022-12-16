@@ -20,9 +20,6 @@ def create_app():
 
     app.config["user-db"] = "user-data.db"
 
-    app.add_url_rule("/login", view_func=views.login, methods=["GET", "POST"])
-    app.add_url_rule("/logout", view_func=views.home)
-
     lm.init_app(app)
     lm.login_view = "views.login"
 

@@ -1,15 +1,17 @@
 # This file is for arranging which pages the user can navigate to (i.e. launchpads, launches, rockets, ships...) #
 # This file is a blueprint, it has a bunch of roots and urls inside of it #
 
-from flask import Blueprint, render_template, current_app, request, redirect, url_for
+from flask import Blueprint, render_template, current_app, request, redirect, url_for, flash
 import sqlite3
-from flask_login import current_user
+from flask_login import current_user, login_user, logout_user, login_required
 
 from time import time_ns
 from random import random
+import passlib.hash
 
 import forms
 import database
+import users
 
 views = Blueprint('views', __name__)
 
@@ -20,18 +22,48 @@ def login():
 
 @views.route('/login', methods=['POST'])
 def do_login():
+    form = forms.LoginForm()
+    if form.validate_on_submit():
+        username = form.data["username"]
+        user = users.get_user(username)
+
+        if user is not None:
+            password = form.data["password"]
+            print(password, user.password)
+            if passlib.hash.pbkdf2_sha256.verify(password, user.password):
+                login_user(user)
+                flash("Welcome to SpaceXhibit!")
+                
+                return redirect(url_for("views.home"))
+            else:
+                flash("Wrong password.")
+                return render_template("login.html", form=form)
+        else:
+            flash("You're not on the guest list. Why don't you sign up?")
+            return render_template("login.html", form=form)
+
+
+
     username = request.form['username']
     password = request.form['password']
     # Check if username and password
     if valid_login(username, password):
-        return redirect(url_for('views.home'))
+        return redirect(url_for('home'))
     else:
-        return redirect(url_for('views.login'))
+        return redirect(url_for('login'))
 
+@views.route("/login", methods=["GET", "POST"])
 @views.route('/home')
 @views.route("/")
 def home():
     return render_template("home.html")
+
+@views.route("/logout")
+def logout():
+    logout_user()
+    flash("We hope you enjoyed your stay!")
+
+    return redirect(url_for("views.home"))
 
 def valid_login(username, password):
     if not username or not password:
