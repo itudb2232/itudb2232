@@ -130,3 +130,10 @@ def delete_launches(launch_id):
             query = "DELETE FROM launches WHERE (launch_id = ?)"
             cursor.execute(query, (launch_id,))
             con.commit()
+
+def delete_capsules(capsule_id):
+        with sqlite3.connect(db_location) as con:
+            cursor = con.cursor()
+            query = "DELETE FROM capsules WHERE (capsule_id = ?)"
+            cursor.execute(query, (capsule_id,))
+            con.commit()
