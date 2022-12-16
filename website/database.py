@@ -124,3 +124,9 @@ def add_payload(request):
         cur.execute(f'INSERT INTO payloads VALUES ({",".join("?" * len(payload_columns))})', new_payload)
         con.commit()
 
+def delete_launches(launch_id):
+        with sqlite3.connect(db_location) as con:
+            cursor = con.cursor()
+            query = "DELETE FROM launches WHERE (launch_id = ?)"
+            cursor.execute(query, (launch_id,))
+            con.commit()
