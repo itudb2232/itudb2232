@@ -12,7 +12,7 @@ def get_capsules():
             "SELECT * FROM capsules"
             ).fetchall()
 
-def add_capsules(request):
+def add_capsule(request):
     with sqlite3.connect(db_location) as con:
         con.row_factory = sqlite3.Row
         cur = con.cursor() 
@@ -53,7 +53,7 @@ def get_launches():
             "SELECT * FROM launches JOIN launch_details on launches.launch_id = launch_details.launch_id"
             ).fetchall()
 
-def add_launches(request):
+def add_launch(request):
     with sqlite3.connect(db_location) as con:
         con.row_factory = sqlite3.Row
         cur = con.cursor() 
