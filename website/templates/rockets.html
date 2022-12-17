@@ -16,6 +16,7 @@
 <table class = "table table-hover table-sm">
     <thead>
         <tr class = "table-active">
+            <th>📷</th>
             <th>Name</th>
             <th>Type</th>
             <th>Status</th>
@@ -28,6 +29,17 @@
     <tbody>
         {% for rocket in rockets %}
         <tr class>
+            <td>
+              {% if rocket["rocket_id"] in inexistent_image %}
+                <button type="button" class="btn btn-sm" data-toggle="modal" data-target="#add-rocket-image-modal-{{ rocket.rocket_id }}">
+                  ➕
+                </button>
+              {% else %}
+                <button type="button" class="btn btn-sm" data-toggle="modal" data-target="#rocket-image-modal-{{ rocket.rocket_id }}">
+                  🚀
+                </button>
+              {% endif %}
+            </td>
             <td> {{rocket["name"]}} </td>
             <td> {{rocket["type"]}} </td>
             <td> {{ "Active" if rocket["active"] == "True" else "Decommissioned" }} </td>
@@ -142,6 +154,26 @@
            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#update-rocket-details-2-modal-{{ rocket_d2.rocket_id }}">
              Update
            </button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+
+{% for rocket_image in rocket_images %}
+<div class="modal fade" id="rocket-image-modal-{{ rocket_image.rocket_id }}" tabindex="-1" role="dialog" aria-labelledby="rocket-image-modal-label-{{ rocket_image.rocket_id }}" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="rocket-image-modal-label-{{ rocket_image.rocket_id }}"> {{ rocket_image.name }} Photo </h5>
+        </div>
+        <div class="modal-body">
+            <img src="/static/rocket_images/{{ rocket_image.rocket_id }}.png" alt="Photo of {{ rocket_image.name }}.">
+        </div>
+        <div class="modal-footer">
+          <button type="button" onclick="delete_rocket_image('{{ rocket_image.rocket_id }}')"
+           class="btn btn-danger" data-dismiss="modal">Delete Photo</button>
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         </div>
       </div>
@@ -344,6 +376,37 @@
                   {{ formD2.mass_lb(class="form-control-sm")}}
               </div>
           </div>
+          
+          <button type=submit class="btn btn-warning">Add</button>
+        </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+
+{% for rocket in inexistent_image_dict %}
+<div class="modal fade" id="add-rocket-image-modal-{{ rocket.rocket_id }}" tabindex="-1" role="dialog" aria-labelledby="add-rocket-image-modal-label-{{ rocket.rocket_id }}" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="rocket-image-modal-label-{{ rocket.rocket_id }}"> Add {{rocket.name}} Photo </h5>
+        </div>
+        <div class="modal-body">
+          <form action="/add_rocket_image" method="POST" enctype="multipart/form-data" style="display: grid;">
+          {{ formI.csrf_token }}
+          <div class="field" style="display: none">
+              <div class="control">
+                  {{ formI.rocket_id(value=rocket.rocket_id, class="form-control-sm")}}
+              </div>
+          </div>
+          <div class="field">
+              <div class="control detail-field">
+                  {{ formI.rocket_image(class="form-control")}}
+              </div>
           
           <button type=submit class="btn btn-warning">Add</button>
         </form>

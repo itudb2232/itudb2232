@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, IntegerField, DecimalField, SelectField, validators
+from wtforms import StringField, PasswordField, IntegerField, DecimalField, SelectField, FileField, validators
 
 class LoginForm(FlaskForm):
     username = StringField("Username", validators=[validators.DataRequired()])
@@ -62,6 +62,9 @@ class RocketD2Form(FlaskForm):
     diameter_ft = DecimalField()
     mass_kg = IntegerField()
     mass_lb = IntegerField()
+class RocketImageForm(FlaskForm):
+    rocket_id = StringField()
+    rocket_image = FileField(validators=[validators.DataRequired()])
 
 # Ships
 

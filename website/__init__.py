@@ -49,4 +49,9 @@ def create_app():
                 rocket_id = current_id
     app.config["rocket_id"] = int(rocket_id) + 1
 
+    # Other configs (hardcoded - could be avoided if launched as `cd website´):
+    #   database.py (db_location)
+    #   database ( open("website/static/rocket_images/"... )
+    #   users.py (user_db_location)
+
     return app

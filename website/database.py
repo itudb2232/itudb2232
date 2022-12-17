@@ -147,6 +147,19 @@ def get_rocket_d2():
             JOIN (SELECT rocket_id, name FROM rockets) AS rocket_names
             ON rocket_details_2.rocket_id = rocket_names.rocket_id"""
             ).fetchall()
+def get_rocket_image():
+    with sqlite3.connect(db_location) as con:
+        con.row_factory = sqlite3.Row
+        cur = con.cursor()
+        data = cur.execute(
+            """SELECT * FROM rocket_images
+            JOIN (SELECT rocket_id, name FROM rockets) AS rocket_names
+            ON rocket_images.rocket_id = rocket_names.rocket_id"""
+            ).fetchall()
+        for row in data:
+            with open("website/static/rocket_images/" + row["rocket_id"] + ".png", "wb+") as image_file:
+                image_file.write(row["rocket_image"])
+        return data
 
 def add_rocket(request):
     with sqlite3.connect(db_location) as con:
@@ -193,6 +206,22 @@ def add_rocket_d2(request):
                 new_rocket_d2 += [request.form[column["name"]]]
 
         cur.execute(f'INSERT INTO rocket_details_2 VALUES ({",".join("?" * len(rocket_d2_columns))})', new_rocket_d2)
+        con.commit()
+def add_rocket_image(request):
+    with sqlite3.connect(db_location) as con:
+        con.row_factory = sqlite3.Row
+        cur = con.cursor() 
+
+        # Add new rocket_image
+        
+        new_rocket_image = [request.form["rocket_id"]]
+
+        data = request.files["rocket_image"].read()
+        print(data)
+
+        new_rocket_image += [data]
+
+        cur.execute(f'INSERT INTO rocket_images VALUES (?, ?)', new_rocket_image)
         con.commit()
 
 def update_rocket(request):
@@ -270,6 +299,12 @@ def delete_rocket_d2(rocket_id):
     with sqlite3.connect(db_location) as con:
         cursor = con.cursor()
         query = "DELETE FROM rocket_details_2 WHERE (rocket_id = ?)"
+        cursor.execute(query, (rocket_id,))
+        con.commit()
+def delete_rocket_image(rocket_id):
+    with sqlite3.connect(db_location) as con:
+        cursor = con.cursor()
+        query = "DELETE FROM rocket_images WHERE (rocket_id = ?)"
         cursor.execute(query, (rocket_id,))
         con.commit()
 

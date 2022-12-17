@@ -109,15 +109,15 @@ def rockets():
     rocket_data = database.get_rockets()
     rocket_d1_data = database.get_rocket_d1()
     rocket_d2_data = database.get_rocket_d2()
+    rocket_image_data = database.get_rocket_image()
 
     inexistent_rocket_d1 = []
     inexistent_rocket_d2 = []
+    inexistent_rocket_image = []
     inexistent_rocket_d1_dict = []
     inexistent_rocket_d2_dict = []
+    inexistent_rocket_image_dict = []
 
-    # I could not do this declaratively with filter()
-    # because I could not figure out how to use a "filter object"
-    # Also, lambda expressions seem to not be allowed in Jinja
     present = False
     for rocket in rocket_data:
         for rocket_d1 in rocket_d1_data:
@@ -137,12 +137,21 @@ def rockets():
             inexistent_rocket_d2 += [rocket["rocket_id"]]
             inexistent_rocket_d2_dict += [{"rocket_id": rocket["rocket_id"], "name": rocket["name"]}]
         present = False
+        
+        for rocket_image in rocket_image_data:
+            if rocket["rocket_id"] == rocket_image["rocket_id"]:
+                present = True
+                break
+        if not present:
+            inexistent_rocket_image += [rocket["rocket_id"]]
+            inexistent_rocket_image_dict += [{"rocket_id": rocket["rocket_id"], "name": rocket["name"]}]
+        present = False
 
     return render_template("rockets.html", rockets=rocket_data,
-        rocket_d1s=rocket_d1_data, rocket_d2s=rocket_d2_data,
-        inexistent_d1=inexistent_rocket_d1, inexistent_d2=inexistent_rocket_d2,
-        inexistent_d1_dict=inexistent_rocket_d1_dict, inexistent_d2_dict=inexistent_rocket_d2_dict,
-        formM=forms.RocketForm(), formD1=forms.RocketD1Form(),formD2=forms.RocketD2Form())
+        rocket_d1s=rocket_d1_data, rocket_d2s=rocket_d2_data, rocket_images=rocket_image_data,
+        inexistent_d1=inexistent_rocket_d1, inexistent_d2=inexistent_rocket_d2, inexistent_image=inexistent_rocket_image,
+        inexistent_d1_dict=inexistent_rocket_d1_dict, inexistent_d2_dict=inexistent_rocket_d2_dict, inexistent_image_dict=inexistent_rocket_image_dict,
+        formM=forms.RocketForm(), formD1=forms.RocketD1Form(), formD2=forms.RocketD2Form(), formI=forms.RocketImageForm())
 
 @views.route("/add_rocket", methods=["POST"])
 def add_rocket():
@@ -155,6 +164,10 @@ def add_rocket_detail_1():
 @views.route('/add_rocket_detail_2', methods=['POST'])
 def add_rocket_detail_2():
     database.add_rocket_d2(request)
+    return redirect(url_for("views.rockets"))
+@views.route('/add_rocket_image', methods=['POST'])
+def add_rocket_image():
+    database.add_rocket_image(request)
     return redirect(url_for("views.rockets"))
 
 @views.route("/update_rocket", methods=["POST"])
@@ -181,6 +194,10 @@ def delete_rocket_detail_1():
 @views.route('/delete_rocket_detail_2', methods=['GET'])
 def delete_rocket_detail_2():
     database.delete_rocket_d2(request.args.get("rocket_id"))
+    return redirect(url_for("views.rockets"))
+@views.route('/delete_rocket_image', methods=['GET'])
+def delete_rocket_image():
+    database.delete_rocket_image(request.args.get("rocket_id"))
     return redirect(url_for("views.rockets"))
 
 @views.route('/rockets/rocket_details_1', methods=['GET', 'POST'])

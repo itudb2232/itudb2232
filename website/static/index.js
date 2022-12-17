@@ -10,3 +10,6 @@ function delete_rocket_d1(rocket_id) {
 function delete_rocket_d2(rocket_id) {
     document.location = '/delete_rocket_detail_2?rocket_id=' + rocket_id
 }
+function delete_rocket_image(rocket_id) {
+    document.location = '/delete_rocket_image?rocket_id=' + rocket_id
+}
