@@ -69,6 +69,25 @@ def delete_core(core_id):
         cursor.execute(query, (core_id,))
         con.commit()
 
+def update_core(request):
+    with sqlite3.connect(db_location) as con:
+        con.row_factory = sqlite3.Row
+        cur = con.cursor()
+
+        core_columns = cur.execute("PRAGMA table_info(rockets)").fetchall()
+        core_columns_str = ",".join([column["serial"] + "=?" for column in core_columns if column["serial"] != "core_id"])
+
+        rocket = []
+        for column in core_columns:
+            if column["serial"] in request.form.keys():
+                rocket += [request.form[column["serial"]]]
+        
+        core_id = core[0]
+        core = core[1:] + [core_id]
+
+        cur.execute(f'UPDATE cores SET {core_columns_str} WHERE core_id = ?', rocket)
+        con.commit()
+
 # Launches
 def get_launches():
     with sqlite3.connect(db_location) as con:

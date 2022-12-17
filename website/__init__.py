@@ -41,13 +41,13 @@ def create_app():
                 rocket_id = current_id
     app.config["rocket_id"] = int(rocket_id) + 1
     
-    rocket_id = -1
-    for rocket in database.get_rockets():
-        current_id = rocket["rocket_id"]
+    core_id = -1
+    for core in database.get_cores():
+        current_id = core["core_id"]
         if current_id.isdigit():
-            if int(current_id) > int(rocket_id):
-                rocket_id = current_id
-    app.config["rocket_id"] = int(rocket_id) + 1
+            if int(current_id) > int(core_id):
+                core_id = current_id
+    app.config["core_id"] = int(core_id) + 1
 
     # Other configs (hardcoded - could be avoided if launched as `cd website´):
     #   database.py (db_location)

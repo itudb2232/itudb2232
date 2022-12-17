@@ -105,6 +105,13 @@ def delete_core():
         database.delete_core(request.args.get("core_id"))
     return redirect(url_for("views.cores"))
 
+@views.route("/update_core", methods=["POST"])
+@login_required
+def update_core():
+    if current_user.is_admin:
+        database.update_core(request)
+    return redirect(url_for("views.cores"))
+
 # Launches
 @views.route('/launches', methods=['GET', 'POST'])
 def launches():
