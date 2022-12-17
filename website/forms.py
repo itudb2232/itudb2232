@@ -8,6 +8,16 @@ class LoginForm(FlaskForm):
 # Capsules
 
 # Cores
+class CoresForm(FlaskForm):
+    core_id = StringField()
+    serial = StringField()
+    status = StringField()
+    reuse_count = IntegerField()
+    block = IntegerField()
+    rtls_attempts = IntegerField()
+    rtls_landings = IntegerField()
+    asds_attempts = IntegerField()
+    asds_landings = IntegerField()
 
 # Launches
 

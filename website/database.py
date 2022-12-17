@@ -44,6 +44,23 @@ def get_cores():
             "SELECT * FROM cores"
             ).fetchall()
 
+def add_core(request):
+    with sqlite3.connect(db_location) as con:
+        con.row_factory = sqlite3.Row
+        cur = con.cursor() 
+
+        # Add new core
+        core_columns = cur.execute("PRAGMA table_info(cores)").fetchall()
+
+        new_core = [str(current_app.config["core_id"])]  # Get next ID
+        current_app.config["core_id"] += 1
+        for column in core_columns:
+            if column["serial"] in request.form.keys():
+                new_core += [request.form[column["serial"]]]
+
+        cur.execute(f'INSERT INTO cores VALUES ({",".join("?" * len(core_columns))})', new_core)
+        con.commit()
+
 # Launches
 def get_launches():
     with sqlite3.connect(db_location) as con:

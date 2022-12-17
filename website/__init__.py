@@ -40,5 +40,13 @@ def create_app():
             if int(current_id) > int(rocket_id):
                 rocket_id = current_id
     app.config["rocket_id"] = int(rocket_id) + 1
+    
+    rocket_id = -1
+    for rocket in database.get_rockets():
+        current_id = rocket["rocket_id"]
+        if current_id.isdigit():
+            if int(current_id) > int(rocket_id):
+                rocket_id = current_id
+    app.config["rocket_id"] = int(rocket_id) + 1
 
     return app
