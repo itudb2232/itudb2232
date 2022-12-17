@@ -12,6 +12,22 @@ def get_capsules():
             "SELECT * FROM capsules"
             ).fetchall()
 
+def add_capsules(request):
+    with sqlite3.connect(db_location) as con:
+        con.row_factory = sqlite3.Row
+        cur = con.cursor() 
+
+        # Add new capsule
+        capsule_columns = cur.execute("PRAGMA table_info(capsules)").fetchall()
+        
+        new_capsule = []
+        for column in capsule_columns:
+            if column["name"] in request.form.keys():
+                new_capsule += [request.form[column["name"]]]
+
+        cur.execute(f'INSERT INTO capsules VALUES ({",".join("?" * len(capsule_columns))})', new_capsule)
+        con.commit()
+
 def delete_capsule(capsule_id):
     with sqlite3.connect(db_location) as con:
         cursor = con.cursor()
@@ -36,6 +52,22 @@ def get_launches():
         return cur.execute(
             "SELECT * FROM launches JOIN launch_details on launches.launch_id = launch_details.launch_id"
             ).fetchall()
+
+def add_launches(request):
+    with sqlite3.connect(db_location) as con:
+        con.row_factory = sqlite3.Row
+        cur = con.cursor() 
+
+        # Add new launch
+        launch_columns = cur.execute("PRAGMA table_info(launches)").fetchall()
+        
+        new_launch = []
+        for column in launch_columns:
+            if column["name"] in request.form.keys():
+                new_launch += [request.form[column["name"]]]
+
+        cur.execute(f'INSERT INTO launches VALUES ({",".join("?" * len(launch_columns))})', new_launch)
+        con.commit()
 
 def delete_launch(launch_id):
         with sqlite3.connect(db_location) as con:

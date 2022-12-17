@@ -49,6 +49,16 @@ def capsules():
     capsule_data = database.get_capsules()
     return render_template("capsules.html", capsules=capsule_data)
 
+@views.route("/add_capsule", methods=["POST"])
+def add_capsule():
+    database.add_capsule(request)
+    return redirect(url_for("views.capsule"))
+
+@views.route('/delete_capsule', methods=['GET'])
+def delete_capsule():
+    database.delete_capsule(request.args.get("capsule_id"))
+    return redirect(url_for("views.capsule"))
+
 # Cores
 @views.route('/cores', methods=['GET', 'POST'])
 def cores():
@@ -60,6 +70,16 @@ def cores():
 def launches():
     launch_data = database.get_launches()
     return render_template("launches.html", launches=launch_data)
+
+@views.route("/add_launch", methods=["POST"])
+def add_launch():
+    database.add_launch(request)
+    return redirect(url_for("views.launch"))
+
+@views.route('/delete_launch', methods=['GET'])
+def delete_launch():
+    database.delete_launch(request.args.get("launch_id"))
+    return redirect(url_for("views.launch"))
 
 # Launchpads
 @views.route('/launchpads', methods=['GET', 'POST'])
