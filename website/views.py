@@ -96,6 +96,15 @@ def add_core():
     database.add_core(request)
     return redirect(url_for("views.cores"))
 
+@views.route('/delete_core', methods=['GET'])
+@login_required
+def delete_core():
+    if current_user.is_admin:
+        database.delete_core(request.args.get("core_id"))
+    else:
+        flash("Please do not poke around the exhibit.")
+    return redirect(url_for("views.cores"))
+
 # Launches
 @views.route('/launches', methods=['GET', 'POST'])
 def launches():

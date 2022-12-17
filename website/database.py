@@ -60,6 +60,14 @@ def add_core(request):
 
         cur.execute(f'INSERT INTO cores VALUES ({",".join("?" * len(core_columns))})', new_core)
         con.commit()
+        
+def delete_core(core_id):
+    with sqlite3.connect(db_location) as con:
+        cursor = con.cursor()
+        cursor.execute("PRAGMA foreign_keys=ON")
+        query = "DELETE FROM cores WHERE (core_id = ?)"
+        cursor.execute(query, (core_id,))
+        con.commit()
 
 # Launches
 def get_launches():

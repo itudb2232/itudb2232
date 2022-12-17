@@ -55,6 +55,13 @@
         <td>
             {{core["asds_landings"]}}
         </td>
+        <td>
+            {% if current_user.is_admin %}
+              <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" onclick="delete_core('{{ core.core_id }}')">
+                Delete
+              </button>
+            {% endif %}
+        </td>
     </tr>
     {% endfor %}
 </table>
