@@ -120,6 +120,10 @@ def rockets():
         formM=forms.RocketForm(), formD1=forms.RocketD1Form(),
          formD2=forms.RocketD2Form())
 
+@views.route("/add_rocket", methods=["POST"])
+def add_rocket():
+    database.add_rocket(request)
+    return redirect(url_for("views.rockets"))
 @views.route('/add_rocket_detail_1', methods=['POST'])
 def add_rocket_detail_1():
     database.add_rocket_d1(request)
@@ -129,6 +133,10 @@ def add_rocket_detail_2():
     database.add_rocket_d2(request)
     return redirect(url_for("views.rockets"))
 
+@views.route('/delete_rocket', methods=['GET'])
+def delete_rocket():
+    database.delete_rocket(request.args.get("rocket_id"))
+    return redirect(url_for("views.rockets"))
 @views.route('/delete_rocket_detail_1', methods=['GET'])
 def delete_rocket_detail_1():
     database.delete_rocket_d1(request.args.get("rocket_id"))

@@ -99,8 +99,22 @@ def get_rocket_d2():
             ON rocket_details_2.rocket_id = rocket_names.rocket_id"""
             ).fetchall()
 
-def add_rocket():
-    pass
+def add_rocket(request):
+    with sqlite3.connect(db_location) as con:
+        con.row_factory = sqlite3.Row
+        cur = con.cursor() 
+
+        # Add new rocket
+        rocket_columns = cur.execute("PRAGMA table_info(rockets)").fetchall()
+
+        new_rocket = [str(current_app.config["rocket_id"])]  # Get next ID
+        current_app.config["rocket_id"] += 1
+        for column in rocket_columns:
+            if column["name"] in request.form.keys():
+                new_rocket += [request.form[column["name"]]]
+
+        cur.execute(f'INSERT INTO rockets VALUES ({",".join("?" * len(rocket_columns))})', new_rocket)
+        con.commit()
 def add_rocket_d1(request):
     with sqlite3.connect(db_location) as con:
         con.row_factory = sqlite3.Row
@@ -132,6 +146,13 @@ def add_rocket_d2(request):
         cur.execute(f'INSERT INTO rocket_details_2 VALUES ({",".join("?" * len(rocket_d2_columns))})', new_rocket_d2)
         con.commit()
 
+def delete_rocket(rocket_id):
+    with sqlite3.connect(db_location) as con:
+        cursor = con.cursor()
+        cursor.execute("PRAGMA foreign_keys=ON")  # This allows for cascading to details
+        query = "DELETE FROM rockets WHERE (rocket_id = ?)"
+        cursor.execute(query, (rocket_id,))
+        con.commit()
 def delete_rocket_d1(rocket_id):
     with sqlite3.connect(db_location) as con:
         cursor = con.cursor()

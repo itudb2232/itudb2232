@@ -20,7 +20,7 @@ class RocketForm(FlaskForm):
     rocket_id = StringField()
     name = StringField()
     type = StringField()
-    active = SelectField()
+    active = SelectField(choices=[("True", "Active"), ("False", "Decommissioned")])
     country = StringField()
     company = StringField()
 class RocketD1Form(FlaskForm):

@@ -21,7 +21,7 @@
             <th>Status</th>
             <th>Country of Origin</th>
             <th>Company</th>
-            <th colspan="2">Details</th>
+            <th colspan="3">Details</th>
         </tr>
     </thead>
     <tbody>
@@ -55,6 +55,12 @@
                 </button>
               {% endif %}
             </td>
+            <td>
+                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" 
+                onclick="document.location='/delete_rocket?rocket_id={{ rocket.rocket_id }}'">
+                  Delete
+                </button>
+            </td>
 
             
         </tr>
@@ -62,7 +68,7 @@
     </tbody>
 </table>
 
-<!-- READ DETAILS -->
+<!-- READ/DELETE DETAILS -->
 
 {% for rocket_d1 in rocket_d1 %}
 <div class="modal fade" id="rocket-details-1-modal-{{ rocket_d1.rocket_id }}" tabindex="-1" role="dialog" aria-labelledby="rocket-details-1-modal-label-{{ rocket_d1.rocket_id }}" aria-hidden="true">
@@ -341,5 +347,56 @@
 
 <!-- UPDATE DETAILS -->
 
+
+<!-- ADD ROCKET -->
+
+<div class="modal fade" id="add-rocket-modal" tabindex="-1" role="dialog" aria-labelledby="add-rocket-modal-label" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="rocket-modal-label"> Add Rocket </h5>
+      </div>
+      <div class="modal-body"><form action="/add_rocket" method="POST" style="display: grid;">
+        {{ formM.csrf_token }}
+        <div class="field">
+            <label for="name" class="form-label detail-field">Name:</label>
+            <div class="control detail-field">
+                {{ formM.name(class="form-control-sm")}}
+            </div>
+        </div>
+        <div class="field">
+            <label for="type" class="form-label detail-field">Type:</label>
+            <div class="control detail-field">
+                {{ formM.type(class="form-control-sm")}}
+            </div>
+        </div>
+        <div class="field">
+            <label for="active" class="form-label detail-field">Active:</label>
+            <div class="control detail-field">
+                {{ formM.active(class="form-control-sm")}}
+            </div>
+        </div>
+        <div class="field">
+            <label for="country" class="form-label detail-field">Country:</label>
+            <div class="control detail-field">
+                {{ formM.country(class="form-control-sm")}}
+            </div>
+        </div>
+        <div class="field">
+            <label for="company" class="form-label detail-field">Company:</label>
+            <div class="control detail-field">
+                {{ formM.company(class="form-control-sm")}}
+            </div>
+        </div>
+
+        <button type=submit class="btn btn-warning">Add</button>
+      </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 {% endblock %}
