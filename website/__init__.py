@@ -51,7 +51,7 @@ def create_app():
 
     # Other configs (hardcoded - could be avoided if launched as `cd website´):
     #   database.py (db_location)
-    #   database ( open("website/static/rocket_images/"... )
+    #   database ( open("/static/rocket_images/"... )
     #   users.py (user_db_location)
 
     return app

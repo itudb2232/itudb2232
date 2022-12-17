@@ -157,8 +157,12 @@ def get_rocket_image():
             ON rocket_images.rocket_id = rocket_names.rocket_id"""
             ).fetchall()
         for row in data:
-            with open("website/static/rocket_images/" + row["rocket_id"] + ".png", "wb+") as image_file:
-                image_file.write(row["rocket_image"])
+            try:
+                with open("/static/rocket_images/" + row["rocket_id"] + ".png", "wb+") as image_file:
+                    image_file.write(row["rocket_image"])
+            except FileNotFoundError:
+                with open("website/static/rocket_images/" + row["rocket_id"] + ".png", "wb+") as image_file:
+                    image_file.write(row["rocket_image"])
         return data
 
 def add_rocket(request):
