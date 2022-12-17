@@ -1,9 +1,9 @@
 {% extends "base.html" %}
-{% block title %}SpaceXhibit - Login{% endblock %} 
+{% block title %}SpaceXhibit - Signup{% endblock %} 
 
 {% block content %} 
 
-    <form action="/login" method="POST">
+    <form action="/signup" method="POST">
         {{ form.csrf_token }}
         <div class="field" style="margin: 20px 0px 0px 20px;">
             <label for="username" class="form-label">Username:</label>    
@@ -18,10 +18,15 @@
                 {{ form.password(required=True, class="form-control-lg")}}
             </div>
         </div>
+        <br>
+        <div class="field" style="margin: 0px 0px 0px 20px;">
+            <label for="superfan" class="form-label">Are you a superfan of SpaceX?</label>
+            <div class="control">
+                {{ form.superfan(required=True, class="form-control-lg list-style-none")}}
+            </div>
+        </div>
         
-        <button type=submit class="btn btn-warning" style="margin: 20px 20px 20px 20px;">Log in</button>
+        <button type=submit class="btn btn-warning" style="margin: 20px 20px 20px 20px;">Sign up</button>
     </form>
-
-    <p style="margin-left: 20px;"> No account? <a href="/signup">Sign up!</a> </p>
 
 {% endblock %}

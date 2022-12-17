@@ -1,5 +1,10 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, IntegerField, DecimalField, SelectField, FileField, validators
+from wtforms import StringField, PasswordField, IntegerField, DecimalField, SelectField, RadioField, FileField, validators
+
+class SignupForm(FlaskForm):
+    username = StringField(validators=[validators.DataRequired()])
+    password = PasswordField(validators=[validators.DataRequired()])
+    superfan = RadioField(choices=[("True", "Yes"), ("False", "No")], validators=[validators.DataRequired()])
 
 class LoginForm(FlaskForm):
     username = StringField("Username", validators=[validators.DataRequired()])

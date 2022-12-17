@@ -12,6 +12,32 @@ import users
 
 views = Blueprint('views', __name__)
 
+@views.route("/signup", methods=["GET", "POST"])
+def signup():
+    form = forms.SignupForm()
+    if form.validate_on_submit():
+        username = form.data["username"]
+        user = users.get_user(username)
+
+        if user is None:
+            password = form.data["password"]
+            hashed_password = \
+                passlib.hash.pbkdf2_sha256.hash(password)
+
+            user_type = "regular"
+            deserves_adminhood = True if form.data["superfan"] == "True" else False
+            if deserves_adminhood:
+                user_type = "admin"
+
+            users.add_user(username, hashed_password, user_type)
+
+            flash("You're all set, you can log in.")
+            return redirect(url_for("views.login"))
+        else:
+            flash("That username is taken, please choose another.")
+    
+    return render_template("signup.html", form=form)
+
 @views.route("/login", methods=["GET", "POST"])
 def login():
     form = forms.LoginForm()
@@ -184,8 +210,12 @@ def update_rocket_detail_2():
     return redirect(url_for("views.rockets"))
 
 @views.route('/delete_rocket', methods=['GET'])
+@login_required
 def delete_rocket():
-    database.delete_rocket(request.args.get("rocket_id"))
+    if current_user.is_admin:
+        database.delete_rocket(request.args.get("rocket_id"))
+    else:
+        flash("Please do not poke around the exhibit.")
     return redirect(url_for("views.rockets"))
 @views.route('/delete_rocket_detail_1', methods=['GET'])
 def delete_rocket_detail_1():

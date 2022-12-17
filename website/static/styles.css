@@ -23,3 +23,7 @@ td.rocket-detail {
 div.detail-field {
     float: right;
 }
+
+.list-style-none {
+    list-style: none;
+}

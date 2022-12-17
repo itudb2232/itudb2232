@@ -74,10 +74,12 @@
                 </button>
             </td>
             <td>
-                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" 
-                onclick="delete_rocket('{{ rocket.rocket_id }}')">
-                  Delete
-                </button>
+                {% if current_user.is_admin %}
+                  <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" 
+                  onclick="delete_rocket('{{ rocket.rocket_id }}')">
+                    Delete
+                  </button>
+                {% endif %}
             </td>
 
             
@@ -417,6 +419,7 @@
       </div>
     </div>
   </div>
+</div>
 {% endfor %}
 
 
