@@ -113,14 +113,30 @@ def rockets():
             inexistent_rocket_d2_dict += [{"rocket_id": rocket["rocket_id"], "name": rocket["name"]}]
         present = False
 
-    print(inexistent_rocket_d1, inexistent_rocket_d2)
-
     return render_template("rockets.html", rockets=rocket_data,
         rocket_d1=rocket_d1_data, rocket_d2=rocket_d2_data,
         inexistent_d1=inexistent_rocket_d1, inexistent_d2=inexistent_rocket_d2,
         inexistent_d1_dict=inexistent_rocket_d1_dict, inexistent_d2_dict=inexistent_rocket_d2_dict,
         formM=forms.RocketForm(), formD1=forms.RocketD1Form(),
          formD2=forms.RocketD2Form())
+
+@views.route('/add_rocket_detail_1', methods=['POST'])
+def add_rocket_detail_1():
+    database.add_rocket_d1(request)
+    return redirect(url_for("views.rockets"))
+@views.route('/add_rocket_detail_2', methods=['POST'])
+def add_rocket_detail_2():
+    database.add_rocket_d2(request)
+    return redirect(url_for("views.rockets"))
+
+@views.route('/delete_rocket_detail_1', methods=['GET'])
+def delete_rocket_detail_1():
+    database.delete_rocket_d1(request.args.get("rocket_id"))
+    return redirect(url_for("views.rockets"))
+@views.route('/delete_rocket_detail_2', methods=['GET'])
+def delete_rocket_detail_2():
+    database.delete_rocket_d2(request.args.get("rocket_id"))
+    return redirect(url_for("views.rockets"))
 
 @views.route('/rockets/rocket_details_1', methods=['GET', 'POST'])
 def rocket_details_1():

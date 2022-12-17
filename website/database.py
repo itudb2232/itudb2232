@@ -13,11 +13,11 @@ def get_capsules():
             ).fetchall()
 
 def delete_capsule(capsule_id):
-        with sqlite3.connect(db_location) as con:
-            cursor = con.cursor()
-            query = "DELETE FROM capsules WHERE (capsule_id = ?)"
-            cursor.execute(query, (capsule_id,))
-            con.commit()
+    with sqlite3.connect(db_location) as con:
+        cursor = con.cursor()
+        query = "DELETE FROM capsules WHERE (capsule_id = ?)"
+        cursor.execute(query, (capsule_id,))
+        con.commit()
 
 # Cores
 def get_cores():
@@ -101,10 +101,49 @@ def get_rocket_d2():
 
 def add_rocket():
     pass
-def add_rocket_d1():
-    pass
-def add_rocket_d2():
-    pass
+def add_rocket_d1(request):
+    with sqlite3.connect(db_location) as con:
+        con.row_factory = sqlite3.Row
+        cur = con.cursor() 
+
+        # Add new rocket_d1
+        rocket_d1_columns = cur.execute("PRAGMA table_info(rocket_details_1)").fetchall()
+        
+        new_rocket_d1 = []
+        for column in rocket_d1_columns:
+            if column["name"] in request.form.keys():
+                new_rocket_d1 += [request.form[column["name"]]]
+
+        cur.execute(f'INSERT INTO rocket_details_1 VALUES ({",".join("?" * len(rocket_d1_columns))})', new_rocket_d1)
+        con.commit()
+def add_rocket_d2(request):
+    with sqlite3.connect(db_location) as con:
+        con.row_factory = sqlite3.Row
+        cur = con.cursor() 
+
+        # Add new rocket_d1
+        rocket_d2_columns = cur.execute("PRAGMA table_info(rocket_details_2)").fetchall()
+        
+        new_rocket_d2 = []
+        for column in rocket_d2_columns:
+            if column["name"] in request.form.keys():
+                new_rocket_d2 += [request.form[column["name"]]]
+
+        cur.execute(f'INSERT INTO rocket_details_2 VALUES ({",".join("?" * len(rocket_d2_columns))})', new_rocket_d2)
+        con.commit()
+
+def delete_rocket_d1(rocket_id):
+    with sqlite3.connect(db_location) as con:
+        cursor = con.cursor()
+        query = "DELETE FROM rocket_details_1 WHERE (rocket_id = ?)"
+        cursor.execute(query, (rocket_id,))
+        con.commit()
+def delete_rocket_d2(rocket_id):
+    with sqlite3.connect(db_location) as con:
+        cursor = con.cursor()
+        query = "DELETE FROM rocket_details_2 WHERE (rocket_id = ?)"
+        cursor.execute(query, (rocket_id,))
+        con.commit()
 
 # Ships
 def get_ships(request):
