@@ -70,7 +70,7 @@
 
 <!-- READ/DELETE DETAILS -->
 
-{% for rocket_d1 in rocket_d1 %}
+{% for rocket_d1 in rocket_d1s %}
 <div class="modal fade" id="rocket-details-1-modal-{{ rocket_d1.rocket_id }}" tabindex="-1" role="dialog" aria-labelledby="rocket-details-1-modal-label-{{ rocket_d1.rocket_id }}" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -102,7 +102,10 @@
         </div>
         <div class="modal-footer">
           <button type="button" onclick="document.location='/delete_rocket_detail_1?rocket_id={{ rocket_d1.rocket_id }}'"
-           class="btn btn-danger" data-dismiss="modal">Delete Engine Info</button>
+            class="btn btn-danger" data-dismiss="modal">Delete Engine Info</button>
+          <button type="button" class="btn btn-warning btn" data-toggle="modal" data-target="#update-rocket-details-1-modal-{{ rocket_d1.rocket_id }}">
+            Update
+          </button>
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         </div>
       </div>
@@ -110,7 +113,7 @@
   </div>
 {% endfor %}
 
-{% for rocket_d2 in rocket_d2 %}
+{% for rocket_d2 in rocket_d2s %}
 <div class="modal fade" id="rocket-details-2-modal-{{ rocket_d2.rocket_id }}" tabindex="-1" role="dialog" aria-labelledby="rocket-details-2-modal-label-{{ rocket_d2.rocket_id }}" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -144,7 +147,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="rocket-details-1-modal-label-{{ rocket.rocket_id }}"> Add {{rocket.name}} Engine Info </h5>
+          <h5 class="modal-title" id="add-rocket-details-1-modal-label-{{ rocket.rocket_id }}"> Add {{rocket.name}} Engine Info </h5>
         </div>
         <div class="modal-body">
           
@@ -286,7 +289,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="rocket-details-2-modal-label-{{ rocket_d2.rocket_id }}"> {{rocket_d2.name}} Measurements </h5>
+          <h5 class="modal-title" id="rocket-details-2-modal-label-{{ rocket.rocket_id }}"> Add {{rocket.name}} Measurements </h5>
         </div>
         <div class="modal-body">
           <form action="/add_rocket_detail_2" method="POST" style="display: grid;">
@@ -347,6 +350,210 @@
 
 <!-- UPDATE DETAILS -->
 
+{% for rocket_d1 in rocket_d1s %}
+<div class="modal fade" id="update-rocket-details-1-modal-{{ rocket_d1.rocket_id }}" tabindex="-1" role="dialog" aria-labelledby="update-rocket-details-1-modal-label-{{ rocket_d1.rocket_id }}" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="update-rocket-details-1-modal-label-{{ rocket_d1.rocket_id }}"> Update {{rocket_d1.name}} Engine Info </h5>
+        </div>
+        <div class="modal-body">
+          
+        <form action="/update_rocket_detail_1" method="POST" style="display: grid;">
+          {{ formD1.csrf_token }}
+          <div class="field" style="display: none">
+              <div class="control">
+                  {{ formD1.rocket_id(value=rocket_d1.rocket_id, class="form-control-sm")}}
+              </div>
+          </div>
+          <div class="field">
+              <label for="stages" class="form-label detail-field">Stages:</label>
+              <div class="control detail-field">
+                  {{ formD1.stages(value=rocket_d1.stages, class="form-control-sm")}}
+              </div>
+          </div>
+          <div class="field">
+              <label for="boosters" class="form-label detail-field">Boosters:</label>
+              <div class="control detail-field">
+                  {{ formD1.boosters(value=rocket_d1.boosters, class="form-control-sm")}}
+              </div>
+          </div>
+          <div class="field">
+              <label for="cost_per_launch" class="form-label detail-field">Cost per launch:</label>
+              <div class="control detail-field">
+                  {{ formD1.cost_per_launch(value=rocket_d1.cost_per_launch, class="form-control-sm")}}
+              </div>
+          </div>
+          <div class="field">
+              <label for="landing_legs_number" class="form-label detail-field">Landing legs number:</label>
+              <div class="control detail-field">
+                  {{ formD1.landing_legs_number(value=rocket_d1.landing_legs_number, class="form-control-sm")}}
+              </div>
+          </div>
+          <div class="field">
+              <label for="landing_legs_material" class="form-label detail-field">Landing legs material:</label>
+              <div class="control detail-field">
+                  {{ formD1.landing_legs_material(value=rocket_d1.landing_legs_material, class="form-control-sm")}}
+              </div>
+          </div>
+          <div class="field">
+              <label for="engine_isp_sea_level" class="form-label detail-field">Engine Isp sea level:</label>
+              <div class="control detail-field">
+                  {{ formD1.engine_isp_sea_level(value=rocket_d1.engine_isp_sea_level, class="form-control-sm")}}
+              </div>
+          </div>
+          <div class="field">
+              <label for="engine_isp_vacuum" class="form-label detail-field">Engine Isp vacuum:</label>
+              <div class="control detail-field">
+                  {{ formD1.engine_isp_vacuum(value=rocket_d1.engine_isp_vacuum, class="form-control-sm")}}
+              </div>
+          </div>
+          <div class="field">
+              <label for="engine_thrust_sea_level_kN" class="form-label detail-field">Engine thrust sea level (kN):</label>
+              <div class="control detail-field">
+                  {{ formD1.engine_thrust_sea_level_kN(value=rocket_d1.engine_thrust_sea_level_kN, class="form-control-sm")}}
+              </div>
+          </div>
+          <div class="field">
+              <label for="engine_thrust_sea_level_lbf" class="form-label detail-field">Engine thrust sea level (lbf):</label>
+              <div class="control detail-field">
+                  {{ formD1.engine_thrust_sea_level_lbf(value=rocket_d1.engine_thrust_sea_level_lbf, class="form-control-sm")}}
+              </div>
+          </div>
+          <div class="field">
+              <label for="engine_thrust_vacuum_kN" class="form-label detail-field">Engine thrust vacuum (kN):</label>
+              <div class="control detail-field">
+                  {{ formD1.engine_thrust_vacuum_kN(value=rocket_d1.engine_thrust_vacuum_kN, class="form-control-sm")}}
+              </div>
+          </div>
+          <div class="field">
+              <label for="engine_thrust_lbf" class="form-label detail-field">Engine thrust (lbf):</label>
+              <div class="control detail-field">
+                  {{ formD1.engine_thrust_lbf(value=rocket_d1.engine_thrust_lbf, class="form-control-sm")}}
+              </div>
+          </div>
+          <div class="field">
+              <label for="engine_number" class="form-label detail-field">Engine number:</label>
+              <div class="control detail-field">
+                  {{ formD1.engine_number(value=rocket_d1.engine_number, class="form-control-sm")}}
+              </div>
+          </div>
+          <div class="field">
+              <label for="engine_type" class="form-label detail-field">Engine type:</label>
+              <div class="control detail-field">
+                  {{ formD1.engine_type(value=rocket_d1.engine_type, class="form-control-sm")}}
+              </div>
+          </div>
+          <div class="field">
+              <label for="engine_version" class="form-label detail-field">Engine version:</label>
+              <div class="control detail-field">
+                  {{ formD1.engine_version(value=rocket_d1.engine_version, class="form-control-sm")}}
+              </div>
+          </div>
+          <div class="field">
+              <label for="engine_layout" class="form-label detail-field">Engine layout:</label>
+              <div class="control detail-field">
+                  {{ formD1.engine_layout(value=rocket_d1.engine_layout, class="form-control-sm")}}
+              </div>
+          </div>
+          <div class="field">
+              <label for="engine_loss_max" class="form-label detail-field">Engine loss max:</label>
+              <div class="control detail-field">
+                  {{ formD1.engine_loss_max(value=rocket_d1.engine_loss_max, class="form-control-sm")}}
+              </div>
+          </div>
+          <div class="field">
+              <label for="engine_propellant_1" class="form-label detail-field">Engine propellant 1:</label>
+              <div class="control detail-field">
+                  {{ formD1.engine_propellant_1(value=rocket_d1.engine_propellant_1, class="form-control-sm")}}
+              </div>
+          </div>
+          <div class="field">
+              <label for="engine_propellant_2" class="form-label detail-field">Engine propellant 2:</label>
+              <div class="control detail-field">
+                  {{ formD1.engine_propellant_2(value=rocket_d1.engine_propellant_2, class="form-control-sm")}}
+              </div>
+          </div>
+          <div class="field">
+              <label for="engine_thrust_to_weight" class="form-label detail-field">Engine thrust to weight:</label>
+              <div class="control detail-field">
+                  {{ formD1.engine_thrust_to_weight(value=rocket_d1.engine_thrust_to_weight, class="form-control-sm")}}
+              </div>
+          </div>
+          
+          <button type=submit class="btn btn-warning">Update</button>
+        </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+
+{% for rocket_d2 in rocket_d2s %}
+<div class="modal fade" id="update-rocket-details-2-modal-{{ rocket_d2.rocket_id }}" tabindex="-1" role="dialog" aria-labelledby="update-rocket-details-2-modal-label-{{ rocket_d2.rocket_id }}" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="rocket-details-2-modal-label-{{ rocket_d2.rocket_id }}"> Update {{rocket_d2.name}} Measurements </h5>
+        </div>
+        <div class="modal-body">
+          <form action="/update_rocket_detail_2" method="POST" style="display: grid;">
+          {{ formD1.csrf_token }}
+          <div class="field" style="display: none">
+              <div class="control">
+                  {{ formD2.rocket_id(value=rocket_d2.rocket_id, class="form-control-sm")}}
+              </div>
+          </div>
+          <div class="field">
+              <label for="height_mt" class="form-label detail-field">Height (m):</label>
+              <div class="control detail-field">
+                  {{ formD2.height_mt(class="form-control-sm")}}
+              </div>
+          </div>
+          <div class="field">
+              <label for="height_ft" class="form-label detail-field">Height (ft):</label>
+              <div class="control detail-field">
+                  {{ formD2.height_ft(class="form-control-sm")}}
+              </div>
+          </div>
+          <div class="field">
+              <label for="diameter_mt" class="form-label detail-field">Diameter (m):</label>
+              <div class="control detail-field">
+                  {{ formD2.diameter_mt(class="form-control-sm")}}
+              </div>
+          </div>
+          <div class="field">
+              <label for="diameter_ft" class="form-label detail-field">Diameter (ft):</label>
+              <div class="control detail-field">
+                  {{ formD2.diameter_ft(class="form-control-sm")}}
+              </div>
+          </div>
+          <div class="field">
+              <label for="mass_kg" class="form-label detail-field">Mass (kg):</label>
+              <div class="control detail-field">
+                  {{ formD2.mass_kg(class="form-control-sm")}}
+              </div>
+          </div>
+          <div class="field">
+              <label for="mass_lb" class="form-label detail-field">Mass (lb):</label>
+              <div class="control detail-field">
+                  {{ formD2.mass_lb(class="form-control-sm")}}
+              </div>
+          </div>
+          
+          <button type=submit class="btn btn-warning">Update</button>
+        </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endfor %}
 
 <!-- ADD ROCKET -->
 

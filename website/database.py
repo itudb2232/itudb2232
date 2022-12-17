@@ -167,7 +167,56 @@ def add_rocket_d2(request):
         con.row_factory = sqlite3.Row
         cur = con.cursor() 
 
-        # Add new rocket_d1
+        # Add new rocket_d2
+        rocket_d2_columns = cur.execute("PRAGMA table_info(rocket_details_2)").fetchall()
+        
+        new_rocket_d2 = []
+        for column in rocket_d2_columns:
+            if column["name"] in request.form.keys():
+                new_rocket_d2 += [request.form[column["name"]]]
+
+        cur.execute(f'INSERT INTO rocket_details_2 VALUES ({",".join("?" * len(rocket_d2_columns))})', new_rocket_d2)
+        con.commit()
+
+def update_rocket(request):
+    with sqlite3.connect(db_location) as con:
+        con.row_factory = sqlite3.Row
+        cur = con.cursor() 
+
+        # Update rocket
+        rocket_columns = cur.execute("PRAGMA table_info(rockets)").fetchall()
+        rocket_columns_str = ""
+
+        new_rocket = [str(current_app.config["rocket_id"])]  # Get next ID
+        current_app.config["rocket_id"] += 1
+        for column in rocket_columns:
+            if column["name"] in request.form.keys():
+                new_rocket += [request.form[column["name"]]]
+            rocket_columns_str
+
+        cur.execute(f'UPDATE rockets SET {rocket_columns_str} VALUES ({",".join("?" * len(rocket_columns))})', new_rocket)
+        con.commit()
+def update_rocket_d1(request):
+    with sqlite3.connect(db_location) as con:
+        con.row_factory = sqlite3.Row
+        cur = con.cursor() 
+
+        # Update rocket_d1
+        rocket_d1_columns = cur.execute("PRAGMA table_info(rocket_details_1)").fetchall()
+        
+        new_rocket_d1 = []
+        for column in rocket_d1_columns:
+            if column["name"] in request.form.keys():
+                new_rocket_d1 += [request.form[column["name"]]]
+
+        cur.execute(f'INSERT INTO rocket_details_1 VALUES ({",".join("?" * len(rocket_d1_columns))})', new_rocket_d1)
+        con.commit()
+def update_rocket_d2(request):
+    with sqlite3.connect(db_location) as con:
+        con.row_factory = sqlite3.Row
+        cur = con.cursor() 
+
+        # Update rocket_d2
         rocket_d2_columns = cur.execute("PRAGMA table_info(rocket_details_2)").fetchall()
         
         new_rocket_d2 = []

@@ -134,11 +134,10 @@ def rockets():
         present = False
 
     return render_template("rockets.html", rockets=rocket_data,
-        rocket_d1=rocket_d1_data, rocket_d2=rocket_d2_data,
+        rocket_d1s=rocket_d1_data, rocket_d2s=rocket_d2_data,
         inexistent_d1=inexistent_rocket_d1, inexistent_d2=inexistent_rocket_d2,
         inexistent_d1_dict=inexistent_rocket_d1_dict, inexistent_d2_dict=inexistent_rocket_d2_dict,
-        formM=forms.RocketForm(), formD1=forms.RocketD1Form(),
-         formD2=forms.RocketD2Form())
+        formM=forms.RocketForm(), formD1=forms.RocketD1Form(),formD2=forms.RocketD2Form())
 
 @views.route("/add_rocket", methods=["POST"])
 def add_rocket():
@@ -151,6 +150,19 @@ def add_rocket_detail_1():
 @views.route('/add_rocket_detail_2', methods=['POST'])
 def add_rocket_detail_2():
     database.add_rocket_d2(request)
+    return redirect(url_for("views.rockets"))
+
+@views.route("/update_rocket", methods=["POST"])
+def update_rocket():
+    database.update_rocket(request)
+    return redirect(url_for("views.rockets"))
+@views.route('/update_rocket_detail_1', methods=['POST'])
+def update_rocket_detail_1():
+    database.update_rocket_d1(request)
+    return redirect(url_for("views.rockets"))
+@views.route('/update_rocket_detail_2', methods=['POST'])
+def update_rocket_detail_2():
+    database.update_rocket_d2(request)
     return redirect(url_for("views.rockets"))
 
 @views.route('/delete_rocket', methods=['GET'])
