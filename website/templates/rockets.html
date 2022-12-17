@@ -713,7 +713,16 @@
           <div class="field">
               <label for="active" class="form-label detail-field">Active:</label>
               <div class="control detail-field">
-                  {{ formM.active(value=rocket.active,class="form-control-sm")}}
+                  <!-- {{ formM.active(value=rocket.active,class="form-control-sm")}} -->
+                  <select class="form-control-sm" id="active" name="active" value="True">
+                    {% if rocket.active == "True" %}
+                      <option value="True" selected>Active</option>
+                      <option value="False">Decommissioned</option>
+                    {% else %}
+                    <option value="True">Active</option>
+                    <option value="False" selected>Decommissioned</option>
+                    {% endif %}
+                  </select>
               </div>
           </div>
           <div class="field">
