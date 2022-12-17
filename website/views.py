@@ -89,7 +89,7 @@ def delete_capsule():
 @views.route('/cores', methods=['GET', 'POST'])
 def cores():
     core_data = database.get_cores()
-    return render_template("cores.html", cores=core_data, formAddCore = forms.CoresForm())
+    return render_template("cores.html", cores=core_data, core_form = forms.CoresForm())
     
 @views.route("/add_core", methods=["POST"])
 @login_required
