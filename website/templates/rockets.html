@@ -9,7 +9,7 @@
     These are the rockets own and operated by SpaceX. If you see anything wrong or missing, feel free to amend.
 </p>
 
-<button type="button" class="btn btn-warning btn" data-toggle="modal" data-target="#add-rocket-modal" style="position: fixed; bottom: 5em; left: 2.5em;">
+<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#add-rocket-modal" style="position: fixed; bottom: 5em; left: 2.5em;">
   New Rocket
 </button>
 
@@ -21,7 +21,8 @@
             <th>Status</th>
             <th>Country of Origin</th>
             <th>Company</th>
-            <th colspan="3">Details</th>
+            <th colspan="2">Details</th>
+            <th colspan="2">Editing</th>
         </tr>
     </thead>
     <tbody>
@@ -54,6 +55,11 @@
                   Measurements
                 </button>
               {% endif %}
+            </td>
+            <td>
+                <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#update-rocket-modal-{{ rocket.rocket_id }}">
+                  Update
+                </button>
             </td>
             <td>
                 <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" 
@@ -103,7 +109,7 @@
         <div class="modal-footer">
           <button type="button" onclick="document.location='/delete_rocket_detail_1?rocket_id={{ rocket_d1.rocket_id }}'"
             class="btn btn-danger" data-dismiss="modal">Delete Engine Info</button>
-          <button type="button" class="btn btn-warning btn" data-toggle="modal" data-target="#update-rocket-details-1-modal-{{ rocket_d1.rocket_id }}">
+          <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#update-rocket-details-1-modal-{{ rocket_d1.rocket_id }}">
             Update
           </button>
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -133,6 +139,9 @@
         <div class="modal-footer">
           <button type="button" onclick="document.location='/delete_rocket_detail_2?rocket_id={{ rocket_d2.rocket_id }}'"
            class="btn btn-danger" data-dismiss="modal">Delete Engine Info</button>
+           <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#update-rocket-details-2-modal-{{ rocket_d2.rocket_id }}">
+             Update
+           </button>
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         </div>
       </div>
@@ -293,7 +302,7 @@
         </div>
         <div class="modal-body">
           <form action="/add_rocket_detail_2" method="POST" style="display: grid;">
-          {{ formD1.csrf_token }}
+          {{ formD2.csrf_token }}
           <div class="field" style="display: none">
               <div class="control">
                   {{ formD2.rocket_id(value=rocket.rocket_id, class="form-control-sm")}}
@@ -497,11 +506,11 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="rocket-details-2-modal-label-{{ rocket_d2.rocket_id }}"> Update {{rocket_d2.name}} Measurements </h5>
+          <h5 class="modal-title" id="update-rocket-details-2-modal-label-{{ rocket_d2.rocket_id }}"> Update {{rocket_d2.name}} Measurements </h5>
         </div>
         <div class="modal-body">
           <form action="/update_rocket_detail_2" method="POST" style="display: grid;">
-          {{ formD1.csrf_token }}
+          {{ formD2.csrf_token }}
           <div class="field" style="display: none">
               <div class="control">
                   {{ formD2.rocket_id(value=rocket_d2.rocket_id, class="form-control-sm")}}
@@ -510,37 +519,37 @@
           <div class="field">
               <label for="height_mt" class="form-label detail-field">Height (m):</label>
               <div class="control detail-field">
-                  {{ formD2.height_mt(class="form-control-sm")}}
+                  {{ formD2.height_mt(value=rocket_d2.height_mt, class="form-control-sm")}}
               </div>
           </div>
           <div class="field">
               <label for="height_ft" class="form-label detail-field">Height (ft):</label>
               <div class="control detail-field">
-                  {{ formD2.height_ft(class="form-control-sm")}}
+                  {{ formD2.height_ft(value=rocket_d2.height_ft, class="form-control-sm")}}
               </div>
           </div>
           <div class="field">
               <label for="diameter_mt" class="form-label detail-field">Diameter (m):</label>
               <div class="control detail-field">
-                  {{ formD2.diameter_mt(class="form-control-sm")}}
+                  {{ formD2.diameter_mt(value=rocket_d2.diameter_mt, class="form-control-sm")}}
               </div>
           </div>
           <div class="field">
               <label for="diameter_ft" class="form-label detail-field">Diameter (ft):</label>
               <div class="control detail-field">
-                  {{ formD2.diameter_ft(class="form-control-sm")}}
+                  {{ formD2.diameter_ft(value=rocket_d2.diameter_ft, class="form-control-sm")}}
               </div>
           </div>
           <div class="field">
               <label for="mass_kg" class="form-label detail-field">Mass (kg):</label>
               <div class="control detail-field">
-                  {{ formD2.mass_kg(class="form-control-sm")}}
+                  {{ formD2.mass_kg(value=rocket_d2.mass_kg, class="form-control-sm")}}
               </div>
           </div>
           <div class="field">
               <label for="mass_lb" class="form-label detail-field">Mass (lb):</label>
               <div class="control detail-field">
-                  {{ formD2.mass_lb(class="form-control-sm")}}
+                  {{ formD2.mass_lb(value=rocket_d2.mass_lb, class="form-control-sm")}}
               </div>
           </div>
           
@@ -605,5 +614,65 @@
     </div>
   </div>
 </div>
+
+<!-- UPDATE ROCKET -->
+
+{% for rocket in rockets %}
+
+<div class="modal fade" id="update-rocket-modal-{{ rocket.rocket_id }}" tabindex="-1" role="dialog" aria-labelledby="update-rocket-modal-label-{{ rocket.rocket_id }}" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="rocket-modal-label-{{ rocket.rocket_id }}"> Update {{ rocket.name }} </h5>
+        </div>
+        <div class="modal-body"><form action="/update_rocket" method="POST" style="display: grid;">
+          {{ formM.csrf_token }}
+          <div class="field" style="display: none">
+              <div class="control">
+                  {{ formM.rocket_id(value=rocket.rocket_id, class="form-control-sm")}}
+              </div>
+          </div>
+          <div class="field">
+              <label for="name" class="form-label detail-field">Name:</label>
+              <div class="control detail-field">
+                  {{ formM.name(value=rocket.name,class="form-control-sm")}}
+              </div>
+          </div>
+          <div class="field">
+              <label for="type" class="form-label detail-field">Type:</label>
+              <div class="control detail-field">
+                  {{ formM.type(value=rocket.type,class="form-control-sm")}}
+              </div>
+          </div>
+          <div class="field">
+              <label for="active" class="form-label detail-field">Active:</label>
+              <div class="control detail-field">
+                  {{ formM.active(value=rocket.active,class="form-control-sm")}}
+              </div>
+          </div>
+          <div class="field">
+              <label for="country" class="form-label detail-field">Country:</label>
+              <div class="control detail-field">
+                  {{ formM.country(value=rocket.country,class="form-control-sm")}}
+              </div>
+          </div>
+          <div class="field">
+              <label for="company" class="form-label detail-field">Company:</label>
+              <div class="control detail-field">
+                  {{ formM.company(value=rocket.company,class="form-control-sm")}}
+              </div>
+          </div>
+  
+          <button type=submit class="btn btn-warning">Update</button>
+        </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endfor %}
 
 {% endblock %}
