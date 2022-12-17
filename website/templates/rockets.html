@@ -63,7 +63,7 @@
             </td>
             <td>
                 <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" 
-                onclick="document.location='/delete_rocket?rocket_id={{ rocket.rocket_id }}'">
+                onclick="delete_rocket('{{ rocket.rocket_id }}')">
                   Delete
                 </button>
             </td>
@@ -107,7 +107,7 @@
         </table>
         </div>
         <div class="modal-footer">
-          <button type="button" onclick="document.location='/delete_rocket_detail_1?rocket_id={{ rocket_d1.rocket_id }}'"
+          <button type="button" onclick="delete_rocket_d1('{{ rocket_d1.rocket_id }}')"
             class="btn btn-danger" data-dismiss="modal">Delete Engine Info</button>
           <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#update-rocket-details-1-modal-{{ rocket_d1.rocket_id }}">
             Update
@@ -137,8 +137,8 @@
         </table>
         </div>
         <div class="modal-footer">
-          <button type="button" onclick="document.location='/delete_rocket_detail_2?rocket_id={{ rocket_d2.rocket_id }}'"
-           class="btn btn-danger" data-dismiss="modal">Delete Engine Info</button>
+          <button type="button" onclick="delete_rocket_d2('{{ rocket_d2.rocket_id }}')"
+           class="btn btn-danger" data-dismiss="modal">Delete Measurements</button>
            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#update-rocket-details-2-modal-{{ rocket_d2.rocket_id }}">
              Update
            </button>
