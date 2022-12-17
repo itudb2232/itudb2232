@@ -10,9 +10,11 @@
         <div class = "card-text" >
             This is the cores page, you can make searches or browse the cores in our database!
             <br/> <br/>
-            <button type="button" class="btn btn-warning btn" data-toggle="modal" data-target="#add-core-modal">
-                Add New Core
-            </button>
+            {% if current_user.is_admin %}
+                <button type="button" class="btn btn-warning btn" data-toggle="modal" data-target="#add-core-modal">
+                    Add New Core
+                </button>
+            {% endif %}
         </div>
     </div>
 </div>

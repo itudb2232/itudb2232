@@ -92,8 +92,10 @@ def cores():
     return render_template("cores.html", cores=core_data, formAddCore = forms.CoresForm())
     
 @views.route("/add_core", methods=["POST"])
+@login_required
 def add_core():
-    database.add_core(request)
+    if current_user.is_admin:
+        database.add_core(request)
     return redirect(url_for("views.cores"))
 
 @views.route('/delete_core', methods=['GET'])
@@ -101,8 +103,6 @@ def add_core():
 def delete_core():
     if current_user.is_admin:
         database.delete_core(request.args.get("core_id"))
-    else:
-        flash("Please do not poke around the exhibit.")
     return redirect(url_for("views.cores"))
 
 # Launches
