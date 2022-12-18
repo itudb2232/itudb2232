@@ -223,6 +223,107 @@ def add_launch(request):
         cur.execute(f'INSERT INTO launches VALUES ({",".join("?" * len(launch_columns))})', new_launch)
         con.commit()
 
+def filter_launches(request):
+    with sqlite3.connect(db_location) as con:
+        con.row_factory = sqlite3.Row
+        cur = con.cursor()
+        print("filter_launches executed")
+        query = "SELECT * FROM launches"
+        params = []
+        print(request.form.get('fname'))
+        if request.form.get('fname'):
+            if not params:
+                query += " WHERE"
+            user_name = request.form['fname']
+            query += " name LIKE ?"
+            param_name = "%" + user_name + "%"
+            params.append(param_name)
+
+        if request.form.get('fdate'):
+            if not params:
+                query += " WHERE"
+            else:
+                query += " AND"
+            user_date = request.form['fdate']
+            query += " date LIKE ?"
+            param_date = "%" + user_date + "%"
+            params.append(param_date)
+
+        if request.form.get('ftime') != "":
+            if not params:
+                query += " WHERE"
+            else:
+                query += " AND"
+            user_time = request.form['ftime']
+            query += " time LIKE ?"
+            param_time = "%" + user_time + "%"
+            params.append(param_time)
+
+        if request.form.get('frocket_id'):
+            if not params:
+                query += " WHERE"
+            else:
+                query += " AND"
+            user_rocket_id = request.form['frocket_id']
+            query += " rocket_id LIKE ?"
+            param_rocket_id = "%" + user_rocket_id + "%"
+            params.append(param_rocket_id)
+
+        if request.form.get('flaunchpad_id'):
+            if not params:
+                query += " WHERE"
+            else:
+                query += " AND"
+            user_launchpad_id = request.form['flaunchpad_id']
+            query += " launchpad_id LIKE ?"
+            param_launchpad_id = "%" + user_launchpad_id + "%"
+            params.append(param_launchpad_id)
+        
+        if request.form.get('fsuccess'):
+            if not params:
+                query += " WHERE"
+            else:
+                query += " AND"
+            user_success = request.form['fsuccess']
+            query += " success LIKE ?"
+            param_success = "%" + user_success + "%"
+            params.append(param_success)
+        
+        if request.form.get('ffailure_reason'):
+            if not params:
+                query += " WHERE"
+            else:
+                query += " AND"
+            user_failure_reason = request.form['ffailure_reason']
+            query += " failure_reason LIKE ?"
+            param_failure_reason = "%" + user_failure_reason + "%"
+            params.append(param_failure_reason)
+
+        if request.form.get('fship'):
+            if not params:
+                query += " WHERE"
+            else:
+                query += " AND"
+            user_ship = request.form['faship']
+            query += " ship LIKE ?"
+            param_ship = "%" + user_ship + "%"
+            params.append(param_ship)
+        
+        if request.form.get('fcapsules'):
+            if not params:
+                query += " WHERE"
+            else:
+                query += " AND"
+            user_capsules = request.form['fcapsules']
+            query += " capsules LIKE ?"
+            param_capsules = "%" + user_capsules + "%"
+            params.append(param_capsules)
+
+        print(query)
+        print(tuple(params))
+        filter = cur.execute(query, tuple(params)).fetchall()
+        return filter
+
 def delete_launch(launch_id):
         with sqlite3.connect(db_location) as con:
             cursor = con.cursor()

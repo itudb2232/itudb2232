@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, IntegerField, DecimalField, SelectField, RadioField, FileField, validators
+from wtforms import StringField, PasswordField, IntegerField, DecimalField, SelectField, RadioField, FileField, validators, DateField, TimeField
 
 class SignupForm(FlaskForm):
     username = StringField(validators=[validators.DataRequired()])
@@ -25,7 +25,17 @@ class CoresForm(FlaskForm):
     asds_landings = IntegerField()
 
 # Launches
-
+class LaunchForm(FlaskForm):
+    launch_id = StringField()
+    name = StringField()
+    date = DateField()
+    time = TimeField()
+    rocket_id = StringField()
+    launchpad_id = StringField()
+    success = SelectField(choices=[("True", "Yes"), ("False", "No")])
+    failure_reason = StringField()
+    ship = StringField()
+    capsules = StringField()
 # Launchpads
 
 # Payloads

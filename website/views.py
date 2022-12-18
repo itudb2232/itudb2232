@@ -155,6 +155,11 @@ def update_launch():
     database.update_launch(request)
     return redirect(url_for("views.launches"))
 
+@views.route('/launches_filtered', methods=['GET', 'POST'])
+def launches_filtered():
+    filter_data = database.filter_launches(request)
+    return render_template("launches.html", launches=filter_data, formM=forms.LaunchForm())
+
 # Launchpads
 @views.route('/launchpads', methods=['GET'])
 def launchpads():
