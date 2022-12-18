@@ -687,6 +687,14 @@ def delete_rocket_image(rocket_id):
         con.commit()
 
 # Ships
+def get_ships_only():
+    with sqlite3.connect(db_location) as con:
+        con.row_factory = sqlite3.Row
+        cur = con.cursor()
+        return cur.execute(
+            "SELECT * FROM ships"
+            ).fetchall()
+
 def get_ships(request):
     with sqlite3.connect(db_location) as con:
         con.row_factory = sqlite3.Row

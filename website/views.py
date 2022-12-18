@@ -137,7 +137,7 @@ def launches():
     for launchpad in launchpad_data:
         launchpad_dict[launchpad["launchpad_id"]] = launchpad["name"]
 
-    ship_data = database.get_ships()
+    ship_data = database.get_ships_only()
     ship_dict = {}
     for ship in ship_data:
         ship_dict[ship["ship_id"]] = ship["name"]
