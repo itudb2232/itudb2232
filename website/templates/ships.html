@@ -114,7 +114,7 @@
         </div>
         <div class="modal-body">
         <table style="width: 100%;">
-          <tr class="ship-detail"> <td> class (m) </td> <td class="ship-detail"> {{ship_d2.class}} </td> </tr>
+          <tr class="ship-detail"> <td> class (m) </td> <td class="ship-detail"> {{ship_d2.class_}} </td> </tr>
           <tr class="ship-detail"> <td> Mass (kg) </td> <td class="ship-detail"> {{ship_d2.mass_kg}} </td> </tr>
           <tr class="ship-detail"> <td> Mass (lb) </td> <td class="ship-detail"> {{ship_d2.mass_lb}} </td> </tr>
           <tr class="ship-detail"> <td> Year Built  </td> <td class="ship-detail"> {{ship_d2.year_built}} </td> </tr>
@@ -215,19 +215,19 @@
               </div>
           </div>
           <div class="field">
-              <label for="class" class="form-label detail-field">class:</label>
+              <label for="class_" class="form-label detail-field">Class:</label>
               <div class="control detail-field">
                   {{ formD2.class_(class="form-control-sm")}}
               </div>
           </div>
           <div class="field">
-              <label for="year_built" class="form-label detail-field">year_built:</label>
+              <label for="year_built" class="form-label detail-field">Year Built:</label>
               <div class="control detail-field">
                   {{ formD2.year_built(class="form-control-sm")}}
               </div>
           </div>
           <div class="field">
-              <label for="home_port" class="form-label detail-field">home_port:</label>
+              <label for="home_port" class="form-label detail-field">Home Port:</label>
               <div class="control detail-field">
                   {{ formD2.home_port(class="form-control-sm")}}
               </div>
@@ -339,9 +339,9 @@
               </div>
           </div>
           <div class="field">
-              <label for="class" class="form-label detail-field">Class:</label>
+              <label for="class_" class="form-label detail-field">Class:</label>
               <div class="control detail-field">
-                  {{ formD2.class_(value=ship_d2.class, class="form-control-sm")}}
+                  {{ formD2.class_(value=ship_d2.class_, class="form-control-sm")}}
               </div>
           </div>
           <div class="field">

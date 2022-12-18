@@ -923,6 +923,7 @@ def update_ship_d2(request):
 
         ship_id = ship_d2[0]
         ship_d2 = ship_d2[1:] + [ship_id]
+        print(ship_d2)
 
         print("SHIP D2 COL STR: " + ship_d2_columns_str)
         cur.execute(f'UPDATE ship_details_2 SET {ship_d2_columns_str} WHERE ship_id = ?', ship_d2)
