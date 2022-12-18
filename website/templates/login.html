@@ -13,14 +13,14 @@
         <form action="/login" method="POST">
             {{ form.csrf_token }}
             <div class="field" style="margin: 90px 0px 0px 80px;">
-                <label for="username" class="form-label">Username:</label>    
+                <label for="username" class="form-label" style="color:white;">Username:</label>    
                 <div class="control">
                     {{ form.username(required=True, class="form-control-lg")}}
                 </div>
             </div>
             <br>
             <div class="field" style="margin: 0px 0px 0px 80px;">
-                <label for="password" class="form-label">Password:</label>
+                <label for="password" class="form-label" style="color:white;">Password:</label>
                 <div class="control">
                     {{ form.password(required=True, class="form-control-lg")}}
                 </div>
