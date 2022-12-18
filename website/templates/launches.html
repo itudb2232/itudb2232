@@ -32,9 +32,11 @@
                                         <input type="text" class="form-control" name="name">
                                         <label for="date" class="form-label">Date</label>
                                         <input type="date" class="form-control" name="date">
-                                        <label for="rocket_id" class="form-label">Rocket name</label>
+                                        <label for="time" class="form-label">Time</label>
+                                        <input type="text" class="form-control" name="time">
+                                        <label for="rocket_id" class="form-label">Rocket ID</label>
                                         <input type="text" class="form-control" name="rocket_id">
-                                        <label for="launchpad_id" class="form-label">Launchpad name</label>
+                                        <label for="launchpad_id" class="form-label">Launchpad ID</label>
                                         <input type="text" class="form-control" name="launchpad_id">
                                         <label for="success" class="form-label">Success</label>
                                         <select class="form-select" name="success">
@@ -81,6 +83,9 @@
                                         <br> 
                                         <label for="fdate" class="form-label">Date:</label>
                                         <input type="date" class="form-control" name="ftype">
+                                        <br>
+                                        <label for="ftime" class="form-label">Time:</label>
+                                        <input type="text" class="form-control" name="ftime">
                                         <br>
                                         <label for="frocket_id" class="form-label">Rocket Name:</label> 
                                         <input type="text" class="form-control" name="frocket_id">
@@ -133,8 +138,9 @@
             <table class = "table table-hover table-sm">
                 <thead>
                     <tr class = "table-active">
-                        <th>name</th>
-                        <th>date</th>
+                        <th>Name</th>
+                        <th>Date</th>
+                        <th>Time</th>
                         <th>Rocket Name</th>
                         <th>Launchpad Name</th>
                         <th>Success</th>
@@ -154,10 +160,13 @@
                             {{launch["date"]}}
                         </td>
                         <td>
+                            {{launch["time"]}}
+                        </td>
+                        <td>
                             {{ rockets[launch["rocket_id"]] }}<!--   ID den  name alma eklenecek -->
                         </td>
                         <td>
-                            {{ launchpads[launch["launchpad_id]] }}<!--   ID den  name alma eklenecek -->
+                            {{ launchpads[launch["launchpad_id"]] }}<!--   ID den  name alma eklenecek -->
                         </td>
                         <td>
                             {{"No" if launch["success"] == "False" else "Yes"}}
