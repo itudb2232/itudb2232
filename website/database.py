@@ -401,7 +401,7 @@ def update_launch_detail(request):
         launch_id = launch_detail[0]
         launch_detail = launch_detail[1:] + [launch_id]
 
-        cur.execute(f'UPDATE launch_details SET {launch_detail_columns} WHERE launch_id = ?', launch_detail)
+        cur.execute(f'UPDATE launch_details SET {launch_detail_str} WHERE launch_id = ?', launch_detail)
         con.commit()
 
 # Launchpads
