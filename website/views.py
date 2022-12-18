@@ -119,8 +119,7 @@ def update_core():
 
 @views.route('/filter_core', methods=['GET', 'POST'])
 def filter_core():
-    if current_user.is_admin:
-        filter_core_data = database.filter_core(request)
+    filter_core_data = database.filter_core(request)
     return render_template("cores.html", cores=filter_core_data, core_form = forms.CoresForm())
 
 # Launches
