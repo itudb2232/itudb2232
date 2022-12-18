@@ -194,6 +194,27 @@ def add_payload(request):
         cur.execute(f'INSERT INTO payloads VALUES ({",".join("?" * len(payload_columns))})', new_payload)
         con.commit()
 
+def update_payload(request):
+    with sqlite3.connect(db_location) as con:
+        con.row_factory = sqlite3.Row
+        cur = con.cursor()
+
+        # Update rocket
+        payload_columns = cur.execute("PRAGMA table_info(payloads)").fetchall()
+        payload_columns_str = ",".join([column["name"] + "=?" for column in payload_columns if column["name"] != "payload_id"])
+
+        print ( "PAYLOAD COLUMNS STR: " + payload_columns_str)
+        payload = []
+        for column in payload_columns:
+            if column["name"] in request.form.keys():
+                payload += [request.form[column["name"]]]
+        print(payload)
+        payload_id = payload[0]
+        payload = payload[1:] + [payload_id]
+        print(payload)
+
+        cur.execute(f'UPDATE payloads SET {payload_columns_str} WHERE payload_id = ?', payload)
+        con.commit()
 # Rockets
 def get_rockets():
     with sqlite3.connect(db_location) as con:
@@ -317,7 +338,7 @@ def update_rocket(request):
         
         rocket_id = rocket[0]
         rocket = rocket[1:] + [rocket_id]
-
+        
         cur.execute(f'UPDATE rockets SET {rocket_columns_str} WHERE rocket_id = ?', rocket)
         con.commit()
 def update_rocket_d1(request):
