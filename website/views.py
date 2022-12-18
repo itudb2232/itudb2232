@@ -120,9 +120,13 @@ def launches():
     for rocket in rocket_data:
         rocket_dict[rocket["rocket_id"]] = rocket["name"]
     
+    launchpad_data = database.get_launchpads()
+    launchpad_dict = {}
+    for launchpad in launchpad_data:
+        launchpad_dict[launchpad["launchpad_id"]] = launchpad["name"]
 
     launch_data = database.get_launches()
-    return render_template("launches.html", launches=launch_data, rockets=rocket_dict)
+    return render_template("launches.html", launches=launch_data, rockets=rocket_dict, launchpads = launchpad_dict)
 
 @views.route("/add_launch", methods=["POST"])
 def add_launch():
