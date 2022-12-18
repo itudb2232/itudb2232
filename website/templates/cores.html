@@ -6,22 +6,16 @@
 <header>
 <h2> Cores </h2>
 <p>
-    This is the cores page, you can make searches or browse the cores in our database!
-    {% if not current_user.is_admin %} Please <a href="/login">log in</a> to update, delete, filter or add core data. {% endif %}
+    These are the cores that own by SpaceX Rockets, you can make searches or browse the cores in our database!
+    {% if not current_user.is_admin %} Please <a href="/login">log in</a> to update, delete or add core data. {% endif %}
 </p>
-
-    {% if current_user.is_admin %}
-        <div>
-            <button type="button" class="btn btn-warning btn" data-toggle="modal" data-target="#add-core-modal">
-                Add New Core
+<header>
+            <button type="button" class="btn btn-warning btn" data-toggle="modal" data-target="#add-core-modal" style="position: fixed; bottom: 5em; left: 2.5em;">
+                New Core
             </button>
-            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#filter-core-modal">
+            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#filter-core-modal" style="position: fixed; bottom: 2.5em; left: 2.5em;">
                 Filter Core
             </button>
-        </div>
-        <br/>
-    {% endif %}
-<header>
 <table class = "table table-hover table-sm">
     <tr class = "table-active" style="text-align: center;">
         <th>Serial</th>
@@ -32,9 +26,7 @@
         <th>Real Time Locating System Landings</th>
         <th>Autonomous Spaceport Drone Ship Attempts</th>
         <th>Autonomous Spaceport Drone Ship Landings</th>
-        {% if current_user.is_admin %}
-            <th colspan="2">Edit</th>
-        {% endif %}
+        <th colspan="2">Edit</th>
     </tr>
     {% for core in cores %}
     <tr class style="text-align: center;">
@@ -62,7 +54,6 @@
         <td>
             {{core["asds_landings"]}}
         </td>
-        {% if current_user.is_admin %}
         <td>
             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" onclick="delete_core('{{ core.core_id }}')">
                 Delete
@@ -73,7 +64,6 @@
               Update
             </button>
         </td>
-        {% endif %}
     </tr>
     {% endfor %}
 </table>
