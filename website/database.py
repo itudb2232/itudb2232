@@ -743,10 +743,200 @@ def get_ships(request):
 
         return ships, ship_details_1
 
+def get_ship_d1():
+    with sqlite3.connect(db_location) as con:
+        con.row_factory = sqlite3.Row
+        cur = con.cursor()
+        return cur.execute(
+            """SELECT * FROM ship_details_1 
+            JOIN (SELECT ship_id, name FROM ships) AS ship_names
+            ON ship_details_1.ship_id = ship_names.ship_id"""
+            ).fetchall()
+            
 def get_ship_d2():
     with sqlite3.connect(db_location) as con:
         con.row_factory = sqlite3.Row
         cur = con.cursor()
         return cur.execute(
-            "SELECT * FROM ship_details_2"
+            """SELECT * FROM ship_details_2 
+            JOIN (SELECT ship_id, name FROM ships) AS ship_names
+            ON ship_details_2.ship_id = ship_names.ship_id"""
+            ).fetchall()
+
+def add_ship(request):
+    with sqlite3.connect(db_location) as con:
+        con.row_factory = sqlite3.Row
+        cur = con.cursor() 
+
+        # Add new ship
+        ship_columns = cur.execute("PRAGMA table_info(ships)").fetchall()
+
+        new_ship = [str(current_app.config["ship_id"])]  # Get next ID
+        current_app.config["ship_id"] += 1
+        for column in ship_columns:
+            if column["name"] in request.form.keys():
+                new_ship += [request.form[column["name"]]]
+
+        cur.execute(f'INSERT INTO ships VALUES ({",".join("?" * len(ship_columns))})', new_ship)
+        con.commit()
+
+def add_ship_d1(request):
+    with sqlite3.connect(db_location) as con:
+        con.row_factory = sqlite3.Row
+        cur = con.cursor() 
+
+        # Add new ship_d1
+        ship_d1_columns = cur.execute("PRAGMA table_info(ship_details_1)").fetchall()
+        
+        new_ship_d1 = []
+        for column in ship_d1_columns:
+            if column["name"] in request.form.keys():
+                new_ship_d1 += [request.form[column["name"]]]
+
+        cur.execute(f'INSERT INTO ship_details_1 VALUES ({",".join("?" * len(ship_d1_columns))})', new_ship_d1)
+        con.commit()
+
+def add_ship_d2(request):
+    with sqlite3.connect(db_location) as con:
+        con.row_factory = sqlite3.Row
+        cur = con.cursor() 
+
+        # Add new ship_d2
+        ship_d2_columns = cur.execute("PRAGMA table_info(ship_details_2)").fetchall()
+        
+        new_ship_d2 = []
+        for column in ship_d2_columns:
+            if column["name"] in request.form.keys():
+                new_ship_d2 += [request.form[column["name"]]]
+
+        cur.execute(f'INSERT INTO ship_details_2 VALUES ({",".join("?" * len(ship_d2_columns))})', new_ship_d2)
+        con.commit()
+
+def update_ship(request):
+    with sqlite3.connect(db_location) as con:
+        con.row_factory = sqlite3.Row
+        cur = con.cursor()
+
+        # Update ship
+        ship_columns = cur.execute("PRAGMA table_info(ships)").fetchall()
+        ship_columns_str = ",".join([column["name"] + "=?" for column in ship_columns if column["name"] != "ship_id"])
+
+        ship = []
+        for column in ship_columns:
+            if column["name"] in request.form.keys():
+                ship += [request.form[column["name"]]]
+        
+        ship_id = ship[0]
+        ship = ship[1:] + [ship_id]
+        
+        cur.execute(f'UPDATE ships SET {ship_columns_str} WHERE ship_id = ?', ship)
+        con.commit()
+
+def update_ship_d1(request):
+    with sqlite3.connect(db_location) as con:
+        con.row_factory = sqlite3.Row
+        cur = con.cursor()
+
+        # Update ship_d1
+        ship_d1_columns = cur.execute("PRAGMA table_info(ship_details_1)").fetchall()
+        ship_d1_columns_str = ",".join([column["name"] + "=?" for column in ship_d1_columns if column["name"] != "ship_id"])
+        
+        ship_d1 = []
+        for column in ship_d1_columns:
+            if column["name"] in request.form.keys():
+                ship_d1 += [request.form[column["name"]]]
+
+        ship_id = ship_d1[0]
+        ship_d1 = ship_d1[1:] + [ship_id]
+
+        cur.execute(f'UPDATE ship_details_1 SET {ship_d1_columns_str} WHERE ship_id = ?', ship_d1)
+        con.commit()
+
+def update_ship_d2(request):
+    with sqlite3.connect(db_location) as con:
+        con.row_factory = sqlite3.Row
+        cur = con.cursor()
+
+        # Update ship_d2
+        ship_d2_columns = cur.execute("PRAGMA table_info(ship_details_2)").fetchall()
+        ship_d2_columns_str = ",".join([column["name"] + "=?" for column in ship_d2_columns if column["name"] != "ship_id"])
+        
+        ship_d2 = []
+        for column in ship_d2_columns:
+            if column["name"] in request.form.keys():
+                ship_d2 += [request.form[column["name"]]]
+
+        ship_id = ship_d2[0]
+        ship_d2 = ship_d2[1:] + [ship_id]
+
+        cur.execute(f'UPDATE ship_details_2 SET {ship_d2_columns_str} WHERE ship_id = ?', ship_d2)
+        con.commit()        
+
+def delete_ship(ship_id):
+    with sqlite3.connect(db_location) as con:
+        cursor = con.cursor()
+        cursor.execute("PRAGMA foreign_keys=ON")  # This allows for cascading to details
+        query = "DELETE FROM ships WHERE (ship_id = ?)"
+        cursor.execute(query, (ship_id,))
+        con.commit()
+def delete_ship_d1(ship_id):
+    with sqlite3.connect(db_location) as con:
+        cursor = con.cursor()
+        query = "DELETE FROM ship_details_1 WHERE (ship_id = ?)"
+        cursor.execute(query, (ship_id,))
+        con.commit()
+def delete_ship_d2(ship_id):
+    with sqlite3.connect(db_location) as con:
+        cursor = con.cursor()
+        query = "DELETE FROM ship_details_2 WHERE (ship_id = ?)"
+        cursor.execute(query, (ship_id,))
+        con.commit()
+def filter_ships(request):
+    with sqlite3.connect(db_location) as con:
+        con.row_factory = sqlite3.Row
+        cur = con.cursor()
+        print("filter_ships executed")
+        query = "SELECT * FROM ships"
+        params = []
+        print(request.form.get('fname'))
+        if request.form.get('fname'):
+            if not params:
+                query += " WHERE"
+            user_name = request.form['fname']
+            query += " name LIKE ?"
+            param_name = "%" + user_name + "%"
+            params.append(param_name)
+
+        if request.form.get('ftype'):
+            if not params:
+                query += " WHERE"
+            else:
+                query += " AND"
+            user_type = request.form['ftype']
+            query += " type LIKE ?"
+            param_type = "%" + user_type + "%"
+            params.append(param_type)
+
+#ACTİVE'E GÖRE filter
+        # if request.form.get('factive') != "":
+        #     if not params:
+        #         query += " WHERE"
+        #     else:
+        #         query += " AND"
+        #     user_active = request.form['factive']
+        #     query += " reused LIKE ?"
+        #     param_reused = "%" + user_active + "%"
+        #     params.append(param_reused)
+
+        print(query)
+        print(tuple(params))
+        filter = cur.execute(query, tuple(params)).fetchall()
+        return filter
+
+def get_ships():
+    with sqlite3.connect(db_location) as con:
+        con.row_factory = sqlite3.Row
+        cur = con.cursor()
+        return cur.execute(
+            "SELECT * FROM ships ORDER BY name ASC"
             ).fetchall()

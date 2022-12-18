@@ -331,11 +331,89 @@ def rocket_details_1():
 # Ships
 @views.route('/ships', methods=['GET', 'POST'])
 def ships():
-    ship_data, ship_d1_data = database.get_ships(request)
-
-    return render_template("ships.html",ships=ship_data, ship_details_1=ship_d1_data)
-
-@views.route('/ships/ship_details_2', methods=['GET', 'POST'])
-def ship_details_2():
+    ship_data = database.get_ships()
+    ship_d1_data = database.get_ship_d1()
     ship_d2_data = database.get_ship_d2()
-    return render_template("ship_details_2.html",ship_details_2=ship_d2_data)
+
+    inexistent_ship_d1 = []
+    inexistent_ship_d2 = []
+    inexistent_ship_d1_dict = []
+    inexistent_ship_d2_dict = []
+
+    present = False
+    for ship in ship_data:
+        for ship_d1 in ship_d1_data:
+            if ship["ship_id"] == ship_d1["ship_id"]:
+                present = True
+                break
+        if not present:
+            inexistent_ship_d1 += [ship["ship_id"]]
+            inexistent_ship_d1_dict += [{"ship_id": ship["ship_id"], "name": ship["name"]}]
+        present = False
+
+        for ship_d2 in ship_d2_data:
+            if ship["ship_id"] == ship_d2["ship_id"]:
+                present = True
+                break
+        if not present:
+            inexistent_ship_d2 += [ship["ship_id"]]
+            inexistent_ship_d2_dict += [{"ship_id": ship["ship_id"], "name": ship["name"]}]
+        present = False  
+
+    return render_template("ships.html", ships=ship_data,
+        ship_d1s=ship_d1_data, ship_d2s=ship_d2_data, inexistent_d1=inexistent_ship_d1, inexistent_d2=inexistent_ship_d2, inexistent_d1_dict=inexistent_ship_d1_dict, inexistent_d2_dict=inexistent_ship_d2_dict,
+        formM=forms.ShipForm(), formD1=forms.ShipD1Form(), formD2=forms.ShipD2Form())
+
+@views.route("/add_ship", methods=["POST"])
+def add_ship():
+    database.add_ship(request)
+    return redirect(url_for("views.ships"))
+@views.route('/add_ship_detail_1', methods=['POST'])
+def add_ship_detail_1():
+    database.add_ship_d1(request)
+    return redirect(url_for("views.ships"))
+@views.route('/add_ship_detail_2', methods=['POST'])
+def add_ship_detail_2():
+    database.add_ship_d2(request)
+    return redirect(url_for("views.ships"))
+
+@views.route("/update_ship", methods=["POST"])
+def update_ship():
+    database.update_ship(request)
+    return redirect(url_for("views.ships"))
+@views.route('/update_ship_detail_1', methods=['POST'])
+def update_ship_detail_1():
+    database.update_ship_d1(request)
+    return redirect(url_for("views.ships"))
+@views.route('/update_ship_detail_2', methods=['POST'])
+def update_ship_detail_2():
+    database.update_ship_d2(request)
+    return redirect(url_for("views.ships"))
+
+@views.route('/delete_ship', methods=['GET'])
+@login_required
+def delete_ship():
+    if current_user.is_admin:
+        database.delete_ship(request.args.get("ship_id"))
+    else:
+        flash("Please do not poke around the exhibit.")
+    return redirect(url_for("views.ships"))
+@views.route('/delete_ship_detail_1', methods=['GET'])
+def delete_ship_detail_1():
+    database.delete_ship_d1(request.args.get("ship_id"))
+    return redirect(url_for("views.ships"))
+@views.route('/delete_ship_detail_2', methods=['GET'])
+def delete_ship_detail_2():
+    database.delete_ship_d2(request.args.get("ship_id"))
+    return redirect(url_for("views.ships"))
+
+@views.route('/ships/ship_details_1', methods=['GET', 'POST'])
+def ship_details_1():
+    ship_d1 = database.get_ship_d1()
+    return render_template("ship_details_1.html", ship_details_1=ship_d1)
+
+
+@views.route('/ships_filtered', methods=['GET', 'POST'])
+def ships_filtered():
+    filter_data = database.filter_ships(request)
+    return render_template("ships.html", ships=filter_data, formM=forms.ShipForm())
