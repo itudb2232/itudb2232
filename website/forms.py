@@ -112,7 +112,8 @@ class ShipForm(FlaskForm):
 class ShipD1Form(FlaskForm):
     ship_id = StringField()
     model = StringField()
-    roles = StringField()
+    primary_role = StringField()
+    secondary_role = StringField()
     imo = IntegerField()
     mmsi = IntegerField()
     abs = IntegerField()   
@@ -123,4 +124,4 @@ class ShipD2Form(FlaskForm):
     mass_kg = IntegerField()
     mass_lb = IntegerField()
     year_built = IntegerField()
-    home_port = IntegerField()
+    home_port = StringField()

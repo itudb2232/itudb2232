@@ -894,11 +894,13 @@ def update_ship_d1(request):
         ship_d1_columns = cur.execute("PRAGMA table_info(ship_details_1)").fetchall()
         ship_d1_columns_str = ",".join([column["name"] + "=?" for column in ship_d1_columns if column["name"] != "ship_id"])
         
+        
         ship_d1 = []
         for column in ship_d1_columns:
             if column["name"] in request.form.keys():
                 ship_d1 += [request.form[column["name"]]]
 
+        print("SHIP D1 COL STR: " + ship_d1_columns_str)
         ship_id = ship_d1[0]
         ship_d1 = ship_d1[1:] + [ship_id]
 
@@ -922,8 +924,9 @@ def update_ship_d2(request):
         ship_id = ship_d2[0]
         ship_d2 = ship_d2[1:] + [ship_id]
 
+        print("SHIP D2 COL STR: " + ship_d2_columns_str)
         cur.execute(f'UPDATE ship_details_2 SET {ship_d2_columns_str} WHERE ship_id = ?', ship_d2)
-        con.commit()        
+        con.commit()
 
 def delete_ship(ship_id):
     with sqlite3.connect(db_location) as con:
@@ -970,17 +973,16 @@ def filter_ships(request):
             query += " type LIKE ?"
             param_type = "%" + user_type + "%"
             params.append(param_type)
-
-#ACTİVE'E GÖRE filter
-        # if request.form.get('factive') != "":
-        #     if not params:
-        #         query += " WHERE"
-        #     else:
-        #         query += " AND"
-        #     user_active = request.form['factive']
-        #     query += " reused LIKE ?"
-        #     param_reused = "%" + user_active + "%"
-        #     params.append(param_reused)
+        
+        if request.form.get('factive') != "":
+            if not params:
+                query += " WHERE"
+            else:
+                query += " AND"
+            user_active = request.form['factive']
+            query += " active LIKE ?"
+            param_active = "%" + user_active + "%"
+            params.append(param_active)
 
         print(query)
         print(tuple(params))

@@ -9,7 +9,7 @@
     These are the ships own and operated by SpaceX. If you see anything wrong or missing, feel free to amend.
 </p>
 
-<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#add-ship-modal" style="position: fixed; bottom: 5em; left: 2.5em;">
+<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#add-ship-modal" style="position: fixed; bottom: 5em; right: 2.5em;">
   New Ship
 </button>
 <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#filter-ship-modal" style="position: fixed; bottom: 2.5em; right: 2.5em;">
@@ -34,22 +34,22 @@
             <td>
               {% if ship["ship_id"] in inexistent_d1 %}
                 <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#add-ship-details-1-modal-{{ ship.ship_id }}">
-                  Add Details I
+                  Add Technics
                 </button>
               {% else %}
                 <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#ship-details-1-modal-{{ ship.ship_id }}">
-                  Details I
+                  Technics
                 </button>
               {% endif %}
             </td>
             <td>
               {% if ship["ship_id"] in inexistent_d2 %}
                 <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#add-ship-details-2-modal-{{ ship.ship_id }}">
-                  Add Details II
+                  Add Measurements
                 </button>
               {% else %}
                 <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#ship-details-2-modal-{{ ship.ship_id }}">
-                  Details II
+                  Measurements
                 </button>
               {% endif %}
             </td>
@@ -80,20 +80,21 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="ship-details-1-modal-label-{{ ship_d1.ship_id }}"> {{ship_d1.name}} Engine Info </h5>
+          <h5 class="modal-title" id="ship-details-1-modal-label-{{ ship_d1.ship_id }}"> {{ship_d1.name}} Technical Info </h5>
         </div>
         <div class="modal-body">
         <table style="width: 100%;">
           <tr class="ship-detail"> <td> Model </td> <td class="ship-detail"> {{ship_d1.model}} </td> </tr>
-          <tr class="ship-detail"> <td> roles </td> <td class="ship-detail"> {{ship_d1.roles}} </td> </tr>
-          <tr class="ship-detail"> <td> imo </td> <td class="ship-detail"> {{ship_d1.imo}} </td> </tr>
-          <tr class="ship-detail"> <td> mmsi </td> <td class="ship-detail"> {{ship_d1.mmsi}} </td> </tr>
-          <tr class="ship-detail"> <td> abs </td> <td class="ship-detail"> {{ship_d1.abs}} </td> </tr>
+          <tr class="ship-detail"> <td> Primary Role: </td> <td class="ship-detail"> {{ship_d1.primary_role}} </td> </tr>
+          <tr class="ship-detail"> <td> Secondary Role: </td> <td class="ship-detail"> {{ship_d1.secondary_role}} </td> </tr>
+          <tr class="ship-detail"> <td> IMO: </td> <td class="ship-detail"> {{ship_d1.imo}} </td> </tr>
+          <tr class="ship-detail"> <td> MMSI </td> <td class="ship-detail"> {{ship_d1.mmsi}} </td> </tr>
+          <tr class="ship-detail"> <td> ABS: </td> <td class="ship-detail"> {{ship_d1.abs}} </td> </tr>
           </table>
         </div>
         <div class="modal-footer">
           <button type="button" onclick="delete_ship_d1('{{ ship_d1.ship_id }}')"
-            class="btn btn-danger" data-dismiss="modal">Delete Engine Info</button>
+            class="btn btn-danger" data-dismiss="modal">Delete Technical Info</button>
           <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#update-ship-details-1-modal-{{ ship_d1.ship_id }}">
             Update
           </button>
@@ -140,7 +141,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="add-ship-details-1-modal-label-{{ ship.ship_id }}"> Add {{ship.name}} Engine Info </h5>
+          <h5 class="modal-title" id="add-ship-details-1-modal-label-{{ ship.ship_id }}"> Add {{ship.name}} Technical Info </h5>
         </div>
         <div class="modal-body">
           
@@ -158,11 +159,17 @@
               </div>
           </div>
           <div class="field">
-              <label for="roles" class="form-label detail-field">roles:</label>
+              <label for="primary_role" class="form-label detail-field">Primary Role:</label>
               <div class="control detail-field">
-                  {{ formD1.roles(class="form-control-sm")}}
+                  {{ formD1.primary_role(class="form-control-sm")}}
               </div>
           </div>
+          <div class="field">
+            <label for="secondary_role" class="form-label detail-field">Secondary Role:</label>
+            <div class="control detail-field">
+                {{ formD1.secondary_role(class="form-control-sm")}}
+            </div>
+        </div>
           <div class="field">
               <label for="imo" class="form-label detail-field">imo:</label>
               <div class="control detail-field">
@@ -257,7 +264,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="update-ship-details-1-modal-label-{{ ship_d1.ship_id }}"> Update {{ship_d1.name}} Engine Info </h5>
+          <h5 class="modal-title" id="update-ship-details-1-modal-label-{{ ship_d1.ship_id }}"> Update {{ship_d1.name}} Technical Info </h5>
         </div>
         <div class="modal-body">
           
@@ -275,11 +282,17 @@
               </div>
           </div>
           <div class="field">
-              <label for="roles" class="form-label detail-field">roles:</label>
+              <label for="primary_role" class="form-label detail-field">Primary Role:</label>
               <div class="control detail-field">
-                  {{ formD1.roles(value=ship_d1.roles, class="form-control-sm")}}
+                  {{ formD1.primary_role(value=ship_d1.primary_role, class="form-control-sm")}}
               </div>
           </div>
+          <div class="field">
+            <label for="secondary_role" class="form-label detail-field">Secondary Role:</label>
+            <div class="control detail-field">
+                {{ formD1.secondary_role(value=ship_d1.secondary_role, class="form-control-sm")}}
+            </div>
+        </div>
           <div class="field">
               <label for="imo" class="form-label detail-field">imo:</label>
               <div class="control detail-field">
@@ -326,21 +339,9 @@
               </div>
           </div>
           <div class="field">
-              <label for="class" class="form-label detail-field">class:</label>
+              <label for="class" class="form-label detail-field">Class:</label>
               <div class="control detail-field">
                   {{ formD2.class_(value=ship_d2.class, class="form-control-sm")}}
-              </div>
-          </div>
-          <div class="field">
-              <label for="year_built" class="form-label detail-field">year_built:</label>
-              <div class="control detail-field">
-                  {{ formD2.year_built(value=ship_d2.year_built, class="form-control-sm")}}
-              </div>
-          </div>
-          <div class="field">
-              <label for="home_port" class="form-label detail-field">home_port</label>
-              <div class="control detail-field">
-                  {{ formD2.home_port(value=ship_d2.home_port, class="form-control-sm")}}
               </div>
           </div>
           <div class="field">
@@ -355,6 +356,19 @@
                   {{ formD2.mass_lb(value=ship_d2.mass_lb, class="form-control-sm")}}
               </div>
           </div>
+          <div class="field">
+              <label for="year_built" class="form-label detail-field">Year Built:</label>
+              <div class="control detail-field">
+                  {{ formD2.year_built(value=ship_d2.year_built, class="form-control-sm")}}
+              </div>
+          </div>
+          <div class="field">
+              <label for="home_port" class="form-label detail-field">Home Port:</label>
+              <div class="control detail-field">
+                  {{ formD2.home_port(value=ship_d2.home_port, class="form-control-sm")}}
+              </div>
+          </div>
+          
           
           <button type=submit class="btn btn-warning">Update</button>
         </form>
@@ -477,8 +491,8 @@
                   <label for="ftype" class="form-label">Type:</label>
                   <input type="text" class="form-control" name="ftype">
 
-                  <label for="freused" class="form-label">Active:</label>
-                  <select class="form-select" name="freused" aria-label="Default Select">
+                  <label for="factive" class="form-label">Active:</label>
+                  <select class="form-select" name="factive" aria-label="Default Select">
                       <option value=""> Any </option>
                       <option value="True"> Active </option>
                       <option value="False"> Deactive </option>                 
