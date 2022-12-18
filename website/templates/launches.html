@@ -38,34 +38,16 @@
                                         <input type="text" class="form-control" name="launchpad_id">
                                         <label for="success" class="form-label">Success</label>
                                         <select class="form-select" name="success">
-                                            <option>Yes</option>
-                                            <option>No</option>
+                                            <option>True</option>
+                                            <option>False</option>
                                         </select>
-                                        <label for="failures" class="form-label">Failures</label>
-                                        <input type="text" class="form-control" name="failures">
+                                        <label for="failure_reason" class="form-label">Failure Reason</label>
+                                        <input type="text" class="form-control" name="failure_reason">
                                         <label for="ships" class="form-label">Ships</label>
                                         <input type="text" class="form-control" name="ships">
                                         <label for="capsules" class="form-label">Capsules</label>
                                         <input type="text" class="form-control" name="capsules">
-                                        <label for="payloads" class="form-label">Payloads</label>
-                                        <input type="text" class="form-control" name="payloads">
-                                        <label for="cores" class="form-label">Cores</label>
-                                        <input type="text" class="form-control" name="cores">
-                                        <label for="fairings_reused" class="form-label">Fairings Reused</label>
-                                        <select class="form-select" name="fairings_reused">
-                                            <option>True</option>
-                                            <option>False</option>
-                                        </select>
-                                        <label for="fairings_recovery_attempts" class="form-label">Fairings Recovery Attempts</label>
-                                        <select class="form-select" name="fairings_recovery_attempts">
-                                            <option>True</option>
-                                            <option>False</option>
-                                        </select>
-                                        <label for="fairings_recovered" class="form-label">Fairings Recovered</label>
-                                        <select class="form-select" name="fairings_recovered">
-                                            <option>True</option>
-                                            <option>False</option>
-                                        </select>
+                                        
                                     <!-- End of Form-->
                                 
                                         <div class="modal-footer">
@@ -115,44 +97,16 @@
                                             <!-- Form to filter -->
                                         </select>
                                         <br>
-                                        <label for="ffailures" class="form-label">Failures:</label>
-                                        <input type="text" class="form-control" name="ffailures">
+                                        <label for="ffailure_reason" class="form-label">Failure Reason:</label>
+                                        <input type="text" class="form-control" name="ffailure_reason">
                                         <br>
                                         <label for="fships" class="form-label">Ships:</label>
                                         <input type="text" class="form-control" name="fships">
                                         <br>
                                         <label for="fcapsules" class="form-label">Capsules:</label>
                                         <input type="text" class="form-control" name="fcapsules">
-                                        <br>
-                                        <label for="fpayloads" class="form-label">Payloads:</label>
-                                        <input type="text" class="form-control" name="fpayloads">
-                                        <br>
-                                        <label for="fcores" class="form-label">Cores:</label>
-                                        <input type="text" class="form-control" name="fcores">
-                                        <br>
-                                        <label for="ffairings_reused" class="form-label">Fairings Reused?</label>
-                                        <select class="form-select" name="ffairings_reused">
-                                            <option value="">Choose</option>  
-                                            <option value="True">True</option>
-                                            <option value="False">False</option>
-                                            <option value="None">None</option>
-                                        </select>
-                                        <br>
-                                        <label for="ffairings_recovery_attempts" class="form-label">Fairings Recovery Attempts?</label>
-                                        <select class="form-select" name="ffairings_recovery_attempts">
-                                            <option value="">Choose</option>  
-                                            <option value="True">True</option>
-                                            <option value="False">False</option>
-                                            <option value="None">None</option>
-                                        </select>
-                                        <br>
-                                        <label for="ffairings_recovered" class="form-label">Fairings Recovered?</label>
-                                        <select class="form-select" name="ffairings_recovered">
-                                            <option value="">Choose</option>  
-                                            <option value="True">True</option>
-                                            <option value="False">False</option>
-                                            <option value="None">None</option>
-                                        </select>
+                                        
+                                        
                                         <br>
                                         
 
@@ -184,14 +138,10 @@
                         <th>Rocket Name</th>
                         <th>Launchpad Name</th>
                         <th>Success</th>
-                        <th>Failures</th>
+                        <th>Failure Reason</th>
                         <th>Ships</th>
                         <th>Capsules</th>
-                        <th>Payloads</th>
-                        <th>cores</th>
-                        <th>Is Fairings Reused?</th>
-                        <th>Are Fairings Recovery Attempts?</th>
-                        <th>Are Fairings Recovered?</th>
+                        
                     </tr>
                 </thead>
                 <tbody>
@@ -213,7 +163,7 @@
                             {{"No" if launch["success"] == "False" else "Yes"}}
                         </td>
                         <td>
-                            {{"-" if launch["failures"] == None else launch["failures"]}}
+                            {{"-" if launch["failure_reason"] == None else launch["failure_reason"]}}
                         </td>
                         <td>
                             {{"-" if launch["ships"] == None else launch["ships"]}}
@@ -221,21 +171,7 @@
                         <td>
                             {{"-" if launch["capsules"] == None else launch["capsules"]}}
                         </td>
-                        <td>
-                            {{"-" if launch["payloads"] == None else launch["payloads"]}}
-                        </td>
-                        <td>
-                            {{"-" if launch["cores"] == None else launch["cores"]}}
-                        </td>
-                        <td>
-                            {{"No" if launch["fairings_reused"] == "False" else "Yes"}}
-                        </td>
-                        <td>
-                            {{"No" if launch["fairings_recovery_attempts"] == "False" else "Yes"}}
-                        </td>
-                        <td>
-                            {{"No" if launch["fairings_recovered"] == "False" else "Yes"}}
-                        </td>
+                        
                     </tr>
                     {% endfor %}
                 </tbody>
