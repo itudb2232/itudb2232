@@ -3,77 +3,248 @@
 
 {% block content %} <!-- This is the content block, whatever you include here will be visible on the screen -->
 
-<h1> This is the launches page, You can make queries and searches for specific launches</h1>
+<div class = "bg-light bg-gradient">
+    <br/>
+    <div class="container">
+        <div class = "card card-bg-warning"> 
+            <div class = "card body"> 
+                <h2 class = "card-title"> Launches </h2>
+                <div class = "card-text" >
+                    This is the launches page. You can browse, update, insert and delete entries to the launches in our database!
+                    <br/> <br/>
+                    <!-- Button triggered modal for inserting entries -->
+                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#insertModal">
+                        Insert New Entry
+                    </button>
+                      
+                    <!-- Modal for inserting entries-->
+                    <div class="modal fade" id="insertModal" tabindex="-1" aria-labelledby="insertModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="insertModalLabel">Insert New Entry</h5>
+                                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <!-- Form to recieve new entry -->
+                                    <form method="POST" action="add_launch">                  
+                                        <label for="name" class="form-label">Name</label>
+                                        <input type="text" class="form-control" name="name">
+                                        <label for="date" class="form-label">Date</label>
+                                        <input type="date" class="form-control" name="date">
+                                        <label for="rocket_id" class="form-label">Rocket name</label>
+                                        <input type="text" class="form-control" name="rocket_id">
+                                        <label for="launchpad_id" class="form-label">Launchpad name</label>
+                                        <input type="text" class="form-control" name="launchpad_id">
+                                        <label for="success" class="form-label">Success</label>
+                                        <select class="form-select" name="success">
+                                            <option>Yes</option>
+                                            <option>No</option>
+                                        </select>
+                                        <label for="failures" class="form-label">Failures</label>
+                                        <input type="text" class="form-control" name="failures">
+                                        <label for="ships" class="form-label">Ships</label>
+                                        <input type="text" class="form-control" name="ships">
+                                        <label for="capsules" class="form-label">Capsules</label>
+                                        <input type="text" class="form-control" name="capsules">
+                                        <label for="payloads" class="form-label">Payloads</label>
+                                        <input type="text" class="form-control" name="payloads">
+                                        <label for="cores" class="form-label">Cores</label>
+                                        <input type="text" class="form-control" name="cores">
+                                        <label for="fairings_reused" class="form-label">Fairings Reused</label>
+                                        <select class="form-select" name="fairings_reused">
+                                            <option>True</option>
+                                            <option>False</option>
+                                        </select>
+                                        <label for="fairings_recovery_attempts" class="form-label">Fairings Recovery Attempts</label>
+                                        <select class="form-select" name="fairings_recovery_attempts">
+                                            <option>True</option>
+                                            <option>False</option>
+                                        </select>
+                                        <label for="fairings_recovered" class="form-label">Fairings Recovered</label>
+                                        <select class="form-select" name="fairings_recovered">
+                                            <option>True</option>
+                                            <option>False</option>
+                                        </select>
+                                    <!-- End of Form-->
+                                
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-warning">Insert</button>
+                                    </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /div above denotes the end of Modal for inserting entries-->
+                    <!-- Button triggered modal for filtering entries -->
+                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#filterModal">
+                        Filter
+                    </button>
+                    
+                    <!-- Modal for filtering entries-->
+                    <div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="filterModalLabel">Filter</h5>
+                                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <!-- Form to filter -->
+                                    <form action="/launches" method="POST"> 
+                                        <label for="fname" class="form-label">Name:</label>
+                                        <input type="text" class="form-control" name="fname">                 
+                                        <br> 
+                                        <label for="fdate" class="form-label">Date:</label>
+                                        <input type="date" class="form-control" name="ftype">
+                                        <br>
+                                        <label for="frocket_id" class="form-label">Rocket Name:</label> 
+                                        <input type="text" class="form-control" name="frocket_id">
+                                        <br>
+                                        <label for="flaunchpad_id" class="form-label">Launchpad Name:</label>
+                                        <input type="text" class="form-control" name="flaunchpad_id">
+                                        <br>
+                                        <label for="fsuccess" class="form-label">Success?</label>
+                                        <select class="form-select" name="success">
+                                            <option value="">Choose</option>  
+                                            <option value="True">True</option>
+                                            <option value="False">False</option>
+                                            <option value="None">None</option>
+                                            <!-- Form to filter -->
+                                        </select>
+                                        <br>
+                                        <label for="ffailures" class="form-label">Failures:</label>
+                                        <input type="text" class="form-control" name="ffailures">
+                                        <br>
+                                        <label for="fships" class="form-label">Ships:</label>
+                                        <input type="text" class="form-control" name="fships">
+                                        <br>
+                                        <label for="fcapsules" class="form-label">Capsules:</label>
+                                        <input type="text" class="form-control" name="fcapsules">
+                                        <br>
+                                        <label for="fpayloads" class="form-label">Payloads:</label>
+                                        <input type="text" class="form-control" name="fpayloads">
+                                        <br>
+                                        <label for="fcores" class="form-label">Cores:</label>
+                                        <input type="text" class="form-control" name="fcores">
+                                        <br>
+                                        <label for="ffairings_reused" class="form-label">Fairings Reused?</label>
+                                        <select class="form-select" name="ffairings_reused">
+                                            <option value="">Choose</option>  
+                                            <option value="True">True</option>
+                                            <option value="False">False</option>
+                                            <option value="None">None</option>
+                                        </select>
+                                        <br>
+                                        <label for="ffairings_recovery_attempts" class="form-label">Fairings Recovery Attempts?</label>
+                                        <select class="form-select" name="ffairings_recovery_attempts">
+                                            <option value="">Choose</option>  
+                                            <option value="True">True</option>
+                                            <option value="False">False</option>
+                                            <option value="None">None</option>
+                                        </select>
+                                        <br>
+                                        <label for="ffairings_recovered" class="form-label">Fairings Recovered?</label>
+                                        <select class="form-select" name="ffairings_recovered">
+                                            <option value="">Choose</option>  
+                                            <option value="True">True</option>
+                                            <option value="False">False</option>
+                                            <option value="None">None</option>
+                                        </select>
+                                        <br>
+                                        
 
-<div class = "card"> 
-    <div class = "card body"> 
-        <h2 class = "card-title"> Launches </h2>
-        <div class = "card-text" >
-            This is the launches page, you can make searches or add new rows to the launches in our database!
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <button type="submit" class = "btn btn-warning">Filter</button>
+                                        </div>
+                                        <!-- End of Form-->
+                                    </form>      
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End of Card -->
+    </div> 
+
+    <br/>
+
+    <div class = "container">
+        <div class = "table-responsive">
+            <table class = "table table-hover table-sm">
+                <thead>
+                    <tr class = "table-active">
+                        <th>name</th>
+                        <th>date</th>
+                        <th>Rocket Name</th>
+                        <th>Launchpad Name</th>
+                        <th>Success</th>
+                        <th>Failures</th>
+                        <th>Ships</th>
+                        <th>Capsules</th>
+                        <th>Payloads</th>
+                        <th>cores</th>
+                        <th>Is Fairings Reused?</th>
+                        <th>Are Fairings Recovery Attempts?</th>
+                        <th>Are Fairings Recovered?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for launch in launches %}
+                    <tr class>
+                        <td>
+                            {{launch["name"]}}
+                        </td>
+                        <td>
+                            {{launch["date"]}}
+                        </td>
+                        <td>
+                            {{launch["rocket_id"]}}<!--   ID den  name alma eklenecek -->
+                        </td>
+                        <td>
+                            {{launch["launchpad_id"]}}<!--   ID den  name alma eklenecek -->
+                        </td>
+                        <td>
+                            {{"No" if launch["success"] == "False" else "Yes"}}
+                        </td>
+                        <td>
+                            {{"-" if launch["failures"] == None else launch["failures"]}}
+                        </td>
+                        <td>
+                            {{"-" if launch["ships"] == None else launch["ships"]}}
+                        </td>
+                        <td>
+                            {{"-" if launch["capsules"] == None else launch["capsules"]}}
+                        </td>
+                        <td>
+                            {{"-" if launch["payloads"] == None else launch["payloads"]}}
+                        </td>
+                        <td>
+                            {{"-" if launch["cores"] == None else launch["cores"]}}
+                        </td>
+                        <td>
+                            {{"No" if launch["fairings_reused"] == "False" else "Yes"}}
+                        </td>
+                        <td>
+                            {{"No" if launch["fairings_recovery_attempts"] == "False" else "Yes"}}
+                        </td>
+                        <td>
+                            {{"No" if launch["fairings_recovered"] == "False" else "Yes"}}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
 
-<table>
-    <tr>
-        <th>name</th>
-        <th>date</th>
-        <th>rocket_id</th>
-        <th>launchpad_id</th>
-        <th>success</th>
-        <th>failures</th>
-        <th>ships</th>
-        <th>capsules</th>
-        <th>payloads</th>
-        <th>cores</th>
-        <th>fairings_reused</th>
-        <th>fairings_recovery_attempts</th>
-        <th>fairings_recovered</th>
-    </tr>
-{% for launch in launches %}
-<tr class>
-    <td>
-        {{launch["name"]}}
-    </td>
-    <td>
-        {{launch["date"]}}
-    </td>
-    <td>
-        {{launch["rocket_id"]}}
-    </td>
-    <td>
-        {{launch["launchpad_id"]}}
-    </td>
-    <td>
-        {{launch["success"]}}
-    </td>
-    <td>
-        {{launch["failures"]}}
-    </td>
-    <td>
-        {{launch["ships"]}}
-    </td>
-    <td>
-        {{launch["capsules"]}}
-    </td>
-    <td>
-        {{launch["payloads"]}}
-    </td>
-    <td>
-        {{launch["cores"]}}
-    </td>
-    <td>
-        {{launch["fairings_reused"]}}
-    </td>
-    <td>
-        {{launch["fairings_recovery_attempts"]}}
-    </td>
-    <td>
-        {{launch["fairings_recovered"]}}
-    </td>
-</tr>
 {% endfor %}
 
 <!-- This endblock denotes the end of the content block, nothing should come after it-->
 {% endblock %}
-
