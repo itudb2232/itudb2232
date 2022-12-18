@@ -127,6 +127,12 @@ def filter_core():
 # Launches
 @views.route('/launches', methods=['GET', 'POST'])
 def launches():
+    launch_data = database.get_launches()
+    launch_details = database.get_launch_details()
+
+    inexistent_launch_detail = []
+    inexistent_launch_detail_dict = []
+
     rocket_data = database.get_rockets()
     rocket_dict = {}
     for rocket in rocket_data:
@@ -147,12 +153,28 @@ def launches():
     for capsule in capsule_data:
         capsule_dict[capsule["capsule_id"]] = capsule["serial"]
 
+    present = False
+    for launch in launch_data:
+        for launch_detail in launch_details:
+            if launch["launch_id"] == launch_detail["launch_id"]:
+                present = True
+                break
+        if not present:
+            inexistent_launch_detail += [launch["launch_id"]]
+            inexistent_launch_detail_dict += [{"launch_id": launch["launch_id"], "name": launch["name"]}]
+        present = False
+
     launch_data = database.get_launches()
-    return render_template("launches.html", launches=launch_data, formM=forms.LaunchForm(), rockets=rocket_dict, launchpads = launchpad_dict, ships = ship_dict, capsules = capsule_dict)
+    return render_template("launches.html", launches=launch_data, formM=forms.LaunchForm(), formD=forms.LaunchDetailForm(), rockets=rocket_dict, launchpads = launchpad_dict, ships = ship_dict, capsules = capsule_dict)
 
 @views.route("/add_launch", methods=["POST"])
 def add_launch():
     database.add_launch(request)
+    return redirect(url_for("views.launches"))
+
+@views.route('/add_launch_detail', methods=['POST'])
+def add_launch_detail():
+    database.add_launch_details(request)
     return redirect(url_for("views.launches"))
 
 @views.route('/delete_launch', methods=['GET'])
@@ -160,9 +182,19 @@ def delete_launch():
     database.delete_launch(request.args.get("launch_id"))
     return redirect(url_for("views.launches"))
 
+@views.route('/delete_launch_detail', methods=['GET'])
+def delete_launch_detail():
+    database.delete_launch_details(request.args.get("launch_id"))
+    return redirect(url_for("views.launches"))
+
 @views.route('/update_launch', methods=['POST'])
 def update_launch():
     database.update_launch(request)
+    return redirect(url_for("views.launches"))
+
+@views.route('/update_launch_detail', methods=['POST'])
+def update_launch_detail():
+    database.update_launch_detail(request)
     return redirect(url_for("views.launches"))
 
 @views.route('/launches_filtered', methods=['GET', 'POST'])

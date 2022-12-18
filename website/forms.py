@@ -36,6 +36,17 @@ class LaunchForm(FlaskForm):
     failure_reason = TextAreaField()
     ship = StringField()
     capsules = StringField()
+
+class LaunchDetailForm(FlaskForm):
+    launch_id = StringField()
+    payloads = StringField()
+    core_id = StringField()
+    fairings_reused = SelectField(choices=[("True", "Yes"), ("False", "No")])
+    fairings_recovery_attempts = SelectField(choices=[("True", "Yes"), ("False", "No")])
+    fairings_recovered = SelectField(choices=[("True", "Yes"), ("False", "No")])
+    failure_time = IntegerField()
+    failure_altitude = IntegerField()
+
 # Launchpads
 
 # Payloads

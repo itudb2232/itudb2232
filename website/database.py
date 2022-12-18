@@ -206,6 +206,16 @@ def get_launches():
             "SELECT * FROM launches LEFT JOIN launch_details on launches.launch_id = launch_details.launch_id"
             ).fetchall()
 
+def get_launch_details():
+    with sqlite3.connect(db_location) as con:
+        con.row_factory = sqlite3.Row
+        cur = con.cursor()
+        return cur.execute(
+            """SELECT * FROM launch_details 
+            JOIN (SELECT launch_id, name FROM launches) AS launch_names
+            ON launch_details.launch_id = launch_names.launch_id"""
+            ).fetchall()
+
 def add_launch(request):
     with sqlite3.connect(db_location) as con:
         con.row_factory = sqlite3.Row
@@ -221,6 +231,29 @@ def add_launch(request):
                 new_launch += [request.form[column["name"]]]
 
         cur.execute(f'INSERT INTO launches VALUES ({",".join("?" * len(launch_columns))})', new_launch)
+        con.commit()
+
+def add_launch_details(request):
+    with sqlite3.connect(db_location) as con:
+        con.row_factory = sqlite3.Row
+        cur = con.cursor() 
+
+        # Add new launch_details
+        launch_details_columns = cur.execute("PRAGMA table_info(launch_details)").fetchall()
+        
+        new_launch_details = []
+        for column in launch_details_columns:
+            if column["name"] in request.form.keys():
+                new_launch_details += [request.form[column["name"]]]
+
+        cur.execute(f'INSERT INTO launch_details VALUES ({",".join("?" * len(launch_details_columns))})', new_launch_details)
+        con.commit()
+
+def delete_launch_details(launch_id):
+    with sqlite3.connect(db_location) as con:
+        cursor = con.cursor()
+        query = "DELETE FROM launch_details WHERE (launch_id = ?)"
+        cursor.execute(query, (launch_id,))
         con.commit()
 
 def filter_launches(request):
@@ -350,7 +383,27 @@ def update_launch(request):
 
         cur.execute(f'UPDATE launches SET {launch_columns_str} WHERE launch_id = ?', launch)
         con.commit()
+
+def update_launch_detail(request):
+    with sqlite3.connect(db_location) as con:
+        con.row_factory = sqlite3.Row
+        cur = con.cursor()
+
+        # Update launch_detail
+        launch_detail_columns = cur.execute("PRAGMA table_info(launch_details)").fetchall()
+        launch_detail_str = ",".join([column["name"] + "=?" for column in launch_detail_columns if column["name"] != "launch_id"])
         
+        launch_detail = []
+        for column in launch_detail_columns:
+            if column["name"] in request.form.keys():
+                launch_detail += [request.form[column["name"]]]
+
+        launch_id = launch_detail[0]
+        launch_detail = launch_detail[1:] + [launch_id]
+
+        cur.execute(f'UPDATE launch_details SET {launch_detail_columns} WHERE launch_id = ?', launch_detail)
+        con.commit()
+
 # Launchpads
 def get_launchpads():
     with sqlite3.connect(db_location) as con:
