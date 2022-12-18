@@ -32,3 +32,8 @@ function delete_launch(launch_id) {
 function delete_ship(ship_id) {
     document.location = '/delete_ship?ship_id=' + ship_id
 }
+function delete_ship_d1(ship_id) {
+    document.location = '/delete_ship_detail_1?ship_id=' + ship_id
+}
+function delete_ship_d2(ship_id) {
+    document.location = '/delete_ship_detail_2?ship_id=' + ship_id}
