@@ -879,6 +879,7 @@ def delete_ship(ship_id):
         query = "DELETE FROM ships WHERE (ship_id = ?)"
         cursor.execute(query, (ship_id,))
         con.commit()
+        
 def delete_ship_d1(ship_id):
     with sqlite3.connect(db_location) as con:
         cursor = con.cursor()
