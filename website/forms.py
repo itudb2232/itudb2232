@@ -29,7 +29,17 @@ class CoresForm(FlaskForm):
 # Launchpads
 
 # Payloads
-
+class PayloadForm(FlaskForm):
+    payload_id = StringField()
+    name = StringField()
+    type = StringField()
+    reused = SelectField(choices=[("True", "Yes"), ("False", "No")])
+    manufacturers = StringField()
+    mass_kg = IntegerField()
+    mass_lb = IntegerField()
+    orbit = StringField()
+    reference_system = StringField()
+    regime = StringField()
 # Rockets
 class RocketForm(FlaskForm):
     rocket_id = StringField()
