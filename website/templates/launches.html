@@ -77,6 +77,180 @@
         {% endfor %}
     </tbody>
 </table>
+<!-- READ/DELETE DETAILS -->
+{% for launch_detail in launch_details %}
+<div class="modal fade" id="launch-details-modal-{{ launch_detail.launch_id }}" tabindex="-1" role="dialog" aria-labelledby="launch-details-modal-label-{{ launch_detail.launch_id }}" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="launch-details-modal-label-{{ launch_details.launch_id }}"> {{launch_detail.name}} Details </h5>
+        </div>
+        <div class="modal-body">
+        <table style="width: 100%;">
+          <tr class="launch-detail"> <td> Payload ID  </td> <td class="launch-detail"> {{launch_detail.payloads}} </td> </tr>
+          <tr class="launch-detail"> <td> Core ID  </td> <td class="launch-detail"> {{launch_detail.core_id}} </td> </tr>
+          <tr class="launch-detail"> <td> Fairings Reused?  </td> <td class="launch-detail"> {{launch_detail.fairings_reused}} </td> </tr>
+          <tr class="launch-detail"> <td> Fairings Recovery Attempt?  </td> <td class="launch-detail"> {{launch_detail.fairings_recovery_attempts}} </td> </tr>
+          <tr class="launch-detail"> <td> Fairings Recovered? </td> <td class="launch-detail"> {{launch_detail.fairings_recovered}} </td> </tr>
+          <tr class="launch-detail"> <td> Failure Time </td> <td class="launch-detail"> {{launch_detail.failure_time}} </td> </tr>
+          <tr class="launch-detail"> <td> Failure Altitude </td> <td class="launch-detail"> {{launch_detail.failure_altitude}} </td> </tr>
+        </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" onclick="delete_launch_detail('{{ launch_detail.launch_id }}')"
+           class="btn btn-danger" data-dismiss="modal">Delete Details</button>
+           <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#update-launch-details-modal-{{ launch_detail.launch_id }}">
+             Update
+           </button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+
+<!-- ADD LAUNCH DETAILS-->
+
+{% for launch in inexistent_launch_detail_dict %}
+<div class="modal fade" id="add-launch-details-modal-{{ launch.launch_id }}" tabindex="-1" role="dialog" aria-labelledby="add-launch-details-modal-label-{{ launch.launch_id }}" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="launch-details-modal-label-{{ launch.launch_id }}"> Add {{launch.name}} Details </h5>
+        </div>
+        <div class="modal-body">
+          <form action="/add_rocket_detail_2" method="POST" style="display: grid;">
+          {{ formD.csrf_token }}
+          <div class="field" style="display: none">
+              <div class="control">
+                  {{ formD.launch_id(value=launch.launch_id, class="form-control-sm")}}
+              </div>
+          </div>
+          <div class="field">
+              <label for="payloads" class="form-label detail-field">Payload ID:</label>
+              <div class="control detail-field">
+                  {{ formD.payloads(class="form-control-sm")}}
+              </div>
+          </div>
+          <div class="field">
+              <label for="core_id" class="form-label detail-field">Core ID:</label>
+              <div class="control detail-field">
+                  {{ formD.core_id(class="form-control-sm")}}
+              </div>
+          </div>
+          <div class="field">
+              <label for="fairings_reused" class="form-label detail-field">Fairings Reused?:</label>
+              <div class="control detail-field">
+                  {{ formD.fairings_reused(class="form-control-sm")}}
+              </div>
+          </div>
+          <div class="field">
+              <label for="fairings_recovery_attempts" class="form-label detail-field">Fairings Recovery Attempts?:</label>
+              <div class="control detail-field">
+                  {{ formD.fairings_recovery_attempts(class="form-control-sm")}}
+              </div>
+          </div>
+          <div class="field">
+              <label for="fairings_recovered" class="form-label detail-field">Fairings Recovered?:</label>
+              <div class="control detail-field">
+                  {{ formD.fairings_recovered(class="form-control-sm")}}
+              </div>
+          </div>
+          <div class="field">
+              <label for="failure_time" class="form-label detail-field">Failure Time:</label>
+              <div class="control detail-field">
+                  {{ formD.failure_time(class="form-control-sm")}}
+              </div>
+          </div>
+          <div class="field">
+            <label for="failure_altitude" class="form-label detail-field"> Failure Altitude:</label>
+            <div class="control detail-field">
+                {{ formD.failure_altitude(class="form-control-sm")}}
+            </div>
+          </div>
+          
+          <button type=submit class="btn btn-warning">Add</button>
+        </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+
+<!-- UPDATE LAUNCH DETAILS-->
+
+{% for launch_detail in launch_details %}
+<div class="modal fade" id="update-launch-details-modal-{{ launch_detail.launch_id }}" tabindex="-1" role="dialog" aria-labelledby="update-launch-details-modal-label-{{ launch_detail.launch_id }}" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="update-launch-details-modal-label-{{ launch_detail.launch_id }}"> Update {{launch_detail.name}} Details </h5>
+        </div>
+        <div class="modal-body">
+          <form action="/update_launch_detail" method="POST" style="display: grid;">
+          {{ formD.csrf_token }}
+          <div class="field" style="display: none">
+              <div class="control">
+                  {{ formD.launch_id(value=launch_detail.launch_id, class="form-control-sm")}}
+              </div>
+          </div>
+          <div class="field">
+              <label for="payloads" class="form-label detail-field">Payload ID:</label>
+              <div class="control detail-field">
+                  {{ formD.payloads(value=launch_detail.payloads, class="form-control-sm")}}
+              </div>
+          </div>
+          <div class="field">
+              <label for="height_ft" class="form-label detail-field">Core ID:</label>
+              <div class="control detail-field">
+                  {{ formD.core_id(value=launch_detail.core_id, class="form-control-sm")}}
+              </div>
+          </div>
+          <div class="field">
+              <label for="fairings_reused" class="form-label detail-field">Fairings Reused?:</label>
+              <div class="control detail-field">
+                  {{ formD.fairings_reused(value=launch_detail.fairings_reused, class="form-control-sm")}}
+              </div>
+          </div>
+          <div class="field">
+              <label for="fairings_recovery_attempts" class="form-label detail-field">Fairings Recovery Attempt?:</label>
+              <div class="control detail-field">
+                  {{ formD.fairings_recovery_attempts(value=launch_detail.fairings_recovery_attempts, class="form-control-sm")}}
+              </div>
+          </div>
+          <div class="field">
+              <label for="fairings_recovered" class="form-label detail-field">Fairings Recovered?:</label>
+              <div class="control detail-field">
+                  {{ formD.fairings_recovered(value=launch_detail.fairings_recovered, class="form-control-sm")}}
+              </div>
+          </div>
+          <div class="field">
+              <label for="failure_time" class="form-label detail-field">Failure Time:</label>
+              <div class="control detail-field">
+                  {{ formD.failure_time(value=launch_detail.failure_time, class="form-control-sm")}}
+              </div>
+          </div>
+          <div class="field">
+            <label for="failure_altitude" class="form-label detail-field">Failure Altitude:</label>
+            <div class="control detail-field">
+                {{ formD.failure_altitude(value=launch_detail.failure_altitude, class="form-control-sm")}}
+            </div>
+          </div>
+          
+          <button type=submit class="btn btn-warning">Update</button>
+        </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+
 
 <!-- ADD LAUNCH -->
 

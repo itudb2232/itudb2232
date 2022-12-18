@@ -165,7 +165,7 @@ def launches():
         present = False
 
     launch_data = database.get_launches()
-    return render_template("launches.html", launches=launch_data,
+    return render_template("launches.html", launches=launch_data, launch_details = launch_details,
     inexistent_launch_detail=inexistent_launch_detail,inexistent_launch_detail_dict=inexistent_launch_detail_dict,
     formM=forms.LaunchForm(), formD=forms.LaunchDetailForm(),
     rockets=rocket_dict, launchpads = launchpad_dict, ships = ship_dict, capsules = capsule_dict)
