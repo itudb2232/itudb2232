@@ -45,8 +45,8 @@
                                         </select>
                                         <label for="failure_reason" class="form-label">Failure Reason</label>
                                         <input type="text" class="form-control" name="failure_reason">
-                                        <label for="ships" class="form-label">Ships</label>
-                                        <input type="text" class="form-control" name="ships">
+                                        <label for="ship" class="form-label">Ship</label>
+                                        <input type="text" class="form-control" name="ship">
                                         <label for="capsules" class="form-label">Capsules</label>
                                         <input type="text" class="form-control" name="capsules">
                                         
@@ -105,8 +105,8 @@
                                         <label for="ffailure_reason" class="form-label">Failure Reason:</label>
                                         <input type="text" class="form-control" name="ffailure_reason">
                                         <br>
-                                        <label for="fships" class="form-label">Ships:</label>
-                                        <input type="text" class="form-control" name="fships">
+                                        <label for="fship" class="form-label">Ship:</label>
+                                        <input type="text" class="form-control" name="fship">
                                         <br>
                                         <label for="fcapsules" class="form-label">Capsules:</label>
                                         <input type="text" class="form-control" name="fcapsules">
@@ -145,7 +145,7 @@
                         <th>Launchpad Name</th>
                         <th>Success</th>
                         <th>Failure Reason</th>
-                        <th>Ships</th>
+                        <th>Ship</th>
                         <th>Capsules</th>
                         
                     </tr>
@@ -175,7 +175,7 @@
                             {{"-" if launch["failure_reason"] == None else launch["failure_reason"]}}
                         </td>
                         <td>
-                            {{"-" if launch["ships"] == None else launch["ships"]}}
+                            {{"-" if launch["ship"] == None else launch["ship"]}}
                         </td>
                         <td>
                             {{"-" if launch["capsules"] == None else launch["capsules"]}}

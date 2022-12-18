@@ -11,14 +11,16 @@
 </p>
 
     {% if current_user.is_admin %}
-        <button type="button" class="btn btn-warning btn" data-toggle="modal" data-target="#add-core-modal">
-            Add New Core
-        </button>
+        <div>
+            <button type="button" class="btn btn-warning btn" data-toggle="modal" data-target="#add-core-modal">
+                Add New Core
+            </button>
+        </div>
+        <br/>
     {% endif %}
 <header>
-<br/>
 <table class = "table table-hover table-sm">
-    <tr class = "table-active">
+    <tr class = "table-active" style="text-align: center;">
         <th>Serial</th>
         <th>Status</th>
         <th>Reuse Count</th>
@@ -32,7 +34,7 @@
         {% endif %}
     </tr>
     {% for core in cores %}
-    <tr class>
+    <tr class style="text-align: center;">
         <td>
             {{core["serial"]}}
         </td>
