@@ -2,18 +2,13 @@
 {% block title %}SpaceXhibit - Ships{% endblock %} <!-- This is the Jinja syntax -->
 
 {% block content %} <!-- This is the content block, whatever you include here will be visible on the screen -->
+        
 
 <br/>
 <div class = "card"> 
     <div class = "card body"> 
-        <h2 class = "card-title"> Ships </h2>
         <div class = "card-text" >
-            This is the ships page, you can make searches or browse the ships in our database!
-            <a class="btn btn-warning" href="/ships/ship_details_2" role="button">ship_details_2</a>
-            <!-- Button triggered modal for filtering entries -->
-            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#filterModal">
-                Filter
-            </button>
+
               
             <!-- Modal for filtering entries-->
             <div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
@@ -53,67 +48,155 @@
     </div>
 </div>
 <br/>
+<br/>
+<h2> Ships</h2>
+<p> 
+    These are the ships that has been sent to space by SpaceX Ships so far. If you see anything wrong or missing, feel free to amend.
+ <!-- Button triggered modal for filtering entries -->
+ <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#filterModal">
+  Filter
+</button></p>
+           
+<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#add-ship-modal" style="position: fixed; bottom: 5em; right: 2.5em;">
+    New Ship
+</button>
 
-<table class="table table-hover table-sm">
-    <tr class="table-active">
-      <th>Name</th>
-      <th>Type</th>
-      <th>Active</th>
-      <th>Actions</th>
-    </tr>
-    {% for ship in ships %}
-    <tr class>
-      <td>{{ship["name"]}}</td>
-      <td>{{ship["type"]}}</td>
-      <td>{{ship["active"]}}</td>
-      <td>
-        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#ship-details-modal-{{ ship.ship_id }}">
-          View Details
-        </button>
-      </td>
-    </tr>
-    {% endfor %}
+<table class = "table table-hover table-sm">
+    <thead>
+        <tr class = "table-active">
+            <th>Name</th>
+            <th>Type</th>
+            <th>Active</th>
+            <th colspan="2">Editing</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for ship in ships %}
+        <tr class>
+            <td>
+                {{ship["name"]}}
+            </td>
+            <td>
+                {{ship["type"]}}
+            </td>
+            <td>
+                {{"No" if ship["active"] == "False" else "Yes"}}
+            </td>    
+            <td>
+                <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#update-ship-modal-{{ ship.ship_id }}">
+                  Update
+                </button>
+            </td>
+            <td>
+                {% if current_user.is_admin %}
+                  <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" 
+                  onclick="delete_ship('{{ ship.ship_id }}')">
+                    Delete
+                  </button>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
 </table>
+                    
+        
+<!-- ADD SHIP -->
+
+<div class="modal fade" id="add-ship-modal" tabindex="-1" role="dialog" aria-labelledby="add-ship-modal-label" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="add-ship-modal-label">Add Ship</h5>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body"><form action="/add_ship" method="POST" style="display: grid;">
+                {{ formM.csrf_token }}
+                <div class="field">            
+                    <label for="name" class="form-label detail-field">Name:</label>
+                    <div class="control detail-field">
+                        {{ formM.name(class="form-control-sm")}}
+                    </div>
+                </div>
+                <div class="field">            
+                    <label for="type" class="form-label detail-field">Type:</label>
+                    <div class="control detail-field">
+                        {{ formM.type(class="form-control-sm")}}
+                    </div>
+                </div>
+                <div class="field">            
+                    <label for="acrive" class="form-label detail-field">Reused?:</label>
+                    <div class="control detail-field">
+                        {{ formM.active(class="form-control-sm")}}
+                    </div>
+                </div>
+              
+                <button type="submit" class="btn btn-warning">Add</button>
+            </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- UPDATE SHIP -->
 
 {% for ship in ships %}
-<div class="modal fade" id="ship-details-modal-{{ ship.ship_id }}" tabindex="-1" role="dialog" aria-labelledby="ship-details-modal-label-{{ ship.ship_id }}" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="ship-details-modal-label-{{ ship.ship_id }}">{{ ship.name }} Details</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        {% for ship_details in ship_details_1 if ship_details.ship_id == ship.ship_id %}
-        <p>Primary Role: {{ ship_details.primary_role }}</p>
-        <p>Secondary Role: {{ ship_details.secondary_role }}</p>
-        <p>IMO: {{ ship_details.imo }}</p>
-        <p>MMSI: {{ ship_details.mmsi }}</p>
-        <p>ABS: {{ ship_details.abs }}</p>
-        {% endfor %}
-        {% for ship_details in ship_details_2 if ship_details.ship_id == ship.ship_id %}
-        <p>Class: {{ ship_details.class }}</p>
-        <p>Mass (kg): {{ ship_details.mass_kg }}</p>
-        <p>Mass (lb): {{ ship_details.mass_lb }}</p>
-        <p>Year Built: {{ ship_details.year_built }}</p>
-        <p>Home Port: {{ ship_details.home_port }}</p>
-        {% endfor %}
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+<div class="modal fade" id="update-ship-modal-{{ ship.ship_id }}" tabindex="-1" role="dialog" aria-labelledby="update-ship-modal-label-{{ ship.ship_id }}" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="ship-modal-label-{{ ship.ship_id }}"> Update {{ ship.name }} </h5>
+        </div>
+        <div class="modal-body"><form action="/update_ship" method="POST" style="display: grid;">
+          {{ formM.csrf_token }}
+          <div class="field" style="display: none">
+              <div class="control">
+                  {{ formM.ship_id(value=ship.ship_id, class="form-control-sm")}}
+              </div>
+          </div>
+          <div class="field">
+              <label for="name" class="form-label detail-field">Name:</label>
+              <div class="control detail-field">
+                  {{ formM.name(value=ship.name,class="form-control-sm")}}
+              </div>
+          </div>
+          <div class="field">
+              <label for="type" class="form-label detail-field">Type:</label>
+              <div class="control detail-field">
+                  {{ formM.type(value=ship.type,class="form-control-sm")}}
+              </div>
+          </div>
+          <div class="field">
+              <label for="active" class="form-label detail-field">Reused?:</label>
+              <div class="control detail-field">        
+                  <select class="form-control-sm" id="active" name="active" value="True">
+                    {% if ship.active == "True" %}
+                      <option value="True" selected>Yes</option>
+                      <option value="False">No</option>
+                    {% else %}
+                    <option value="True">Yes</option>
+                    <option value="False" selected>No</option>
+                    {% endif %}
+                  </select>
+              </div>
+          </div>
+          
+          <button type=submit class="btn btn-warning">Update</button>
+        </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
       </div>
     </div>
-  </div>
 </div>
+
 {% endfor %}
-
-
-     
-
-  
 
 <!-- This endblock denotes the end of the content block, nothing should come after it-->
 {% endblock %}
-

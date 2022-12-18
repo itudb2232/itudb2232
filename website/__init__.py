@@ -65,6 +65,14 @@ def create_app():
                 core_id = current_id
     app.config["core_id"] = int(core_id) + 1
 
+    ship_id = -1
+    for ship in database.get_shipss():
+        current_id = ship["ship_id"]
+        if current_id.isdigit():
+            if int(current_id) > int(ship_id):
+                ship_id = current_id
+    app.config["ship_id"] = int(ship_id) + 1
+
     # Other configs (hardcoded - could be avoided if launched as `cd website´):
     #   database.py (db_location)
     #   database ( open("/static/rocket_images/"... )

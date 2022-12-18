@@ -82,4 +82,24 @@ class RocketImageForm(FlaskForm):
     rocket_image = FileField(validators=[validators.DataRequired()])
 
 # Ships
+class ShipForm(FlaskForm):
+    ship_id = StringField()
+    name = StringField()
+    type = StringField()
+    active = SelectField(choices=[("True", "Active"),("False", "Deactive")])
 
+class ShipD1Form(FlaskForm):
+    ship_id = StringField()
+    model = StringField()
+    roles = StringField()
+    imo = IntegerField()
+    mmsi = IntegerField()
+    abs = IntegerField()   
+
+class ShipD2Form(FlaskForm):
+    ship_id = StringField()
+    class_ = DecimalField()
+    mass_kg = IntegerField()
+    mass_lb = IntegerField()
+    year_built = IntegerField()
+    home_port = IntegerField()
