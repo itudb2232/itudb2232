@@ -155,6 +155,33 @@ def add_payload(request):
         cur.execute(f'INSERT INTO payloads VALUES ({",".join("?" * len(payload_columns))})', new_payload)
         con.commit()
 
+def update_payload(request):
+    with sqlite3.connect(db_location) as con:
+        con.row_factory = sqlite3.Row
+        cur = con.cursor()
+
+        # Update payload
+        payload_columns = cur.execute("PRAGMA table_info(payloads)").fetchall()
+        payload_columns_str = ",".join([column["name"] + "=?" for column in payload_columns if column["name"] != "payload_id"])
+
+        payload = []
+        for column in payload_columns:
+            if column["name"] in request.form.keys():
+                payload += [request.form[column["name"]]]
+        
+        payload_id = payload[0]
+        payload = payload[1:] + [payload_id]
+
+        cur.execute(f'UPDATE payloads SET {payload_columns_str} WHERE payload_id = ?', payload)
+        con.commit()
+
+def delete_payload(payload_id):
+    with sqlite3.connect(db_location) as con:
+        cursor = con.cursor()
+        cursor.execute("PRAGMA foreign_keys=ON")  # This allows for cascading to details
+        query = "DELETE FROM payloads WHERE (payload_id = ?)"
+        cursor.execute(query, (payload_id,))
+        con.commit()
 # Rockets
 def get_rockets():
     with sqlite3.connect(db_location) as con:
