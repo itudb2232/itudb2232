@@ -2,6 +2,10 @@ a.nav-item.nav-link, p.nav-item.nav-link {
     color: black !important;
 }
 
+label{
+    color:white;
+}
+
 .pad-left {
     padding-left: 3em !important;
 }
