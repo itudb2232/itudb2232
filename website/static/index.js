@@ -28,3 +28,7 @@ function delete_payload(payload_id) {
 function delete_launch(launch_id) {
     document.location = '/delete_launch?launch_id=' + launch_id
 }
+//SHIPS//
+function delete_ship(ship_id) {
+    document.location = '/delete_ship?ship_id=' + ship_id
+}
