@@ -78,12 +78,17 @@ def capsules():
 @views.route("/add_capsule", methods=["POST"])
 def add_capsule():
     database.add_capsule(request)
-    return redirect(url_for("views.capsule"))
+    return redirect(url_for("views.capsules"))
 
 @views.route('/delete_capsule', methods=['GET'])
 def delete_capsule():
     database.delete_capsule(request.args.get("capsule_id"))
-    return redirect(url_for("views.capsule"))
+    return redirect(url_for("views.capsules"))
+
+@views.route('/update_capsule', methods=['POST'])
+def update_capsule():
+    database.update_capsule(request)
+    return redirect(url_for("views.capsules"))
 
 # Cores
 @views.route('/cores', methods=['GET', 'POST'])
@@ -131,12 +136,17 @@ def launches():
 @views.route("/add_launch", methods=["POST"])
 def add_launch():
     database.add_launch(request)
-    return redirect(url_for("views.launch"))
+    return redirect(url_for("views.launches"))
 
 @views.route('/delete_launch', methods=['GET'])
 def delete_launch():
     database.delete_launch(request.args.get("launch_id"))
-    return redirect(url_for("views.launch"))
+    return redirect(url_for("views.launches"))
+
+@views.route('/update_launch', methods=['POST'])
+def update_launch():
+    database.update_launch(request)
+    return redirect(url_for("views.launches"))
 
 # Launchpads
 @views.route('/launchpads', methods=['GET'])

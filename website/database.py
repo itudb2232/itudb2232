@@ -35,6 +35,26 @@ def delete_capsule(capsule_id):
         cursor.execute(query, (capsule_id,))
         con.commit()
 
+def update_capsule(request):
+    with sqlite3.connect(db_location) as con:
+        con.row_factory = sqlite3.Row
+        cur = con.cursor()
+
+        # Update capsule
+        capsule_columns = cur.execute("PRAGMA table_info(capsules)").fetchall()
+        capsule_columns_str = ",".join([column["name"] + "=?" for column in capsule_columns if column["name"] != "capsule_id"])
+
+        capsule = []
+        for column in capsule_columns:
+            if column["name"] in request.form.keys():
+                capsule += [request.form[column["name"]]]
+        
+        capsule_id = capsule[0]
+        capsule = capsule[1:] + [capsule_id]
+
+        cur.execute(f'UPDATE capsules SET {capsule_columns_str} WHERE capsule_id = ?', capsule)
+        con.commit()
+
 # Cores
 def get_cores():
     with sqlite3.connect(db_location) as con:
@@ -119,6 +139,26 @@ def delete_launch(launch_id):
             query = "DELETE FROM launches WHERE (launch_id = ?)"
             cursor.execute(query, (launch_id,))
             con.commit()
+
+def update_launch(request):
+    with sqlite3.connect(db_location) as con:
+        con.row_factory = sqlite3.Row
+        cur = con.cursor()
+
+        # Update launch
+        launch_columns = cur.execute("PRAGMA table_info(launches)").fetchall()
+        launch_columns_str = ",".join([column["name"] + "=?" for column in launch_columns if column["name"] != "launch_id"])
+
+        launch = []
+        for column in launch_columns:
+            if column["name"] in request.form.keys():
+                launch += [request.form[column["name"]]]
+        
+        launch_id = launch[0]
+        launch = launch[1:] + [launch_id]
+
+        cur.execute(f'UPDATE launches SET {launch_columns_str} WHERE launch_id = ?', launch)
+        con.commit()
 
 # Launchpads
 def get_launchpads():
