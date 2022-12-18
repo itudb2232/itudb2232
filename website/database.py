@@ -124,7 +124,8 @@ def add_launch(request):
         # Add new launch
         launch_columns = cur.execute("PRAGMA table_info(launches)").fetchall()
         
-        new_launch = []
+        new_launch = [str(current_app.config["launch_id"])]
+        current_app.config["launch_id"] += 1
         for column in launch_columns:
             if column["name"] in request.form.keys():
                 new_launch += [request.form[column["name"]]]
@@ -158,7 +159,7 @@ def update_launch(request):
 
         cur.execute(f'UPDATE launches SET {launch_columns_str} WHERE launch_id = ?', launch)
         con.commit()
-
+        
 # Launchpads
 def get_launchpads():
     with sqlite3.connect(db_location) as con:
