@@ -115,8 +115,14 @@ def update_core():
 # Launches
 @views.route('/launches', methods=['GET', 'POST'])
 def launches():
+    rocket_data = database.get_rockets()
+    rocket_dict = {}
+    for rocket in rocket_data:
+        rocket_dict[rocket["rocket_id"]] = rocket["name"]
+    
+
     launch_data = database.get_launches()
-    return render_template("launches.html", launches=launch_data)
+    return render_template("launches.html", launches=launch_data, rockets=rocket_dict)
 
 @views.route("/add_launch", methods=["POST"])
 def add_launch():
