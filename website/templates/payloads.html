@@ -251,34 +251,42 @@
 
 <!-- FILTER PAYLOADS -->
 <div class="modal fade" id="filter-payload-modal" tabindex="-1" aria-labelledby="filter-payload-modal-label" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="filter-payload-modal-label">Search</h5>
                 <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <!-- Form to filter -->
-                <form action="/payloads" method="POST"> 
-                    <label for="name" class="form-label">Name:</label>
-                    <input type="text" class="form-control" name="name">                 
-                    <br> 
-                    <label for="type" class="form-label">Type:</label>
-                    <input type="text" class="form-control" name="type">
-                    <br>
-                    <label for="reused" class="form-label">Reused?</label> 
-                    <select class="form-select" name="reused"> 
-                        <option value="">Choose</option>  
-                        <option value="True">True</option>
-                        <option value="False">False</option>
+            <div class="modal-body"><form action="/payloads_filtered" method="POST">
+                    <label for="fname" class="form-label">Name:</label>
+                    <input type="text" class="form-control" name="fname"> 
+
+                    <label for="ftype" class="form-label">Type:</label>
+                    <input type="text" class="form-control" name="ftype">
+
+                    <label for="freused" class="form-label">Reused:</label>
+                    <select class="form-select" name="freused" aria-label="Default Select">
+                        <option value=""> Any </option>
+                        <option value="True"> Yes </option>
+                        <option value="False"> No </option>                 
                     </select>
                     
+                    <label for="fmanufacturers" class="form-label">Manufacturers:</label>
+                    <input type="text" class="form-control" name="fmanufacturers">
+
+                    <label for="forbit" class="form-label">Orbit:</label>
+                    <input type="text" class="form-control" name="forbit">                 
+                    
+                    <label for="freference_system" class="form-label">Reference System:</label>
+                    <input type="text" class="form-control" name="freference_system">
+
+                    <label for="fregime" class="form-label">Regime:</label>
+                    <input type="text" class="form-control" name="fregime">                 
                     
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class = "btn btn-warning">Filter</button>
+                        <button type="submit" class = "btn btn-warning">Search</button>
                     </div>
-                    <!-- End of Form-->
                 </form>      
             </div>
         </div>

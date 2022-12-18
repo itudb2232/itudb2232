@@ -160,6 +160,12 @@ def payloads():
     payload_data = database.get_payloads()
     return render_template("payloads.html", payloads=payload_data, formM=forms.PayloadForm())
 
+@views.route('/payloads_filtered', methods=['GET', 'POST'])
+def payloads_filtered():
+    filter_data = database.filter_payloads(request)
+    return render_template("payloads.html", payloads=filter_data, formM=forms.PayloadForm())
+
+
 @views.route('/add_payload', methods=['POST'])
 @login_required
 def add_payload():
@@ -176,7 +182,6 @@ def update_payload():
 def delete_payload():
     if current_user.is_admin:
         database.delete_payload(request.args.get("payload_id"))
-        print("USER IS ADMIN, DELETE PAYLOAD")
     else:
         flash("Please do not poke around the exhibit.")
     return redirect(url_for("views.payloads"))

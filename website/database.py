@@ -177,6 +177,87 @@ def get_payloads():
             "SELECT * FROM payloads ORDER BY name ASC"
             ).fetchall()
 
+def filter_payloads(request):
+    with sqlite3.connect(db_location) as con:
+        con.row_factory = sqlite3.Row
+        cur = con.cursor()
+        print("filter_payloads executed")
+        query = "SELECT * FROM payloads"
+        params = []
+        print(request.form.get('fname'))
+        if request.form.get('fname'):
+            if not params:
+                query += " WHERE"
+            user_name = request.form['fname']
+            query += " name LIKE ?"
+            param_name = "%" + user_name + "%"
+            params.append(param_name)
+
+        if request.form.get('ftype'):
+            if not params:
+                query += " WHERE"
+            else:
+                query += " AND"
+            user_type = request.form['ftype']
+            query += " type LIKE ?"
+            param_type = "%" + user_type + "%"
+            params.append(param_type)
+
+        if request.form.get('freused') != "":
+            if not params:
+                query += " WHERE"
+            else:
+                query += " AND"
+            user_reused = request.form['freused']
+            query += " reused LIKE ?"
+            param_reused = "%" + user_reused + "%"
+            params.append(param_reused)
+
+        if request.form.get('fmanufacturers'):
+            if not params:
+                query += " WHERE"
+            else:
+                query += " AND"
+            user_manufacturers = request.form['fmanufacturers']
+            query += " manufacturers LIKE ?"
+            param_manufacturers = "%" + user_manufacturers + "%"
+            params.append(param_manufacturers)
+
+        if request.form.get('forbit'):
+            if not params:
+                query += " WHERE"
+            else:
+                query += " AND"
+            user_orbit = request.form['forbit']
+            query += " orbit LIKE ?"
+            param_orbit = "%" + user_orbit + "%"
+            params.append(param_orbit)
+        
+        if request.form.get('freference_system'):
+            if not params:
+                query += " WHERE"
+            else:
+                query += " AND"
+            user_reference_system = request.form['freference_system']
+            query += " reference_system LIKE ?"
+            param_reference_system = "%" + user_reference_system + "%"
+            params.append(param_reference_system)
+        
+        if request.form.get('freference_system'):
+            if not params:
+                query += " WHERE"
+            else:
+                query += " AND"
+            user_regime = request.form['fregime']
+            query += " regime LIKE ?"
+            param_regime = "%" + user_regime + "%"
+            params.append(param_regime)
+
+        print(query)
+        print(tuple(params))
+        filter = cur.execute(query, tuple(params)).fetchall()
+        return filter
+
 def add_payload(request):
     with sqlite3.connect(db_location) as con:
         con.row_factory = sqlite3.Row
@@ -203,15 +284,13 @@ def update_payload(request):
         payload_columns = cur.execute("PRAGMA table_info(payloads)").fetchall()
         payload_columns_str = ",".join([column["name"] + "=?" for column in payload_columns if column["name"] != "payload_id"])
 
-        print ( "PAYLOAD COLUMNS STR: " + payload_columns_str)
         payload = []
         for column in payload_columns:
             if column["name"] in request.form.keys():
                 payload += [request.form[column["name"]]]
-        print(payload)
+        
         payload_id = payload[0]
         payload = payload[1:] + [payload_id]
-        print(payload)
 
         cur.execute(f'UPDATE payloads SET {payload_columns_str} WHERE payload_id = ?', payload)
         con.commit()
