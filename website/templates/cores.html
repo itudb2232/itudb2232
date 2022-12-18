@@ -7,7 +7,9 @@
 <h2> Cores </h2>
 <p>
     This is the cores page, you can make searches or browse the cores in our database!
+    {% if not current_user.is_admin %} Please <a href="/login">log in</a> to update, delete or add new core data. {% endif %}
 </p>
+
     {% if current_user.is_admin %}
         <button type="button" class="btn btn-warning btn" data-toggle="modal" data-target="#add-core-modal">
             Add New Core
@@ -97,6 +99,12 @@
               </div>
           </div>
           <div class="field">
+            <label for="block" class="form-label detail-field">Block:</label>
+            <div class="control detail-field">
+                {{ core_form.block(class="form-control-sm")}}
+            </div>
+        </div>
+          <div class="field">
               <label for="rtls_attempts" class="form-label detail-field">Real Time Locating System Attempts:</label>
               <div class="control detail-field">
                   {{ core_form.rtls_attempts(class="form-control-sm")}}
@@ -139,7 +147,7 @@
                 <div class="modal-header">
                     <h5 class="modal-title" id="core-modal-label-{{ core.core_id }}"> Update {{ core.serial }} </h5>
                 </div>
-                <div class="modal-body"><form action="/update_rocket" method="POST" style="display: grid;">
+                <div class="modal-body"><form action="/update_core" method="POST" style="display: grid;">
                     {{ core_form.csrf_token }}
                     <div class="field" style="display: none">
                         <div class="control">
@@ -162,6 +170,12 @@
                         <label for="reuse_count" class="form-label detail-field">Reuse Count:</label>
                         <div class="control detail-field">
                             {{ core_form.reuse_count(value=core.reuse_count,class="form-control-sm")}}
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="block" class="form-label detail-field">Block:</label>
+                        <div class="control detail-field">
+                            {{ core_form.block(value=core.block,class="form-control-sm")}}
                         </div>
                     </div>
                     <div class="field">

@@ -69,14 +69,13 @@ def add_core(request):
         con.row_factory = sqlite3.Row
         cur = con.cursor() 
 
-        # Add new core
         core_columns = cur.execute("PRAGMA table_info(cores)").fetchall()
 
-        new_core = [str(current_app.config["core_id"])]  # Get next ID
+        new_core = [str(current_app.config["core_id"])]
         current_app.config["core_id"] += 1
         for column in core_columns:
-            if column["serial"] in request.form.keys():
-                new_core += [request.form[column["serial"]]]
+            if column["name"] in request.form.keys():
+                new_core += [request.form[column["name"]]]
 
         cur.execute(f'INSERT INTO cores VALUES ({",".join("?" * len(core_columns))})', new_core)
         con.commit()
@@ -94,20 +93,20 @@ def update_core(request):
         con.row_factory = sqlite3.Row
         cur = con.cursor()
 
-        core_columns = cur.execute("PRAGMA table_info(rockets)").fetchall()
-        core_columns_str = ",".join([column["serial"] + "=?" for column in core_columns if column["serial"] != "core_id"])
+        core_columns = cur.execute("PRAGMA table_info(cores)").fetchall()
+        core_columns_str = ",".join([column["name"] + "=?" for column in core_columns if column["name"] != "core_id"])
 
-        rocket = []
+        core = []
         for column in core_columns:
-            if column["serial"] in request.form.keys():
-                rocket += [request.form[column["serial"]]]
+            if column["name"] in request.form.keys():
+                core += [request.form[column["name"]]]
         
         core_id = core[0]
         core = core[1:] + [core_id]
 
-        cur.execute(f'UPDATE cores SET {core_columns_str} WHERE core_id = ?', rocket)
+        cur.execute(f'UPDATE cores SET {core_columns_str} WHERE core_id = ?', core)
         con.commit()
-
+        
 # Launches
 def get_launches():
     with sqlite3.connect(db_location) as con:
