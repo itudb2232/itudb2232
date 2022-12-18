@@ -199,7 +199,7 @@ def update_payload(request):
         con.row_factory = sqlite3.Row
         cur = con.cursor()
 
-        # Update rocket
+        # Update payload
         payload_columns = cur.execute("PRAGMA table_info(payloads)").fetchall()
         payload_columns_str = ",".join([column["name"] + "=?" for column in payload_columns if column["name"] != "payload_id"])
 
@@ -214,6 +214,15 @@ def update_payload(request):
         print(payload)
 
         cur.execute(f'UPDATE payloads SET {payload_columns_str} WHERE payload_id = ?', payload)
+        con.commit()
+
+def delete_payload(payload_id):
+    with sqlite3.connect(db_location) as con:
+        cursor = con.cursor()
+        print("USER IS ADMIN, DELETE PAYLOAD")
+        #cursor.execute("PRAGMA foreign_keys=ON")  # This allows for cascading to details
+        query = "DELETE FROM payloads WHERE (payload_id = ?)"
+        cursor.execute(query, (payload_id,))
         con.commit()
 # Rockets
 def get_rockets():

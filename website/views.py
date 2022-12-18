@@ -171,6 +171,16 @@ def update_payload():
     database.update_payload(request)
     return redirect(url_for("views.payloads"))
 
+@views.route('/delete_payload', methods=['GET'])
+@login_required
+def delete_payload():
+    if current_user.is_admin:
+        database.delete_payload(request.args.get("payload_id"))
+        print("USER IS ADMIN, DELETE PAYLOAD")
+    else:
+        flash("Please do not poke around the exhibit.")
+    return redirect(url_for("views.payloads"))
+
 # Rockets
 @views.route('/rockets', methods=['GET', 'POST'])
 def rockets():
