@@ -81,7 +81,94 @@
 <!-- ADD LAUNCH -->
 
 <!-- UPDATE LAUNCH -->
+{% for launch in launches %}
 
+<div class="modal fade" id="update-launch-modal-{{ launch.launch_id }}" tabindex="-1" role="dialog" aria-labelledby="update-launch-modal-label-{{ launch.launch_id }}" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="launch-modal-label-{{ launch.launch_id }}"> Update {{ launch.name }} </h5>
+        </div>
+        <div class="modal-body"><form action="/update_launch" method="POST" style="display: grid;">
+          {{ formM.csrf_token }}
+          <div class="field" style="display: none">
+              <div class="control">
+                  {{ formM.launch_id(value=launch.launch_id, class="form-control-sm")}}
+              </div>
+          </div>
+          <div class="field">
+              <label for="name" class="form-label detail-field">Name:</label>
+              <div class="control detail-field">
+                  {{ formM.name(value=launch.name,class="form-control-sm")}}
+              </div>
+          </div>
+          <div class="field">
+              <label for="date" class="form-label detail-field">Date:</label>
+              <div class="control detail-field">
+                  {{ formM.date(value=launch.date,class="form-control-sm")}}
+              </div>
+          </div>
+          <div class="field">
+              <label for="time" class="form-label detail-field">Time:</label>
+              <div class="control detail-field">
+                  {{ formM.time(value=launch.time,class="form-control-sm")}}
+                  
+              </div>
+          </div>
+          <div class="field">
+              <label for="rocket_id" class="form-label detail-field">Rocket ID:</label>
+              <div class="control detail-field">
+                  {{ formM.rocket_id(value=launch.rocket_id,class="form-control-sm")}}
+              </div>
+          </div>
+          <div class="field">
+              <label for="launchpad_id" class="form-label detail-field">Launchpad ID:</label>
+              <div class="control detail-field">
+                  {{ formM.launchpad_id(value=launch.launchpad_id,class="form-control-sm")}}
+              </div>
+          </div>
+          <div class="field">
+            <label for="success" class="form-label detail-field"> Success?:</label>
+            <div class="control detail-field">
+                <select class="form-control-sm" id="success" name="success" value="True">
+                    {% if launch.success == "True" %}
+                      <option value="True" selected>Yes</option>
+                      <option value="False">No</option>
+                    {% else %}
+                    <option value="True">Yes</option>
+                    <option value="False" selected>No</option>
+                    {% endif %}
+                  </select>
+            </div>
+        </div>
+        <div class="field">
+            <label for="failure_reason" class="form-label detail-field">Failure Reason:</label>
+            <div class="control detail-field">
+                {{ formM.failure_reason(value=launch.failure_reason,class="form-control-sm")}}
+            </div>
+        </div>
+        <div class="field">
+            <label for="ship" class="form-label detail-field"> Ship ID:</label>
+            <div class="control detail-field">
+                {{ formM.ship(value=launch.ship,class="form-control-sm")}}
+            </div>
+        </div>
+        <div class="field">
+            <label for="capsules" class="form-label detail-field">Capsule ID:</label>
+            <div class="control detail-field">
+                {{ formM.capsules(value=launch.capsules,class="form-control-sm")}}
+            </div>
+        </div>
+  
+          <button type=submit class="btn btn-warning">Update</button>
+        </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+</div>
 <!-- FILTER LAUNCHES-->
 <div class="modal fade" id="filter-launch-modal" tabindex="-1" aria-labelledby="filter-launch-modal-label" aria-hidden="true">
     <div class="modal-dialog modal-sm">
