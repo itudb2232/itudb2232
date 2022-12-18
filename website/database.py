@@ -203,7 +203,7 @@ def get_launches():
         con.row_factory = sqlite3.Row
         cur = con.cursor()
         return cur.execute(
-            "SELECT * FROM launches JOIN launch_details on launches.launch_id = launch_details.launch_id"
+            "SELECT * FROM launches LEFT JOIN launch_details on launches.launch_id = launch_details.launch_id"
             ).fetchall()
 
 def add_launch(request):
