@@ -7,6 +7,8 @@
 <h2> Payloads</h2>
 <p> 
     These are the payloads that has been sent to space by SpaceX Rockets so far. If you see anything wrong or missing, feel free to amend.
+    {% if not current_user.is_admin %} Please <a href="/login">login</a> to update, delete or add payload data. {% endif %}
+
 </p>
 
 <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#add-payload-modal" style="position: fixed; bottom: 5em; right: 2.5em;">
