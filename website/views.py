@@ -260,32 +260,46 @@ def rockets():
 
 @views.route("/add_rocket", methods=["POST"])
 def add_rocket():
-    database.add_rocket(request)
+    form = forms.RocketForm()
+    if form.validate_on_submit():
+        database.add_rocket(request)
     return redirect(url_for("views.rockets"))
 @views.route('/add_rocket_detail_1', methods=['POST'])
 def add_rocket_detail_1():
-    database.add_rocket_d1(request)
+    form = forms.RocketD1Form()
+    if form.validate_on_submit():
+        database.add_rocket_d1(request)
     return redirect(url_for("views.rockets"))
 @views.route('/add_rocket_detail_2', methods=['POST'])
 def add_rocket_detail_2():
-    database.add_rocket_d2(request)
+    form = forms.RocketD2Form()
+    if form.validate_on_submit():
+        database.add_rocket_d2(request)
     return redirect(url_for("views.rockets"))
 @views.route('/add_rocket_image', methods=['POST'])
 def add_rocket_image():
-    database.add_rocket_image(request)
+    form = forms.RocketImageForm()
+    if form.validate_on_submit():
+        database.add_rocket_image(request)
     return redirect(url_for("views.rockets"))
 
 @views.route("/update_rocket", methods=["POST"])
 def update_rocket():
-    database.update_rocket(request)
+    form = forms.RocketForm()
+    if form.validate_on_submit():
+        database.update_rocket(request)
     return redirect(url_for("views.rockets"))
 @views.route('/update_rocket_detail_1', methods=['POST'])
 def update_rocket_detail_1():
-    database.update_rocket_d1(request)
+    form = forms.RocketD1Form()
+    if form.validate_on_submit():
+        database.update_rocket_d1(request)
     return redirect(url_for("views.rockets"))
 @views.route('/update_rocket_detail_2', methods=['POST'])
 def update_rocket_detail_2():
-    database.update_rocket_d2(request)
+    form = forms.RocketD2Form()
+    if form.validate_on_submit():
+        database.update_rocket_d2(request)
     return redirect(url_for("views.rockets"))
 
 @views.route('/delete_rocket', methods=['GET'])
