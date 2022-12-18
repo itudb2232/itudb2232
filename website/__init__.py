@@ -25,6 +25,22 @@ def create_app():
 
     # Set latest IDs for insertable tables
 
+    capsule_id = -1
+    for capsule in database.get_capsules():
+        current_id = capsule["capsule_id"]
+        if current_id.isdigit():
+            if int(current_id) > int(capsule_id):
+                capsule_id = current_id
+    app.config["capsule_id"] = int(capsule_id) + 1
+
+    launch_id = -1
+    for launch in database.get_launches():
+        current_id = launch["launch_id"]
+        if current_id.isdigit():
+            if int(current_id) > int(launch_id):
+                launch_id = current_id
+    app.config["launch_id"] = int(launch_id) + 1
+
     payload_id = -1
     for payload in database.get_payloads():
         current_id = payload["payload_id"]
