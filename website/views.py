@@ -26,7 +26,7 @@ def signup():
 
             user_type = "regular"
             deserves_adminhood = True if form.data["superfan"] == "True" else False
-            if deserves_adminhood:
+            if deserves_adminhood and "wants_admin" in request.form.keys():
                 user_type = "admin"
 
             users.add_user(username, hashed_password, user_type)
