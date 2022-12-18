@@ -60,6 +60,18 @@
             <td>
                 {{"-" if capsules[launch["capsules"]] == None else capsules[launch["capsules"]]}}
             </td>
+
+            <td>
+                {% if launch["launch_id"] in inexistent_launch_detail %}
+                  <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#add-launch-details-modal-{{ launch.launch_id }}">
+                    Add Details
+                  </button>
+                {% else %}
+                  <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#launch-details-modal-{{ launch.launch_id }}">
+                    Details
+                  </button>
+                {% endif %}
+              </td>
             <td>
                 <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#update-launch-modal-{{ launch.launch_id }}">
                   Update
