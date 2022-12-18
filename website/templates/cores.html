@@ -7,13 +7,16 @@
 <h2> Cores </h2>
 <p>
     This is the cores page, you can make searches or browse the cores in our database!
-    {% if not current_user.is_admin %} Please <a href="/login">log in</a> to update, delete or add new core data. {% endif %}
+    {% if not current_user.is_admin %} Please <a href="/login">log in</a> to update, delete, filter or add core data. {% endif %}
 </p>
 
     {% if current_user.is_admin %}
         <div>
             <button type="button" class="btn btn-warning btn" data-toggle="modal" data-target="#add-core-modal">
                 Add New Core
+            </button>
+            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#filter-core-modal">
+                Filter Core
             </button>
         </div>
         <br/>
@@ -216,5 +219,50 @@
         </div>
     </div>
 {% endfor %}
+
+
+<!-- FILTER -->
+<div class="modal fade" id="filter-core-modal" tabindex="-1" aria-labelledby="filter-core-modal-label" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="filter-core-modal-label">Search</h5>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body"><form action="/filter_core" method="POST">
+                    <label for="fserial" class="form-label">Serial:</label>
+                    <input type="text" class="form-control" name="fserial"> 
+
+                    <label for="fstatus" class="form-label">Status:</label>
+                    <input type="text" class="form-control" name="fstatus">
+
+                    <label for="freuse_count" class="form-label">Reuse Count:</label>
+                    <input type="integer" class="form-control" name="freuse_count">
+
+                    <label for="fblock" class="form-label">Block:</label>
+                    <input type="integer" class="form-control" name="fblock">
+                    
+                    <label for="frtls_attempts" class="form-label">Real Time Locating System Attempts:</label>
+                    <input type="integer" class="form-control" name="frtls_attempts">
+
+                    <label for="frtls_landings" class="form-label">Real Time Locating System Landings:</label>
+                    <input type="integer" class="form-control" name="frtls_landings">
+
+                    <label for="fasds_attempts" class="form-label">Autonomous Spaceport Drone Ship Attempts:</label>
+                    <input type="integer" class="form-control" name="fasds_attempts">
+
+                    <label for="fasds_landings" class="form-label">Autonomous Spaceport Drone Ship Landings:</label>
+                    <input type="integer" class="form-control" name="fasds_landings">
+                    
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class = "btn btn-warning">Filter</button>
+                    </div>
+                </form>      
+            </div>
+        </div>
+    </div>
+</div>
+
 
 {% endblock %}

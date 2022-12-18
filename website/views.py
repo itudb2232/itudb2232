@@ -117,6 +117,13 @@ def update_core():
         database.update_core(request)
     return redirect(url_for("views.cores"))
 
+@views.route('/filter_core', methods=['GET', 'POST'])
+@login_required
+def filter_core():
+    if current_user.is_admin:
+        filter_core_data = database.filter_core(request)
+    return render_template("cores.html", cores=filter_core_data, core_form = forms.CoresForm())
+
 # Launches
 @views.route('/launches', methods=['GET', 'POST'])
 def launches():

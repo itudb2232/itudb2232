@@ -106,7 +106,97 @@ def update_core(request):
 
         cur.execute(f'UPDATE cores SET {core_columns_str} WHERE core_id = ?', core)
         con.commit()
+
+def filter_core(request):
+    with sqlite3.connect(db_location) as con:
+        con.row_factory = sqlite3.Row
+        cur = con.cursor()
+        print("filter_core executed")
+        query = "SELECT * FROM cores"
+        params = []
+        print(request.form.get('fserial'))
+        if request.form.get('fserial'):
+            if not params:
+                query += " WHERE"
+            user_serial = request.form['fserial']
+            query += " serial LIKE ?"
+            param_serial = "%" + user_serial + "%"
+            params.append(param_serial)
+
+        if request.form.get('fstatus'):
+            if not params:
+                query += " WHERE"
+            else:
+                query += " AND"
+            user_status = request.form['fstatus']
+            query += " status LIKE ?"
+            param_status = "%" + user_status + "%"
+            params.append(param_status)
+
+        if request.form.get('freuse_count') != "":
+            if not params:
+                query += " WHERE"
+            else:
+                query += " AND"
+            user_reuse_count = request.form['freuse_count']
+            query += " reuse_count LIKE ?"
+            param_reuse_count = "%" + user_reuse_count + "%"
+            params.append(param_reuse_count)
+
+        if request.form.get('fblock'):
+            if not params:
+                query += " WHERE"
+            else:
+                query += " AND"
+            user_block = request.form['fblock']
+            query += " block LIKE ?"
+            param_block = "%" + user_block + "%"
+            params.append(param_block)
+
+        if request.form.get('frtls_attempts'):
+            if not params:
+                query += " WHERE"
+            else:
+                query += " AND"
+            user_rtls_attempts = request.form['frtls_attempts']
+            query += " rtls_attempts LIKE ?"
+            param_rtls_attempts = "%" + user_rtls_attempts + "%"
+            params.append(param_rtls_attempts)
         
+        if request.form.get('frtls_landings'):
+            if not params:
+                query += " WHERE"
+            else:
+                query += " AND"
+            user_rtls_landings = request.form['frtls_landings']
+            query += " rtls_landings LIKE ?"
+            param_rtls_landings = "%" + user_rtls_landings + "%"
+            params.append(param_rtls_landings)
+        
+        if request.form.get('fasds_attempts'):
+            if not params:
+                query += " WHERE"
+            else:
+                query += " AND"
+            user_asds_attempts = request.form['fasds_attempts']
+            query += " asds_attempts LIKE ?"
+            param_asds_attempts = "%" + user_asds_attempts + "%"
+            params.append(param_asds_attempts)
+        if request.form.get('fasds_landings'):
+            if not params:
+                query += " WHERE"
+            else:
+                query += " AND"
+            user_asds_landings = request.form['fasds_landings']
+            query += " asds_landings LIKE ?"
+            param_asds_landings = "%" + user_asds_landings + "%"
+            params.append(param_asds_landings)
+
+        print(query)
+        print(tuple(params))
+        filter = cur.execute(query, tuple(params)).fetchall()
+        return filter
+
 # Launches
 def get_launches():
     with sqlite3.connect(db_location) as con:
