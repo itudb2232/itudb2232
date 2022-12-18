@@ -19,6 +19,11 @@ function delete_core(core_id) {
     document.location = '/delete_core?core_id=' + core_id
 }
 
+// LAUNCHES //
+function delete_launch(launch_id) {
+    document.location = '/delete_launch?launch_id=' + launch_id
+}
+
 // PAYLOADS //
 function delete_payload(payload_id) {
     document.location = '/delete_payload?payload_id=' + payload_id

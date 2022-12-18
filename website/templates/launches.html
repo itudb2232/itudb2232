@@ -80,6 +80,80 @@
 
 <!-- ADD LAUNCH -->
 
+<div class="modal fade" id="add-launch-modal" tabindex="-1" role="dialog" aria-labelledby="add-launch-modal-label" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="add-launch-modal-label">Add Launch</h5>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body"><form action="/add_launch" method="POST" style="display: grid;">
+                {{ formM.csrf_token }}
+                <div class="field">            
+                    <label for="name" class="form-label detail-field">Name:</label>
+                    <div class="control detail-field">
+                        {{ formM.name(class="form-control-sm")}}
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="date" class="form-label detail-field">Date:</label>
+                    <div class="control detail-field">
+                        {{ formM.date(class="form-control-sm")}}
+                    </div>
+                </div>
+                <div class="field">            
+                    <label for="time" class="form-label detail-field">Time:</label>
+                    <div class="control detail-field">
+                        {{ formM.time(class="form-control-sm")}}
+                    </div>
+                </div>
+                <div class="field">            
+                    <label for="rocket_id" class="form-label detail-field">Rocket ID:</label>
+                    <div class="control detail-field">
+                        {{ formM.rocket_id(class="form-control-sm")}}
+                    </div>
+                </div>
+                <div class="field">            
+                    <label for="launchpad_id" class="form-label detail-field"> Launchpad ID:</label>
+                    <div class="control detail-field">
+                        {{ formM.launchpad_id(class="form-control-sm")}}
+                    </div>
+                </div>
+                <div class="field">            
+                    <label for="success" class="form-label detail-field">Success?:</label>
+                    <div class="control detail-field">
+                        {{ formM.success(class="form-control-sm")}}
+                    </div>
+                </div>
+                <div class="field">            
+                    <label for="failure_reason" class="form-label detail-field">Failure Reasın:</label>
+                    <div class="control detail-field">
+                        {{ formM.failure_reason(class="form-control-sm")}}
+                    </div>
+                </div>
+                <div class="field">            
+                    <label for="ship" class="form-label detail-field">Ship ID:</label>
+                    <div class="control detail-field">
+                        {{ formM.ship(class="form-control-sm")}}
+                    </div>
+                </div>
+                <div class="field">            
+                    <label for="capsules" class="form-label detail-field">Capsule ID:</label>
+                    <div class="control detail-field">
+                        {{ formM.capsules(class="form-control-sm")}}
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-warning">Add</button>
+            </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- UPDATE LAUNCH -->
 {% for launch in launches %}
 
