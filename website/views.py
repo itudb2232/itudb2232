@@ -129,9 +129,10 @@ def delete_launch():
     return redirect(url_for("views.launch"))
 
 # Launchpads
-@views.route('/launchpads', methods=['GET', 'POST'])
+@views.route('/launchpads', methods=['GET'])
 def launchpads():
-    return render_template("launchpads.html")
+    launchpad_data = database.get_launchpads()
+    return render_template("launchpads.html", launchpads=launchpad_data)
 
 # Payloads
 @views.route('/payloads', methods=['GET'])

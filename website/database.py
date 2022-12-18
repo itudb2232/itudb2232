@@ -121,6 +121,13 @@ def delete_launch(launch_id):
             con.commit()
 
 # Launchpads
+def get_launchpads():
+    with sqlite3.connect(db_location) as con:
+        con.row_factory = sqlite3.Row
+        cur = con.cursor()
+        return cur.execute(
+            "SELECT * FROM launchpads ORDER BY name"
+        )
 
 # Payloads
 def get_payloads():
