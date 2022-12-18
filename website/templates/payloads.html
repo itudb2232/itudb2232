@@ -63,6 +63,14 @@
                   Update
                 </button>
             </td>
+            <td>
+                {% if current_user.is_admin %}
+                  <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" 
+                  onclick="delete_payload('{{ payload.payload_id }}')">
+                    Delete
+                  </button>
+                {% endif %}
+            </td>
         </tr>
         {% endfor %}
     </tbody>
