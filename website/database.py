@@ -360,6 +360,7 @@ def filter_launches(request):
 def delete_launch(launch_id):
         with sqlite3.connect(db_location) as con:
             cursor = con.cursor()
+            cursor.execute("PRAGMA foreign_keys=ON")  # This allows for cascading to details
             query = "DELETE FROM launches WHERE (launch_id = ?)"
             cursor.execute(query, (launch_id,))
             con.commit()
