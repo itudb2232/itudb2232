@@ -118,7 +118,7 @@ def launches():
     rocket_data = database.get_rockets()
     rocket_dict = {}
     for rocket in rocket_data:
-        rocket_dict[rocket["rocket_id"]] = rocket["name"]
+        rocket_dict[rocket["rocket_id"]] = rocket["name"].replace(" ", " ")
     
 
     launch_data = database.get_launches()
