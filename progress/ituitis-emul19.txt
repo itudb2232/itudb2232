@@ -29,4 +29,4 @@
 - Split launches.failures into separate time, altitude, and reason columns
 - Split launches.date into date and time
 - Added textarea to launches to fulfil requirement
-- 
+- Added validation to rocket insert and update operations
