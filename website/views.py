@@ -148,12 +148,17 @@ def launchpads():
 @views.route('/payloads', methods=['GET'])
 def payloads():
     payload_data = database.get_payloads()
-    return render_template("payloads.html", payloads=payload_data)
+    return render_template("payloads.html", payloads=payload_data, formM=forms.PayloadForm())
 
 @views.route('/add_payload', methods=['POST'])
 @login_required
 def add_payload():
     database.add_payload(request)
+    return redirect(url_for("views.payloads"))
+
+@views.route("/update_payload", methods=["POST"])
+def update_payload():
+    database.update_payload(request)
     return redirect(url_for("views.payloads"))
 
 # Rockets

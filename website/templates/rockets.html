@@ -6,7 +6,7 @@
 <br/>
 <h2> Rockets </h2>
 <p>
-    These are the rockets own and operated by SpaceX. If you see anything wrong or missing, feel free to amend.
+    These are the rockets owned and operated by SpaceX. If you see anything wrong or missing, feel free to amend.
 </p>
 
 <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#add-rocket-modal" style="position: fixed; bottom: 5em; left: 2.5em;">
@@ -637,6 +637,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="rocket-modal-label"> Add Rocket </h5>
+        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body"><form action="/add_rocket" method="POST" style="display: grid;">
         {{ formM.csrf_token }}
