@@ -137,8 +137,18 @@ def launches():
     for launchpad in launchpad_data:
         launchpad_dict[launchpad["launchpad_id"]] = launchpad["name"]
 
+    ship_data = database.get_ships()
+    ship_dict = {}
+    for ship in ship_data:
+        ship_dict[ship["ship_id"]] = ship["name"]
+    
+    capsule_data = database.get_capsules()
+    capsule_dict = {}
+    for capsule in capsule_data:
+        capsule_dict[capsule["capsule_id"]] = capsule["serial"]
+
     launch_data = database.get_launches()
-    return render_template("launches.html", launches=launch_data, rockets=rocket_dict, launchpads = launchpad_dict)
+    return render_template("launches.html", launches=launch_data, rockets=rocket_dict, launchpads = launchpad_dict, ships = ship_dict, capsules = capsule_dict)
 
 @views.route("/add_launch", methods=["POST"])
 def add_launch():
