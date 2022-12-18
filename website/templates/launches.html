@@ -131,7 +131,7 @@
           <h5 class="modal-title" id="launch-details-modal-label-{{ launch.launch_id }}"> Add {{launch.name}} Details </h5>
         </div>
         <div class="modal-body">
-          <form action="/add_rocket_detail_2" method="POST" style="display: grid;">
+          <form action="/add_launch_detail" method="POST" style="display: grid;">
           {{ formD.csrf_token }}
           <div class="field" style="display: none">
               <div class="control">
