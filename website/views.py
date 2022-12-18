@@ -118,7 +118,6 @@ def update_core():
     return redirect(url_for("views.cores"))
 
 @views.route('/filter_core', methods=['GET', 'POST'])
-@login_required
 def filter_core():
     if current_user.is_admin:
         filter_core_data = database.filter_core(request)
