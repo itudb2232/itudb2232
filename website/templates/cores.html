@@ -27,7 +27,9 @@
         <th>Real Time Locating System Landings</th>
         <th>Autonomous Spaceport Drone Ship Attempts</th>
         <th>Autonomous Spaceport Drone Ship Landings</th>
-        <th colspan="2">Edit</th>
+        {% if current_user.is_admin %}
+            <th colspan="2">Edit</th>
+        {% endif %}
     </tr>
     {% for core in cores %}
     <tr class>
