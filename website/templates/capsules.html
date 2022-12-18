@@ -3,144 +3,48 @@
 
 {% block content %} <!-- This is the content block, whatever you include here will be visible on the screen -->
 
-
-
-<div class = "bg-light bg-gradient">
-    <br/>
-    <div class="container">
-        <div class = "card card-bg-warning"> 
-            <div class = "card body"> 
-                <h2 class = "card-title"> Capsules </h2>
-                <div class = "card-text" >
-                    This is the capsules page. You can browse, update, insert and delete entries to the capsules in our database!
-                    <br/> <br/>
-                    <!-- Button triggered modal for inserting entries -->
-                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#insertModal">
-                        Insert New Entry
-                    </button>
-                      
-                    <!-- Modal for inserting entries-->
-                    <div class="modal fade" id="insertModal" tabindex="-1" aria-labelledby="insertModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="insertModalLabel">Insert New Entry</h5>
-                                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <!-- Form to recieve new entry -->
-                                    <form method="POST" action="add_capsule">                  
-                                        <label for="serial" class="form-label">Serial</label>
-                                        <input type="text" class="form-control" name="serial">
-                                        <label for="status" class="form-label">Status</label>
-                                        <input type="text" class="form-control" name="status">
-                                        <label for="reuse_count" class="form-label">Reuse Count</label>
-                                        <input type="number" class="form-control" name="reuse_count">
-                                        <label for="water_landings" class="form-label">Water Landings</label>
-                                        <input type="number" class="form-control" name="water_landings">
-                                        <label for="land_landings" class="form-label">Land Landings</label>
-                                        <input type="number" class="form-control" name="land_landings">
-                                    <!-- End of Form-->
-                                
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                            <button type="submit" class="btn btn-warning">Insert</button>
-                                    </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /div above denotes the end of Modal for inserting entries-->
-                    <!-- Button triggered modal for filtering entries -->
-                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#filterModal">
-                        Filter
-                    </button>
-                    
-                    <!-- Modal for filtering entries-->
-                    <div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="filterModalLabel">Filter</h5>
-                                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <!-- Form to filter -->
-                                    <form action="/capsules" method="POST"> 
-                                        <label for="fserial" class="form-label">Serial:</label>
-                                        <input type="text" class="form-control" name="fserial">                
-                                        <br> 
-                                        <label for="fstatus" class="form-label">Status:</label>
-                                        <input type="text" class="form-control" name="fstatus">
-                                        <br>
-                                        <label for="freuse_count" class="form-label">Reuse Count:</label>
-                                        <input type="number" class="form-control" name="freuse_count">
-                                        <br>
-                                        <label for="fwater_landings" class="form-label">Water Landings:</label>
-                                        <input type="number" class="form-control" name="fwater_landings">
-                                        <br>
-                                        <label for="fland_landings" class="form-label">Land Landings:</label>
-                                        <input type="number" class="form-control" name="fland_landings">
-                                        
-                                        <br>
-                                        
-
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                            <button type="submit" class = "btn btn-warning">Filter</button>
-                                        </div>
-                                        <!-- End of Form-->
-                                    </form>      
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- End of Card -->
-    </div> 
-
-    <br/>
-
-    <div class = "container">
-        <div class = "table-responsive">
-            <table class = "table table-hover table-sm">
-                <thead>
-                    <tr class = "table-active">
-                        <th>Serial</th>
-                        <th>Status</th>
-                        <th>Reuse Count</th>
-                        <th>Water Landings</th>
-                        <th>Land Landings</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for capsule in capsules %}
-                    <tr class>
-                        <td>
-                            {{"-" if capsule["serial"] == None else capsule["serial"]}}
-                        </td>
-                        <td>
-                            {{"-" if capsule["status"] == None else capsule["status"]}}
-                        </td>
-                        <td>
-                            {{capsule["reuse_count"]}}
-                        </td>
-                        <td>
-                            {{capsule["water_landings"]}}
-                        </td>
-                        <td>
-                            {{capsule["land_landings"]}}
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+<br/>
+<div class = "card"> 
+    <div class = "card body"> 
+        <h2 class = "card-title"> Capsules </h2>
+        <div class = "card-text" >
+            This is the Capsules page, you can make searches or browse the capsules in our database!
         </div>
     </div>
 </div>
+<br/>
+
+<table class = "table table-hover table-sm">
+    <thead>
+        <tr class = "table-active">
+            <th>Serial</th>
+            <th>Status</th>
+            <th>Reuse Count</th>
+            <th>Water Landings</th>
+            <th>Land Landings</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for capsule in capsules %}
+    <tr class>
+        <td>
+            {{"-" if capsule["serial"] == None else capsule["serial"]}}
+        </td>
+        <td>
+            {{"-" if capsule["status"] == None else capsule["status"]}}
+        </td>
+        <td>
+            {{capsule["reuse_count"]}}
+        </td>
+        <td>
+            {{capsule["water_landings"]}}
+        </td>
+        <td>
+            {{capsule["land_landings"]}}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
 
 <!-- This endblock denotes the end of the content block, nothing should come after it-->
 {% endblock %}
